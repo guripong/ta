@@ -27,17 +27,30 @@ var speech =
     ? req.body.result.parameters.echoText
     : "Seems like some problem. Speak again.";
     */
+   var intent =req.body.queryResult.intent.displayName;
+   var speech =req.body.queryResult.queryText;
+   var response;
+   //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
+   //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
+  if (intent == 'Intent_correct') {
+    if (speech == "5") {
+      response = 'Correct!';
+    }
+    else {
+      response = 'Incorrect!';
+    }
+  }
 
-   console.log(` /echo post!`);
-   //console.log(`req.body:`+ body);
-   console.log(`1:`+req.body.queryResult.queryText);
-   console.log(`2:`+req.body.queryResult.intent.displayName);
+  if (intent == 'Intent_Quiz') {
+    response = 'How many member in EDU AI Lab?';
+  }
+  
    //console.log(`3:`+req.body.originalDetectIntentRequest.payload.inputs.rawInputs[0].query);
    //console.log(`4:`+req.body.originalDetectIntentRequest.payload.inputs.arguments[0].query);
-   var speech = 'How many member in EDU AI Lab?';
+   
 
    return res.json({
-    fulfillmentText: speech,
+    fulfillmentText: response,
     source: "example.com",
    });
  
