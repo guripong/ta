@@ -27,6 +27,9 @@ var speech =
     ? req.body.result.parameters.echoText
     : "Seems like some problem. Speak again.";
     */
+   console.log(`intent:`+intent);
+   console.log(`speech:`+speech);
+   
    var intent =req.body.queryResult.intent.displayName;
    var speech =req.body.queryResult.queryText;
    var response;
@@ -44,7 +47,7 @@ var speech =
   if (intent == 'Intent_Quiz') {
     response = 'How many member in EDU AI Lab?';
   }
-  
+
    //console.log(`3:`+req.body.originalDetectIntentRequest.payload.inputs.rawInputs[0].query);
    //console.log(`4:`+req.body.originalDetectIntentRequest.payload.inputs.arguments[0].query);
    
