@@ -32,8 +32,8 @@ var speech =
    //console.log(`req.body:`+ body);
    console.log(`1:`+req.body.queryResult.queryText);
    console.log(`2:`+req.body.queryResult.intent.displayName);
-   console.log(`3:`+req.body.originalDetectIntentRequest.payload.inputs.rawInputs[0].query);
-   console.log(`4:`+req.body.originalDetectIntentRequest.payload.inputs.arguments[0].query);
+   //console.log(`3:`+req.body.originalDetectIntentRequest.payload.inputs.rawInputs[0].query);
+   //console.log(`4:`+req.body.originalDetectIntentRequest.payload.inputs.arguments[0].query);
    var speech = 'How many member in EDU AI Lab?';
 
    return res.json({
