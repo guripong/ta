@@ -29,12 +29,13 @@ app.post("/echo", function(req, res) {
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
    //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
   if (intent== 'Default Welcome Intent'){
-     response='Welcome to apple test!';
+    response='Welcome to apple test! do you want to play something?';
+
   }
 
-
+//<speak><audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio></speak>
   if (intent == 'Intent_Quiz') {
-    if(speech)response = 'you said that '+speech+'. say anything!';
+    if(speech)response = '<speak> <audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">you said that '+speech+'. say anything!<speak>';
     else response ='say anything!';
   }
 
