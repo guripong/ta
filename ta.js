@@ -18,17 +18,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post("/echo", function(req, res) {
-  //var body = JSON.stringify(req.body);
-/*
-var speech =
-  req.body.result &&
-  req.body.result.parameters &&
-  req.body.result.parameters.echoText
-    ? req.body.result.parameters.echoText
-    : "Seems like some problem. Speak again.";
-    */
-  
-
    var intent =req.body.queryResult.intent.displayName;
    var speech =req.body.queryResult.queryText;
    var aim =req.body.queryResult.parameters['any'];
@@ -36,17 +25,20 @@ var speech =
    console.log(`speech:`+speech);
    console.log(`aim:`+aim);
    
-   var response;
+   var response='default';
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
    //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
-  
+  if (intent== 'Default Welcome Intent'){
+     response='Welcome to apple test!';
+  }
+
+
   if (intent == 'Intent_Quiz') {
     if(speech)response = 'you said that '+speech+'. say anything!';
     else response ='say anything!';
   }
 
-   //console.log(`3:`+req.body.originalDetectIntentRequest.payload.inputs.rawInputs[0].query);
-   //console.log(`4:`+req.body.originalDetectIntentRequest.payload.inputs.arguments[0].query);
+  
    
 
    return res.json({
