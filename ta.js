@@ -27,11 +27,15 @@ var speech =
     ? req.body.result.parameters.echoText
     : "Seems like some problem. Speak again.";
     */
-   console.log(`intent:`+intent);
-   console.log(`speech:`+speech);
-   
+  
+   var text=req.body.queryResult['any'];
    var intent =req.body.queryResult.intent.displayName;
    var speech =req.body.queryResult.queryText;
+   console.log(`text:`+text);
+   console.log(`intent:`+intent);
+   console.log(`speech:`+speech);
+
+   
    var response;
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
    //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
