@@ -39,17 +39,10 @@ var speech =
    var response;
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
    //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
-  if (intent == 'Intent_correct') {
-    if (speech == "5") {
-      response = 'Correct!';
-    }
-    else {
-      response = 'Incorrect!';
-    }
-  }
-
+  
   if (intent == 'Intent_Quiz') {
-    response = 'How many member in EDU AI Lab?';
+    if(speech)response = 'you said that '+speech+'. say anything!';
+    else response ='say anything!';
   }
 
    //console.log(`3:`+req.body.originalDetectIntentRequest.payload.inputs.rawInputs[0].query);
