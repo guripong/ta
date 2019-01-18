@@ -34,7 +34,7 @@ var speech =
    var aim =req.body.queryResult.parameters['any'];
    console.log(`intent:`+intent);
    console.log(`speech:`+speech);
-   console.log(`aim:`+speech);
+   console.log(`aim:`+aim);
    
    var response;
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
