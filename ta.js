@@ -35,7 +35,8 @@ app.post("/echo", function(req, res) {
 
 //<speak><audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio></speak>
   if (intent == 'Intent_Quiz') {
-    if(speech)response = '<speak> <audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg"> you said that '+speech+'. say anything!</audio><speak>';
+    if(speech)response = 
+    '<speak> <audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio>you said that '+speech+'. say anything!<speak>';
     else response ='say anything!';
   }
 
