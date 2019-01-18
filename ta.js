@@ -28,13 +28,13 @@ var speech =
     : "Seems like some problem. Speak again.";
     */
   
-   var text=req.body.queryResult['any'];
+
    var intent =req.body.queryResult.intent.displayName;
    var speech =req.body.queryResult.queryText;
-   console.log(`text:`+text);
+   var aim =req.body.queryResult.parameters['any'];
    console.log(`intent:`+intent);
    console.log(`speech:`+speech);
-
+   console.log(`aim:`+speech);
    
    var response;
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
