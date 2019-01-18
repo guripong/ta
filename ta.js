@@ -36,11 +36,8 @@ app.post("/echo", function(req, res) {
 //<speak><audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio></speak>
   var audio1 = `<audio src="https://s3.amazonaws.com/eduai/sw01%26/sw01-u01-p01-013-wp-starts-with-d.mp3">mp3 error</audio>`;
   if (intent == 'Intent_Quiz') {
-    if(speech)response = `<speak><seq> <speak> hi audio test! number 1. </speak> ${audio1} `+
-    `<speak>number 2.</speak> ${audio1} `+
-    `<speak>number 3.</speak> ${audio1} `+
-    `<speak>number 4.</speak> ${audio1} `+
-    `<speak>number 5.</speak> ${audio1} </seq></speak>`;
+    if(speech)response = `<speak> hi audio test! number 1. </speak> ${audio1} `;
+    
    // "<speak> <audio src='https://s3.amazonaws.com/eduai/sw01/u01/p01/sw01-u01-p01-001-wp-title.mp3'>did not get your audio file</audio> you said that "+speech+". say anything!<speak>";
     else response ='say anything!';
   }
