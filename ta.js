@@ -71,7 +71,7 @@ app.post("/allintent", function(req, res) {
     fulfillmentMessages: [{
       platform: "ACTIONS_ON_GOOGLE",
       image: {
-        imageUri: "https://example.com/image.jpg",
+        imageUri: "https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png",
       }
     }],
     source: "example.com",
