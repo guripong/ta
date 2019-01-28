@@ -44,7 +44,8 @@ ap.intent('Default Welcome Intent', conv => {
  
 // Intent in Dialogflow called `Goodbye`
 ap.intent('Answer', (conv,input) => {
-  conv.ask(`Answer Intent! you said that ${input}!`);
+  console.log(`input:`,input);
+  conv.ask(`Answer Intent! you said that!`);
 
 })
 ap.intent('Stop',conv=>{
