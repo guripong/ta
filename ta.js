@@ -29,14 +29,14 @@ app.post("/allintent", function(req, res) {
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
    //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
   if (intent== 'Default Welcome Intent'){
-    response='Welcome to apple test! do you want to play something?';
+    response='Welcome to simple test! do you want to play something?';
   }
 
   //<speak><audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio></speak>
   //var audio1 = `<audio src="https://s3.amazonaws.com/eduai/common/common-003-correct-good.mp3"/>`;
-  if (intent == 'Intent_Quiz') {
+  if (intent == 'Answer') {
    // if(speech)response = `<speak>hi audio test! number 1. ${audio1} ${audio1} ${audio1} ${audio1} ${audio1} ${audio1} ${audio1}</speak> `;
-    if(speech) response ='<speak>'+speech+'say anything!'+'</speak>';
+    if(speech) response ='<speak>'+speech+'. say anything!'+'</speak>';
 
    // "<speak> <audio src='https://s3.amazonaws.com/eduai/sw01/u01/p01/sw01-u01-p01-001-wp-title.mp3'>did not get your audio file</audio> you said that "+speech+". say anything!<speak>";
     else response ='say anything!';
