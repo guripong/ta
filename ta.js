@@ -70,10 +70,8 @@ app.post("/allintent", function(req, res) {
     fulfillmentText: "This is a text response",
     fulfillmentMessages: [{
       platform: "ACTIONS_ON_GOOGLE",
-      text: {
-        "text": [
-          "Text response"
-        ]
+      image: {
+        imageUri: "https://example.com/image.jpg",
       }
     }],
     source: "example.com",
