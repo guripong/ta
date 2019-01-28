@@ -21,11 +21,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+//deveduai.koreapolyschool.com/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk
+//deveduai.icreate.kr/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk
+app.get('/.well-known/acme-challenge/bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38',function(req,res){
 
-
-app.get('/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk',function(req,res){
-
-  var origFileNm='ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk';
+  var origFileNm='bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38';
   var file='./temp/'+origFileNm; //여기가 로칼에서 받을 파일내임
   mimetype = mime.lookup(origFileNm);//
 
@@ -35,19 +35,9 @@ app.get('/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk
 
   var filestream=fs.createReadStream(file);//실제파일
   filestream.pipe(res);
-})
-app.post('/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk',function(req,res){
-  var origFileNm='ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk';
-  var file='./temp/'+origFileNm; //여기가 로칼에서 받을 파일내임
-  mimetype = mime.lookup(origFileNm);//
+});
 
 
-  res.setHeader('Content-disposition','attachment;filename='+origFileNm); //여기가 서버에서 보낼 파일이름해더에 정해주기
-  res.setHeader('Content-type',mimetype);
-
-  var filestream=fs.createReadStream(file);//실제파일
-  filestream.pipe(res);
-})
 app.post("/allintent", function(req, res) {
    var intent =req.body.queryResult.intent.displayName;
    var speech =req.body.queryResult.queryText;
