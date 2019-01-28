@@ -69,7 +69,14 @@ app.post("/allintent", function(req, res) {
 
    return res.json({
     fulfillmentText: response,
+    fulfillmentMessages:[
+      {
+        imageUri:"https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+
+      }
+    ],
     source: "example.com",
+
    });
  
 });
