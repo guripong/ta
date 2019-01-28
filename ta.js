@@ -18,7 +18,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.post('/allintent',ap);
+
 
 const {
   dialogflow,
@@ -27,7 +27,8 @@ const {
  
 // Create an app instance
 const ap = dialogflow();
- 
+app.post('/allintent',ap);
+
 // Register handlers for Dialogflow intents
  
 ap.intent('Default Welcome Intent', conv => {
