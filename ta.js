@@ -71,11 +71,19 @@ app.post("/allintent", function(req, res) {
     fulfillmentText: response,
     fulfillmentMessages:[
       {
-        card: {
+        platform: "ACTIONS_ON_GOOGLE",
+        card: 
+        {
           title: "card title",
-          subtitle: "card text",
-        }
-        
+          subtitle: "card subtitle",
+          imageUri: "https://example.com/image.jpg",
+          buttons: [
+            {
+              text: "Button Text",
+              postback: "https://example.com"
+            }
+          ]
+        }     
       }
     ],
     source: "example.com",
