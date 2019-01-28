@@ -52,7 +52,7 @@ app.post("/allintent", function(req, res) {
    //console.log(`1:`+req.body.queryResult.queryText); //실제 한말
    //console.log(`2:`+req.body.queryResult.intent.displayName); //호출된 인텐트
   if (intent== 'Default Welcome Intent'){
-    response='Welcome to simple test! say anything! I will repeat!';
+    response='Welcome to power test! say anything! I will repeat!';
   }
 
   //<speak><audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio></speak>
@@ -71,10 +71,10 @@ app.post("/allintent", function(req, res) {
     fulfillmentText: response,
     fulfillmentMessages:[
       {
-        
+        card: {
           title: "card title",
           subtitle: "card text",
-          imageUri: "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+        }
         
       }
     ],
