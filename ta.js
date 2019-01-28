@@ -71,8 +71,17 @@ app.post("/allintent", function(req, res) {
     fulfillmentText: response,
     fulfillmentMessages:[
       {
-        imageUri:"https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-
+        card: {
+          title: "card title",
+          subtitle: "card text",
+          imageUri: "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+          buttons: [
+            {
+              text: "button text",
+              postback: "https://assistant.google.com/"
+            }
+          ]
+        }
       }
     ],
     source: "example.com",
