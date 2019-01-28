@@ -32,17 +32,23 @@ app.post('/allintent',ap);
 // Register handlers for Dialogflow intents
  
 ap.intent('Default Welcome Intent', conv => {
-  conv.ask('Hi, how is it going?')
-  conv.ask(`Here's a picture of a cat`)
+  conv.ask('Hi, welcome to power test!')
+  conv.ask(`this is my cat picture`)
   conv.ask(new Image({
     url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
     alt: 'A cat',
   }))
+  conv.ask(`is it cute?`);
+
 })
  
 // Intent in Dialogflow called `Goodbye`
 ap.intent('Answer', conv => {
-  conv.close('Answer Intent!');
+  conv.ask('Answer Intent!');
+
+})
+ap.intent('Stop',conv=>{
+  conv.close('good bye bye bye!');
 })
  
 ap.intent('Default Fallback Intent', conv => {
