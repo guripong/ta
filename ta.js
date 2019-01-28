@@ -18,11 +18,39 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.post('/allintent',ap);
 
+const {
+  dialogflow,
+  Image,
+} = require('actions-on-google')
+ 
+// Create an app instance
+const ap = dialogflow();
+ 
+// Register handlers for Dialogflow intents
+ 
+ap.intent('Default Welcome Intent', conv => {
+  conv.ask('Hi, how is it going?')
+  conv.ask(`Here's a picture of a cat`)
+  conv.ask(new Image({
+    url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
+    alt: 'A cat',
+  }))
+})
+ 
+// Intent in Dialogflow called `Goodbye`
+ap.intent('Answer', conv => {
+  conv.close('Answer Intent!');
+})
+ 
+ap.intent('Default Fallback Intent', conv => {
+  conv.ask(`I didn't understand. Can you tell me something else?`)
+})
 
 //deveduai.koreapolyschool.com/.well-known/acme-challenge/bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38
 //deveduai.icreate.kr/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk
+/*
 app.get('/.well-known/acme-challenge/bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38',function(req,res){
 
   var origFileNm='bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38';
@@ -65,46 +93,16 @@ app.post("/allintent", function(req, res) {
     else response ='say anything!';
   }
   
-    
-  return res.json({
-    fulfillmentText: "This is a text response",
-    fulfillmentMessages: [{
-      platform: "ACTIONS_ON_GOOGLE",
-      image: {
-        imageUri: "https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png",
-      }
-    }],
-    source: "example.com",
-    
-  }
-  );
-  /*
    return res.json({
     fulfillmentText: response,
-    fulfillmentMessages:[
-      {
-        platform: "ACTIONS_ON_GOOGLE",
-        card: 
-        {
-          title: "card title",
-          subtitle: "card subtitle",
-          imageUri: "https://example.com/image.jpg",
-          buttons: [
-            {
-              text: "Button Text",
-              postback: "https://example.com"
-            }
-          ]
-        }     
-      }
-    ],
+   
     source: "example.com",
 
    });
-   */
+  
  
 });
-
+*/
 
 app.listen(process.env.PORT || 9696, function() {
   console.log("Server up and 9696 port listening");
