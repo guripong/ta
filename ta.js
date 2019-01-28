@@ -71,11 +71,11 @@ app.post("/allintent", function(req, res) {
     fulfillmentText: response,
     fulfillmentMessages:[
       {
-        card: {
+        
           title: "card title",
           subtitle: "card text",
           imageUri: "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-        }
+        
       }
     ],
     source: "example.com",
