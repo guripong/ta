@@ -3,6 +3,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var fs =require('fs');
+var mime=require('mime');
+
 //var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 
@@ -18,14 +21,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
+
 app.get('/.well-known/acme-challenge/ehaJ0qWzUFWqpD76ibUU01bWnQVGg1yhd8KzNaMJV0s',function(req,res){
 
-  return res.json({
-    mytest:'hi',
-  })
+  var origFileNm='ehaJ0qWzUFWqpD76ibUU01bWnQVGg1yhd8KzNaMJV0s';
+  var file='./temp/'+origFileNm; //여기가 로칼에서 받을 파일내임
+  mimetype = mime.lookup(origFileNm);//
+
+
+  res.setHeader('Content-disposition','attachment;filename='+origFileNm); //여기가 서버에서 보낼 파일이름해더에 정해주기
+  res.setHeader('Content-type',mimetype);
   
+  var filestream=fs.createReadStream(file);//실제파일
+  filestream.pipe(res);
 })
-//app.use('/.well-known/', express.static('public'));
 
 
 app.post("/allintent", function(req, res) {
