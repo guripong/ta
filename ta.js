@@ -19,21 +19,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
+/*
 const {
   dialogflow,
   Image,
 } = require('actions-on-google')
  
-// Create an app instance
 const ap = dialogflow();
+*/
+const {
+  actionssdk,
+  Image,
+} = require('actions-on-google')
+ 
+// Create an app instance
+const ap = actionssdk();
 app.post('/allintent',ap);
 
 // Register handlers for Dialogflow intents
  
 ap.intent('Default Welcome Intent', conv => {
 
-  conv.ask(`this is my cat picture`)
+  conv.ask(`this is my cat picture`);
   conv.ask(new Image({
     url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
     alt: 'A cat',
@@ -46,7 +53,7 @@ ap.intent('Default Welcome Intent', conv => {
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
 
-  conv.ask(`Answer Intent! you said that! ${input.any}`);
+  conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
   conv.ask(new MediaObject({
     name: 'Jazz in Paris',
     url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
