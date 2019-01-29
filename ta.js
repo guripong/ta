@@ -41,13 +41,26 @@ ap.intent('Default Welcome Intent', conv => {
   conv.ask(`is it cute`);
 
 })
- 
+
+const SELECTED_ITEM_RESPONSES = {
+  [SELECTION_KEY_ONE]: 'You selected the first item',
+  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
+  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
+};
 // Intent in Dialogflow called `Goodbye`
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
 
   conv.ask(`Answer Intent! you said that! ${input.any}`);
-
+  conv.ask(new MediaObject({
+    name: 'Jazz in Paris',
+    url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
+    description: 'A funky Jazz tune',
+    icon: new Image({
+      url: 'https://storage.googleapis.com/automotive-media/album_art.jpg',
+      alt: 'Ocean view',
+    }),
+  }));
 })
 ap.intent('Stop',conv=>{
   conv.close('good bye bye bye!');
