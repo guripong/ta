@@ -19,21 +19,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-/*
+
 const {
   dialogflow,
   Image,
 } = require('actions-on-google')
  
 const ap = dialogflow();
-*/
+
+/*
 const {
   actionssdk,
   Image,
 } = require('actions-on-google')
- 
-// Create an app instance
 const ap = actionssdk();
+*/
+// Create an app instance
+
 app.post('/allintent',ap);
 
 // Register handlers for Dialogflow intents
