@@ -30,6 +30,7 @@ const {
   Suggestions,
   BasicCard,
   Table,
+  List,
 } = require('actions-on-google')
  
 const ap = dialogflow();
@@ -62,6 +63,7 @@ ap.intent('Default Welcome Intent', conv => {
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
 
+  //음악재생
   /*
   conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
   conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
@@ -75,6 +77,8 @@ ap.intent('Answer', (conv,input) => {
     }),
   }));
   */
+ //테이블 예제
+ /*
 conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 conv.ask(new Table({
   title: 'Table Title',
@@ -86,25 +90,25 @@ conv.ask(new Table({
   columns: [
     {
       header: 'header 1',
-      align: 'CENTER',
+      align: 'CENTER', //가운데
     },
     {
       header: 'header 2',
-      align: 'LEADING',
+      align: 'LEADING',//왼쪽
     },
     {
       header: 'header 3',
-      align: 'TRAILING',
+      align: 'TRAILING',//뒤쪽
     },
   ],
   rows: [
     {
       cells: ['row 1 item 1', 'row 1 item 2', 'row 1 item 3'],
-      dividerAfter: false,
+      dividerAfter: false, //1째줄 td 구분선
     },
     {
       cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
-      dividerAfter: true,
+      dividerAfter: true, //2째줄 td 구분선
     },
     {
       cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
@@ -112,12 +116,61 @@ conv.ask(new Table({
   ],
   buttons: new Button({
     title: 'Button Title',
-    url: 'https://github.com/actions-on-google'
+    url: 'https://github.com/actions-on-google' //버튼 링크줘서 보내버리기
   }),
-}))
+}));
+*/
+//리스트예제
+conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
+conv.ask(new List({
+  title: 'List Title',
+  items: {
+    // Add the first item to the list
+    [SELECTION_KEY_ONE]: {
+      synonyms: [
+        'synonym of title 1',
+        'synonym of title 2',
+        'synonym of title 3',
+      ],
+      title: 'Title of First List Item',
+      description: 'This is a description of a list item.',
+      image: new Image({
+        url: IMG_URL_AOG,
+        alt: 'Image alternate text',
+      }),
+    },
+    // Add the second item to the list
+    [SELECTION_KEY_GOOGLE_HOME]: {
+      synonyms: [
+        'Google Home Assistant',
+        'Assistant on the Google Home',
+    ],
+      title: 'Google Home',
+      description: 'Google Home is a voice-activated speaker powered by ' +
+        'the Google Assistant.',
+      image: new Image({
+        url: IMG_URL_GOOGLE_HOME,
+        alt: 'Google Home',
+      }),
+    },
+    // Add the third item to the list
+    [SELECTION_KEY_GOOGLE_PIXEL]: {
+      synonyms: [
+        'Google Pixel XL',
+        'Pixel',
+        'Pixel XL',
+      ],
+      title: 'Google Pixel',
+      description: 'Pixel. Phone by Google.',
+      image: new Image({
+        url: IMG_URL_GOOGLE_PIXEL,
+        alt: 'Google Pixel',
+      }),
+    },
+  },
+}));
 
-
-})
+});
 
 
 ap.intent('Stop',conv=>{
