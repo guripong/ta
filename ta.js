@@ -29,6 +29,7 @@ const {
   Carousel,
   Suggestions,
   BasicCard,
+  Table,
 } = require('actions-on-google')
  
 const ap = dialogflow();
