@@ -91,7 +91,7 @@ conv.ask(new Carousel({
       title: 'Title of First Carousel Item',
       description: 'This is a description of a carousel item.',
       image: new Image({
-        url: IMG_URL_AOG,
+        url: 'https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png',
         alt: 'Image alternate text',
       }),
     },
@@ -105,7 +105,7 @@ conv.ask(new Carousel({
       description: 'Google Home is a voice-activated speaker powered by ' +
         'the Google Assistant.',
       image: new Image({
-        url: IMG_URL_GOOGLE_HOME,
+        url: 'https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png',
         alt: 'Google Home',
       }),
     },
@@ -119,7 +119,7 @@ conv.ask(new Carousel({
       title: 'Google Pixel',
       description: 'Pixel. Phone by Google.',
       image: new Image({
-        url: IMG_URL_GOOGLE_PIXEL,
+        url: 'https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png',
         alt: 'Google Pixel',
       }),
     },
