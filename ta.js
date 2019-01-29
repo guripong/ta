@@ -42,11 +42,6 @@ ap.intent('Default Welcome Intent', conv => {
 
 })
 
-const SELECTED_ITEM_RESPONSES = {
-  [SELECTION_KEY_ONE]: 'You selected the first item',
-  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
-  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
-};
 // Intent in Dialogflow called `Goodbye`
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
