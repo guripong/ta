@@ -23,6 +23,8 @@ app.use(cookieParser());
 const {
   dialogflow,
   Image,
+  MediaObject,
+  SimpleResponse
 } = require('actions-on-google')
  
 const ap = dialogflow();
