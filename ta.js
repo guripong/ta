@@ -120,26 +120,25 @@ conv.ask(new Table({
   }),
 }));
 */
-//리스트예제
+//Carousel  예제
 conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
-conv.ask(new List({
-  title: 'List Title',
+conv.ask(new Carousel({
   items: {
-    // Add the first item to the list
+    // Add the first item to the carousel
     [SELECTION_KEY_ONE]: {
       synonyms: [
         'synonym of title 1',
         'synonym of title 2',
         'synonym of title 3',
       ],
-      title: 'Title of First List Item',
-      description: 'This is a description of a list item.',
+      title: 'Title of First Carousel Item',
+      description: 'This is a description of a carousel item.',
       image: new Image({
         url: IMG_URL_AOG,
         alt: 'Image alternate text',
       }),
     },
-    // Add the second item to the list
+    // Add the second item to the carousel
     [SELECTION_KEY_GOOGLE_HOME]: {
       synonyms: [
         'Google Home Assistant',
@@ -153,7 +152,7 @@ conv.ask(new List({
         alt: 'Google Home',
       }),
     },
-    // Add the third item to the list
+    // Add third item to the carousel
     [SELECTION_KEY_GOOGLE_PIXEL]: {
       synonyms: [
         'Google Pixel XL',
@@ -172,6 +171,19 @@ conv.ask(new List({
 
 });
 
+const SELECTED_ITEM_RESPONSES = {
+  [SELECTION_KEY_ONE]: 'You selected the first item',
+  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
+  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
+};
+
+app.intent('actions.intent.OPTION', (conv, params, option) => {
+  let response = 'You did not select any item';
+  if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
+    response = SELECTED_ITEM_RESPONSES[option];
+  }
+  conv.ask(response);
+});
 
 ap.intent('Stop',conv=>{
   conv.close('good bye bye bye!');
