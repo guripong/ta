@@ -61,6 +61,7 @@ ap.intent('Default Welcome Intent', conv => {
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
 
+  /*
   conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
   conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
   conv.ask(new MediaObject({
@@ -72,7 +73,52 @@ ap.intent('Answer', (conv,input) => {
       alt: 'Ocean view',
     }),
   }));
+  */
+conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
+conv.ask(new Table({
+  title: 'Table Title',
+  subtitle: 'Table Subtitle',
+  image: new Image({
+    url: 'https://avatars0.githubusercontent.com/u/23533486',
+    alt: 'Actions on Google'
+  }),
+  columns: [
+    {
+      header: 'header 1',
+      align: 'CENTER',
+    },
+    {
+      header: 'header 2',
+      align: 'LEADING',
+    },
+    {
+      header: 'header 3',
+      align: 'TRAILING',
+    },
+  ],
+  rows: [
+    {
+      cells: ['row 1 item 1', 'row 1 item 2', 'row 1 item 3'],
+      dividerAfter: false,
+    },
+    {
+      cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
+      dividerAfter: true,
+    },
+    {
+      cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
+    },
+  ],
+  buttons: new Button({
+    title: 'Button Title',
+    url: 'https://github.com/actions-on-google'
+  }),
+}))
+
+
 })
+
+
 ap.intent('Stop',conv=>{
   conv.close('good bye bye bye!');
 })
