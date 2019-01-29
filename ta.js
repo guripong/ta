@@ -61,9 +61,9 @@ ap.intent('Default Welcome Intent', conv => {
 
 
 const SELECTED_ITEM_RESPONSES = {
-  [SELECTION_KEY_ONE]: 'You selected the first item',
-  [SELECTION_KEY_GOOGLE_HOME]: 'You selected the Google Home!',
-  [SELECTION_KEY_GOOGLE_PIXEL]: 'You selected the Google Pixel!',
+  '[SELECTION_KEY_ONE]': 'You selected the first item',
+  '[SELECTION_KEY_GOOGLE_HOME]': 'You selected the Google Home!',
+  '[SELECTION_KEY_GOOGLE_PIXEL]': 'You selected the Google Pixel!',
 };
 
 ap.intent('actions.intent.OPTION', (conv, params, option) => {
@@ -77,7 +77,54 @@ ap.intent('actions.intent.OPTION', (conv, params, option) => {
 // Intent in Dialogflow called `Goodbye`
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
-
+//Carousel  예제
+conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
+conv.ask(new Carousel({
+  items: {
+    // Add the first item to the carousel
+    '[SELECTION_KEY_ONE]': {
+      synonyms: [
+        'synonym of title 1',
+        'synonym of title 2',
+        'synonym of title 3',
+      ],
+      title: 'Title of First Carousel Item',
+      description: 'This is a description of a carousel item.',
+      image: new Image({
+        url: IMG_URL_AOG,
+        alt: 'Image alternate text',
+      }),
+    },
+    // Add the second item to the carousel
+    '[SELECTION_KEY_GOOGLE_HOME]': {
+      synonyms: [
+        'Google Home Assistant',
+        'Assistant on the Google Home',
+    ],
+      title: 'Google Home',
+      description: 'Google Home is a voice-activated speaker powered by ' +
+        'the Google Assistant.',
+      image: new Image({
+        url: IMG_URL_GOOGLE_HOME,
+        alt: 'Google Home',
+      }),
+    },
+    // Add third item to the carousel
+    '[SELECTION_KEY_GOOGLE_PIXEL]': {
+      synonyms: [
+        'Google Pixel XL',
+        'Pixel',
+        'Pixel XL',
+      ],
+      title: 'Google Pixel',
+      description: 'Pixel. Phone by Google.',
+      image: new Image({
+        url: IMG_URL_GOOGLE_PIXEL,
+        alt: 'Google Pixel',
+      }),
+    },
+  },
+}));
   //음악재생
   /*
   conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
@@ -135,54 +182,7 @@ conv.ask(new Table({
   }),
 }));
 */
-//Carousel  예제
-conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
-conv.ask(new Carousel({
-  items: {
-    // Add the first item to the carousel
-    [SELECTION_KEY_ONE]: {
-      synonyms: [
-        'synonym of title 1',
-        'synonym of title 2',
-        'synonym of title 3',
-      ],
-      title: 'Title of First Carousel Item',
-      description: 'This is a description of a carousel item.',
-      image: new Image({
-        url: IMG_URL_AOG,
-        alt: 'Image alternate text',
-      }),
-    },
-    // Add the second item to the carousel
-    [SELECTION_KEY_GOOGLE_HOME]: {
-      synonyms: [
-        'Google Home Assistant',
-        'Assistant on the Google Home',
-    ],
-      title: 'Google Home',
-      description: 'Google Home is a voice-activated speaker powered by ' +
-        'the Google Assistant.',
-      image: new Image({
-        url: IMG_URL_GOOGLE_HOME,
-        alt: 'Google Home',
-      }),
-    },
-    // Add third item to the carousel
-    [SELECTION_KEY_GOOGLE_PIXEL]: {
-      synonyms: [
-        'Google Pixel XL',
-        'Pixel',
-        'Pixel XL',
-      ],
-      title: 'Google Pixel',
-      description: 'Pixel. Phone by Google.',
-      image: new Image({
-        url: IMG_URL_GOOGLE_PIXEL,
-        alt: 'Google Pixel',
-      }),
-    },
-  },
-}));
+
 
 });
 
