@@ -24,7 +24,11 @@ const {
   dialogflow,
   Image,
   MediaObject,
-  SimpleResponse
+  SimpleResponse,
+  Button,
+  Carousel,
+  Suggestions,
+  BasicCard,
 } = require('actions-on-google')
  
 const ap = dialogflow();
@@ -58,6 +62,7 @@ ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
 
   conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
+  conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
   conv.ask(new MediaObject({
     name: 'Jazz in Paris',
     url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
