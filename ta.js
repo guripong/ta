@@ -3,105 +3,19 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
 
-
+var allintentrouter = require('/route/handler');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const {
-  dialogflow,
-  Image,
-  MediaObject,
-  SimpleResponse,
-  Button,
-  Carousel,
-  Suggestions,
-  BasicCard,
-  Table,
-  List,
-} = require('actions-on-google')
- 
-const ap = dialogflow();
+app.use('/allintent',allintentrouter);
 
-app.post('/allintent',ap);
-
-// Register handlers for Dialogflow intents
-ap.intent('Default Welcome Intent', conv => {
-
-  conv.ask(`this is my cat picture`);
-  conv.ask(new Image({
-    url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
-    alt: 'A cat',
-  }))
-  conv.ask(`is it cute`);
-
-})
-
-const SELECTED_ITEM_RESPONSES = {
-  '[SELECTION_KEY_ONE]': 'You selected the first item',
-  '[SELECTION_KEY_GOOGLE_HOME]': 'You selected the Google Home!',
-  '[SELECTION_KEY_GOOGLE_PIXEL]': 'You selected the Google Pixel!',
-};
-
-ap.intent('actions.intent.OPTION', (conv, params, option) => {
-  let response = 'You did not select any item';
-  if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
-    response = SELECTED_ITEM_RESPONSES[option];
-  }
-  conv.ask(response);
+app.listen(process.env.PORT || 9696, function() {
+  console.log("Server up and 9696 port listening");
 });
+module.exports = app;
 
-ap.intent('Answer', (conv,input) => {
-  console.log(`input.any:`,input.any);
-//Carousel  예제
-conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
-conv.ask(new Carousel({
-  items: {
-    // Add the first item to the carousel
-    '[SELECTION_KEY_ONE]': {
-      synonyms: [
-        'synonym of title 1',
-        'synonym of title 2',
-        'synonym of title 3',
-      ],
-      title: 'Title of First Carousel Item',
-      description: 'This is a description of a carousel item.',
-      image: new Image({
-        url: 'https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png',
-        alt: 'Image alternate text',
-      }),
-    },
-    // Add the second item to the carousel
-    '[SELECTION_KEY_GOOGLE_HOME]': {
-      synonyms: [
-        'Google Home Assistant',
-        'Assistant on the Google Home',
-    ],
-      title: 'Google Home',
-      description: 'Google Home is a voice-activated speaker powered by ' +
-        'the Google Assistant.',
-      image: new Image({
-        url: 'https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png',
-        alt: 'Google Home',
-      }),
-    },
-    // Add third item to the carousel
-    '[SELECTION_KEY_GOOGLE_PIXEL]': {
-      synonyms: [
-        'Google Pixel XL',
-        'Pixel',
-        'Pixel XL',
-      ],
-      title: 'Google Pixel',
-      description: 'Pixel. Phone by Google.',
-      image: new Image({
-        url: 'https://s3.amazonaws.com/eduai/temp_test/108x108+skull.png',
-        alt: 'Google Pixel',
-      }),
-    },
-  },
-}));
 
   //음악재생
   /*
@@ -162,17 +76,6 @@ conv.ask(new Table({
 */
 
 
-});
-
-
-
-ap.intent('Stop',conv=>{
-  conv.close('good bye bye bye!');
-})
- 
-ap.intent('Default Fallback Intent', conv => {
-  conv.ask(`I didn't understand. Can you tell me something else?`)
-})
 
 //deveduai.koreapolyschool.com/.well-known/acme-challenge/bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38
 //deveduai.icreate.kr/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk
@@ -230,6 +133,3 @@ app.post("/allintent", function(req, res) {
 });
 */
 
-app.listen(process.env.PORT || 9696, function() {
-  console.log("Server up and 9696 port listening");
-});
