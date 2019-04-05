@@ -3,13 +3,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
 
-var allintentrouter = require('/route/handler');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+
+
+var allintentrouter = require('./route/handler');
 app.use('/allintent',allintentrouter);
+
+
 
 app.listen(process.env.PORT || 9696, function() {
   console.log("Server up and 9696 port listening");

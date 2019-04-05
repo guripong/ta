@@ -14,8 +14,8 @@ const {
 } = require('actions-on-google')
 
 const ap = dialogflow();
-
 router.post('/', ap);
+
 
 // Register handlers for Dialogflow intents
 ap.intent('Default Welcome Intent', conv => {
