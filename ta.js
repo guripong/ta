@@ -1,24 +1,13 @@
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-var fs =require('fs');
-var mime=require('mime');
-
-//var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
-
 var app = express();
-
-// view engine setup
 
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 
 const {
   dialogflow,
@@ -35,19 +24,9 @@ const {
  
 const ap = dialogflow();
 
-/*
-const {
-  actionssdk,
-  Image,
-} = require('actions-on-google')
-const ap = actionssdk();
-*/
-// Create an app instance
-
 app.post('/allintent',ap);
 
 // Register handlers for Dialogflow intents
- 
 ap.intent('Default Welcome Intent', conv => {
 
   conv.ask(`this is my cat picture`);
@@ -58,7 +37,6 @@ ap.intent('Default Welcome Intent', conv => {
   conv.ask(`is it cute`);
 
 })
-
 
 const SELECTED_ITEM_RESPONSES = {
   '[SELECTION_KEY_ONE]': 'You selected the first item',
@@ -74,7 +52,6 @@ ap.intent('actions.intent.OPTION', (conv, params, option) => {
   conv.ask(response);
 });
 
-// Intent in Dialogflow called `Goodbye`
 ap.intent('Answer', (conv,input) => {
   console.log(`input.any:`,input.any);
 //Carousel  예제
@@ -125,6 +102,7 @@ conv.ask(new Carousel({
     },
   },
 }));
+
   //음악재생
   /*
   conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
