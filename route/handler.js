@@ -80,34 +80,35 @@ ap.intent('boy', (conv,params, signin) => {
             return new Promise(function (resolve1){
                 request.get(options,(error,response,body)=>{
                     if(error){
-                        console.log(`###############`+`oauth 실패`+`###############`);
+                        console.log(`###############`+`resolve false`+`###############`);
                        resolve1(false);
                     }
                     else{
                       body = JSON.parse(body);
                        console.log(body);
-                        console.log(`###############`+`oauth 성공`+`###############`);
+                       console.log(`###############`+`resolve body`+`###############`);
                        resolve1(body);
                     }
                });
 
             });
         }
-
-        get_userdata(options).then(function(body){
-            if(body==false){
-                console.log(`###############`+`oauth 실패`+`###############`);
-                conv.ask(`fail to get data`);
-            }
-            else{
-                body = JSON.parse(body);
-                console.log(body);
-                 console.log(`###############`+`oauth 성공`+`###############`);
-                 conv.ask(`I got data`);
-            }
-        });
+            get_userdata(options).then(function(body){
+                if(body==false){
+                    console.log(`###############`+`oauth 실패`+`###############`);
+                    conv.ask(`fail to get data`);
+                }
+                else{
+                    body = JSON.parse(body);
+                    console.log(body);
+                    console.log(`###############`+`oauth 성공`+`###############`);
+                    conv.ask(`I got data`);
+                }
+            }).catch(function(){
+                console.log('error');
+                conv.ask(`oauth2.0 request error`);
+            });
      
-        
        }
        else{
          conv.ask(`accesstoken error, does not exist`);
