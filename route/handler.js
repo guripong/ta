@@ -43,10 +43,12 @@ ap.intent('Answer', (conv, input) => {
 
 
 //boy
-ap.intent('TEXT', (conv) => {
+ap.intent('girl', (conv) => {
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     conv.ask(new SignIn('To get your account details'));
-  });
-ap.intent('oauth', (conv,params, signin) => {
+});
+
+ap.intent('boy', (conv,params, signin) => {
     console.log('###############################');
       if (signin.status === 'OK') {
         const payload = conv.user.profile.payload;
