@@ -52,15 +52,8 @@ ap.intent('Answer', (conv, input) => {
 });
 
 
-// 항상 여기로 시작할것
-ap.intent('Sign in POLY', (conv) => {
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-    conv.ask(new SignIn('To get your account details'));
-});
-
-
 // 여기서 시작하면 XXX
-ap.intent('boy', (conv,params, signin) => {
+ap.intent('SignIn POLY', (conv,params, signin) => {
    
       if (signin.status === 'OK') {
         console.log('###########conv###############');
@@ -141,6 +134,9 @@ ap.intent('boy', (conv,params, signin) => {
                     location = resolve2.location;
                     console.log('location:',location);
                     console.log('QN:',QN);
+                    //console.log('ap.getContext():',ap.getContext());
+                    ////////////////////////////// dialogflow session 찾아볼것!!!
+
                     conv.ask(`I got data`);
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
