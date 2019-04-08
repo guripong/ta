@@ -95,15 +95,13 @@ ap.intent('boy', (conv,params, signin) => {
                
                   
                 console.log(`###############`+`oauth 성공`+`###############`);
-                conv.ask(`I got data`);
+                conv.ask(`I got data:`,body.user_id);
                 
             }).catch(function(error){
                 console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
             });
         
-
-      
        }
        else{
          conv.ask(`accesstoken error, does not exist`);
