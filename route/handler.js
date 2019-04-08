@@ -50,9 +50,9 @@ ap.intent('Answer', (conv, input) => {
     console.log('location:',location);
     console.log('QN:',QN);
     console.log('############################');
-    
-    console.log('location:',conv.contexts.mysession.location);
-    console.log('QN:',conv.contexts.mysession.QN);
+
+    console.log('????:',conv.contexts.mysession);
+
     /*
     console.log('input:',input);
    
