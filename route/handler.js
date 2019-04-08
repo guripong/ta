@@ -93,6 +93,7 @@ ap.intent('boy', (conv,params, signin) => {
 
             });
         }
+        
             get_userdata(options).then(function(body){
                 if(body==false){
                     console.log(`###############`+`oauth 실패`+`###############`);
@@ -107,7 +108,7 @@ ap.intent('boy', (conv,params, signin) => {
             }).catch(function(){
                 console.log('error');
                 conv.ask(`oauth2.0 request error`);
-            });
+            }.bind(this));
      
        }
        else{
