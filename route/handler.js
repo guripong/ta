@@ -1,5 +1,6 @@
 var express = require('express');
 const request = require('request');
+const mysql = require('promise-mysql');
 var router = express.Router();
 const {
     dialogflow,
