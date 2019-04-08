@@ -41,7 +41,7 @@ ap.intent('Answer', (conv, input) => {
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
 
-pp.intent('TEXT', (conv) => {
+ap.intent('TEXT', (conv) => {
     conv.ask(new SignIn('To get your account details'));
   });
 ap.intent('Oauth', (conv,params, signin) => {
