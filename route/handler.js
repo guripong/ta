@@ -20,6 +20,11 @@ clientId: `power_wizard`,
 
 });
 
+const User_Contexts={
+    location: 'location',
+    QN: 'QN',
+}
+
 router.post('/', ap);
 
 
@@ -139,8 +144,8 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     //console.log('ap.getContext():',ap.getContext());
                     ////////////////////////////// dialogflow session 찾아볼것!!!
                     console.log(conv);
-                    conv.contexts.output['location'] = location;
-                    conv.contexts.output['QN'] = QN;
+                    conv.contexts.set(User_Contexts.location,location);
+                    conv.contexts.set(User_Contexts.QN,QN);
                     conv.ask(`I got data`);
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
