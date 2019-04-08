@@ -41,9 +41,11 @@ ap.intent('Default Welcome Intent', conv => {
 
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
+    console.log('conv:',conv);
+    console.log('conv.contexts.output.location:',conv.contexts.output['location']);
     /*
     console.log('input:',input);
-    console.log('conv:',conv);
+   
     console.log(`input.any:`, input.any);
     */
     //Carousel  예제
@@ -137,6 +139,8 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     //console.log('ap.getContext():',ap.getContext());
                     ////////////////////////////// dialogflow session 찾아볼것!!!
                     console.log(conv);
+                    conv.contexts.output['location'] = location;
+                    conv.contexts.output['QN'] = QN;
                     conv.ask(`I got data`);
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
