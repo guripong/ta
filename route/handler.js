@@ -41,15 +41,19 @@ ap.intent('Answer', (conv, input) => {
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
 
+
+//boy
 ap.intent('TEXT', (conv) => {
     conv.ask(new SignIn('To get your account details'));
   });
-ap.intent('Oauth', (conv,params, signin) => {
+ap.intent('oauth', (conv,params, signin) => {
     console.log('###############################');
-    console.log('conv:',conv);
-    console.log('conv:',params);
-    //Carousel  예제
-    conv.ask(`heyheyheyhey manman`);
+      if (signin.status === 'OK') {
+        const payload = conv.user.profile.payload;
+        conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`);
+      } else {
+        conv.ask(`I won't be able to save your data, but what do you want to do next?`);
+      }
 });
 
 ap.intent('Stop',conv=>{
