@@ -105,7 +105,7 @@ ap.intent('boy', (conv,params, signin) => {
                 console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
             }).then(function(body){
-                console.log('do another job:',body,user_id);
+                console.log('do another job:',body.user_id);
                 return new Promise(function(resolve2,reject2){
                     var sql;
                     var connection;
