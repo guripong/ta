@@ -53,14 +53,16 @@ ap.intent('girl', (conv) => {
 ap.intent('boy', (conv,params, signin) => {
     console.log('###############################');
       if (signin.status === 'OK') {
-        console.log(conv);
+        console.log(`conv:`,conv);
         console.log(`params:`,params);
         console.log(`signin:`,signin);
         conv.ask(`I got your account details. What do you want to do next?`);
       } else {
-        console.log(conv);
+          /*
+        console.log(`conv:`,conv);
         console.log(`params:`,params);
         console.log(`signin:`,signin);
+        */
         conv.ask(`I won't be able to save your data, but what do you want to do next?`);
       }
 });
