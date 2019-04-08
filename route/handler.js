@@ -51,7 +51,7 @@ ap.intent('Answer', (conv, input) => {
     console.log('QN:',QN);
     console.log('############################');
 
-    console.log('????:',conv.contexts.mysession);
+    console.log('????:',conv.contexts.input.mysession);
 
     /*
     console.log('input:',input);
