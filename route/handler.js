@@ -41,7 +41,6 @@ ap.intent('Answer', (conv, input) => {
     console.log(`input.any:`, input.any);
     //Carousel  예제
 
-    
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
 
@@ -165,5 +164,17 @@ ap.intent('Default Fallback Intent', conv => {
 });
 
 
+
+
+var config = {
+    host     : '125.60.70.36',//'10.0.0.108,53380',
+    port     : '43306',
+    user     : 'app_eduai',
+    password : 'Dpebdpdldkdl12%#%',
+    database : 'EDUAI',
+    multipleStatements: true,
+};
+  
+  
 
 module.exports = router;
