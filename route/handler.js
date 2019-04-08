@@ -39,6 +39,8 @@ ap.intent('Answer', (conv, input) => {
     console.log('conv:',conv);
     console.log(`input.any:`, input.any);
     //Carousel  예제
+
+    
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
 
@@ -97,13 +99,41 @@ ap.intent('boy', (conv,params, signin) => {
                 console.log(`###############`+`oauth 성공`+`###############`);
                 console.log(`id:`,body.user_id);
                 
-                conv.ask(`I got data`);
+               
                 
             }).catch(function(error){
                 console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
             }).then(function(){
                 console.log('do another job');
+                var sql;
+                var connection;
+                var QN;
+                var location;
+                //성공했으면 DB에 기록합니다
+                mysql.createConnection(config).then(function(conn){
+                    body = JSON.parse(body);
+                   // console.log(`body.user_id`,body.user_id);
+                   // console.log(`body.name`,body.name);
+                   // console.log(`body.email`,body.email);
+                   //oauth_user_id=body.user_id;
+                    console.log(`%%% Lanuch에서 new_skill_launch 프로시저 실행시도`);
+                    sql=`call final_skill_launch("`+body.user_id+`","`+body.name+`","`+body.email+`");`;
+                    dynamo_db.attributes['oauth_user_id']=body.user_id;
+                    console.log(`sql:`,sql);
+                    connection = conn;
+                    return conn.query(sql);
+                }).then(function(results){
+                    results =JSON.parse(JSON.stringify(results[0]));
+                    results = results[0];
+                    //console.log(`results.qn:`,results.qn);
+                    
+                    var QN=parseInt(results.qn,10);
+                    var location = results.location;
+                    console.log('location:',location);
+                    console.log('QN:',QN);
+                    conv.ask(`I got data`);
+                });
             });
         
        }
