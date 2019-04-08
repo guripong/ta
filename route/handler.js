@@ -19,6 +19,8 @@ router.post('/', ap);
 
 // Register handlers for Dialogflow intents
 ap.intent('Default Welcome Intent', conv => {
+    console.log('conv:',conv);
+
     conv.ask(`this is my cat picture`);
     conv.ask(new Image({
         url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
@@ -28,6 +30,8 @@ ap.intent('Default Welcome Intent', conv => {
 })
 
 ap.intent('Answer', (conv, input) => {
+    console.log('input:',input);
+    console.log('conv:',conv);
     console.log(`input.any:`, input.any);
     //Carousel  예제
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
@@ -35,11 +39,13 @@ ap.intent('Answer', (conv, input) => {
 
 
 ap.intent('Stop',conv=>{
+    console.log('conv:',conv);
     conv.close('good bye bye bye!');
 });
    
 
 ap.intent('Default Fallback Intent', conv => {
+    console.log('conv:',conv);
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
 
