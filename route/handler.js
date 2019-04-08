@@ -54,7 +54,9 @@ ap.intent('boy', (conv,params, signin) => {
    
       if (signin.status === 'OK') {
         console.log('###########conv###############');
+        JSON.parse(JSON.stringify(conv));
         console.log(conv);
+
         /*
         console.log(`params:`,params);
         console.log(`signin:`,signin);
