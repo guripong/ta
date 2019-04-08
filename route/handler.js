@@ -96,11 +96,14 @@ ap.intent('boy', (conv,params, signin) => {
                 
                 console.log(`###############`+`oauth 성공`+`###############`);
                 console.log(`id:`,body.user_id);
+                
                 conv.ask(`I got data`);
                 
             }).catch(function(error){
                 console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
+            }).then(function(){
+                console.log('do another job');
             });
         
        }
@@ -109,13 +112,13 @@ ap.intent('boy', (conv,params, signin) => {
        }
 
       } 
-      else {
-          /*
-        console.log(`conv:`,conv);
-        console.log(`params:`,params);
-        console.log(`signin:`,signin);
-        */
-        conv.ask(`I won't be able to save your data, but what do you want to do next?`);
+      else { //signin.status  isn't "ok"
+            /*
+            console.log(`conv:`,conv);
+            console.log(`params:`,params);
+            console.log(`signin:`,signin);
+            */
+          conv.ask(`I won't be able to save your data, but what do you want to do next?`);
       }
 });
 
@@ -131,19 +134,5 @@ ap.intent('Default Fallback Intent', conv => {
 });
 
 
-/*
-const SELECTED_ITEM_RESPONSES = {
-    '[SELECTION_KEY_ONE]': 'You selected the first item',
-    '[SELECTION_KEY_GOOGLE_HOME]': 'You selected the Google Home!',
-    '[SELECTION_KEY_GOOGLE_PIXEL]': 'You selected the Google Pixel!',
-};
-ap.intent('actions.intent.OPTION', (conv, params, option) => {
-    let response = 'You did not select any item';
-    if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
-        response = SELECTED_ITEM_RESPONSES[option];
-    }
-    conv.ask(response);
-});
 
-*/
 module.exports = router;
