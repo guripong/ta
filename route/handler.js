@@ -62,9 +62,9 @@ ap.intent('boy', (conv,params, signin) => {
         console.log(`signin:`,signin);
         */
        console.log('#####################conv.DialogflowConversation########################');
-       console.log(conv.DialogflowConversation);
+       console.log(conv.expectUserResponse);
        console.log('#######################conv.DialogflowConversation.user#######################');
-       console.log(conv.DialogflowConversation.user);
+     //  console.log(conv.DialogflowConversation.user);
        console.log('##########################################################');
 
         conv.ask(`I got your account details. What do you want to do next?`);
