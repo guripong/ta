@@ -141,11 +141,13 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     //console.log('ap.getContext():',ap.getContext());
                     ////////////////////////////// dialogflow session 찾아볼것!!!
                     console.log(conv);
+           
+
+                    conv.ask(`I got data`);
                     const User_Contexts={
                     }
                     conv.contexts.set('location',location,User_Contexts);
-
-                    conv.ask(`I got data`);
+                    
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
                     console.log(`mysql DB 엑세스 에러:`,error);
