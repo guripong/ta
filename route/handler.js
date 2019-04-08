@@ -60,12 +60,13 @@ ap.intent('boy', (conv,params, signin) => {
         /*
         console.log(`params:`,params);
         console.log(`signin:`,signin);
-        */
+       
        console.log('#######################conv.user#######################');
        console.log(conv.user);
-       console.log('#######################conv.user.access#######################');
-       console.log(conv.user.access);
-  
+       */
+      
+       console.log('#######################conv.user.access.token#######################');
+       console.log(conv.user.access.token);
        console.log('##########################################################');
 
         conv.ask(`I got your account details. What do you want to do next?`);
