@@ -52,7 +52,8 @@ ap.intent('boy', (conv,params, signin) => {
     console.log('###############################');
       if (signin.status === 'OK') {
         const payload = conv.user.profile.payload;
-        conv.ask(`I got your account details, ${payload.name}. What do you want to do next?`);
+        console.log(playload);
+        conv.ask(`I got your account details. What do you want to do next?`);
       } else {
         conv.ask(`I won't be able to save your data, but what do you want to do next?`);
       }
