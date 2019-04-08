@@ -99,12 +99,12 @@ ap.intent('boy', (conv,params, signin) => {
                 console.log(`###############`+`oauth 성공`+`###############`);
                 console.log(`id:`,body.user_id);
                 
-               
+               return body;
                 
             }).catch(function(error){
                 console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
-            }).then(function(){
+            }).then(function(body){
                 console.log('do another job');
                 var sql;
                 var connection;
@@ -124,12 +124,13 @@ ap.intent('boy', (conv,params, signin) => {
                     connection = conn;
                     return conn.query(sql);
                 }).then(function(results){
+                    connection.end();
                     results =JSON.parse(JSON.stringify(results[0]));
                     results = results[0];
                     //console.log(`results.qn:`,results.qn);
                     
-                    var QN=parseInt(results.qn,10);
-                    var location = results.location;
+                    QN=parseInt(results.qn,10);
+                    location = results.location;
                     console.log('location:',location);
                     console.log('QN:',QN);
                     conv.ask(`I got data`);
