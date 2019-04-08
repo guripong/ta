@@ -15,6 +15,7 @@ const {
     List,
     SignIn,
 } = require('actions-on-google')
+
 const ap = dialogflow({
 clientId: `power_wizard`,
 
@@ -141,12 +142,13 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     //console.log('ap.getContext():',ap.getContext());
                     ////////////////////////////// dialogflow session 찾아볼것!!!
                     console.log(conv);
-           
-                    const User_Contexts={
-                        location:'location',
-                    }
-                    conv.contexts.set(User_Contexts.location,location);
 
+
+                    const parameters = { // Custom parameters to pass with context
+                        welcome: true,
+                      };
+                    conv.contexts.set('welcome-context', 5, parameters);
+                    
                     conv.ask(`I got data`);
               
                 }).catch(function(error){
