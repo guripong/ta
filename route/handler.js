@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-router.post('/', ap);
-
 const {
     dialogflow,
     Image,
@@ -14,21 +12,19 @@ const {
     Table,
     List,
 } = require('actions-on-google')
-
 const ap = dialogflow();
 
+router.post('/', ap);
 
 
 // Register handlers for Dialogflow intents
 ap.intent('Default Welcome Intent', conv => {
-
     conv.ask(`this is my cat picture`);
     conv.ask(new Image({
         url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
         alt: 'A cat',
     }))
     conv.ask(`is it cute`);
-
 })
 
 ap.intent('Answer', (conv, input) => {
