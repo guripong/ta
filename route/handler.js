@@ -47,10 +47,13 @@ ap.intent('Answer', (conv, input) => {
     console.log('conv:',conv);
 
     const parameters=conv.contexts.get('mysession');
-    console.log('parameters:',parameters);
+    var location = parameters.location;
+    var QN = parameters.QN;
+    console.log('location:',location);
+    console.log('QN:',QN);
+    
     console.log('############################');
-
-    console.log('????:',conv.contexts.input.mysession);
+    //console.log('????:',conv.contexts.input.mysession); 여기에 파라메타가 들어있음
 
     /*
     console.log('input:',input);
@@ -154,7 +157,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                         'location': location,
                         'QN':QN,
                     };
-                    conv.contexts.set('mysession', 1, parameters);
+                    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
 
                     conv.ask(`I got data`);
               
