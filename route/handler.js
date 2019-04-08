@@ -155,7 +155,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                         'location': location,
                         'QN':QN,
                     };
-                    conv.contexts.set('mysession', 5, parameters);
+                    conv.contexts.set('mysession', 1, parameters);
 
                     conv.ask(`I got data`);
               
