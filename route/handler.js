@@ -77,11 +77,11 @@ ap.intent('boy', (conv,params, signin) => {
        if(token){
         ////////////오쓰 요청
       
-            return new Promise(function (resolve1){
+            return new Promise(function (resolve1,reject){
                 request.get(options,(error,response,body)=>{
                     if(error){
                         console.log(`###############`+`resolve false`+`###############`);
-                       resolve1(false);
+                       reject(false);
                     }
                     else{
                        body = JSON.parse(body);
@@ -92,18 +92,13 @@ ap.intent('boy', (conv,params, signin) => {
                });
 
             }).then(function(body){
-                if(body==false){
-                    console.log(`###############`+`oauth 실패`+`###############`);
-                    conv.ask(`fail to get data`);
-                }
-                else{
-                    body = JSON.parse(body);
-                    console.log(body);
-                    console.log(`###############`+`oauth 성공`+`###############`);
-                    conv.ask(`I got data`);
-                }
-            }).catch(function(){
-                console.log('error');
+               
+                  
+                console.log(`###############`+`oauth 성공`+`###############`);
+                conv.ask(`I got data`);
+                
+            }).catch(function(error){
+                console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
             });
         
