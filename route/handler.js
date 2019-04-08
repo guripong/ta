@@ -76,8 +76,7 @@ ap.intent('boy', (conv,params, signin) => {
        };//oauth2.0 option설정
        if(token){
         ////////////오쓰 요청
-        get_userdata(options);
-        function get_userdata(options){
+      
             return new Promise(function (resolve1){
                 request.get(options,(error,response,body)=>{
                     if(error){
@@ -107,7 +106,7 @@ ap.intent('boy', (conv,params, signin) => {
                 console.log('error');
                 conv.ask(`oauth2.0 request error`);
             });
-        }
+        
 
       
        }
