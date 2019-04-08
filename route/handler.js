@@ -105,32 +105,38 @@ ap.intent('boy', (conv,params, signin) => {
                 console.log('my request oauth2.0 error:',error);
                 conv.ask(`oauth2.0 request error`);
             }).then(function(body){
-                console.log('do another job');
-                var sql;
-                var connection;
-                var QN;
-                var location;
-                //성공했으면 DB에 기록합니다
-                mysql.createConnection(config).then(function(conn){
-                    body = JSON.parse(body);
-                   // console.log(`body.user_id`,body.user_id);
-                   // console.log(`body.name`,body.name);
-                   // console.log(`body.email`,body.email);
-                   //oauth_user_id=body.user_id;
-                    console.log(`%%% Lanuch에서 new_skill_launch 프로시저 실행시도`);
-                    sql=`call final_skill_launch("`+body.user_id+`","`+body.name+`","`+body.email+`");`;
-                    dynamo_db.attributes['oauth_user_id']=body.user_id;
-                    console.log(`sql:`,sql);
-                    connection = conn;
-                    return conn.query(sql);
-                }).then(function(results){
-                    connection.end();
-                    results =JSON.parse(JSON.stringify(results[0]));
-                    results = results[0];
+                console.log('do another job:',body,user_id);
+                return new Promise(function(resolve2,reject2){
+                    var sql;
+                    var connection;
+             
+                    //성공했으면 DB에 기록합니다
+                    mysql.createConnection(config).then(function(conn){
+                        body = JSON.parse(body);
+                       // console.log(`body.user_id`,body.user_id);
+                       // console.log(`body.name`,body.name);
+                       // console.log(`body.email`,body.email);
+                       //oauth_user_id=body.user_id;
+                        console.log(`%%% Lanuch에서 new_skill_launch 프로시저 실행시도`);
+                        sql=`call final_skill_launch("`+body.user_id+`","`+body.name+`","`+body.email+`");`;
+                        dynamo_db.attributes['oauth_user_id']=body.user_id;
+                        console.log(`sql:`,sql);
+                        connection = conn;
+                        return conn.query(sql);
+                    }).then(function(results){
+                        connection.end();
+                        resolve2(results);
+                        console.log('resolve2호출함');
+                    });
+                }).then(function(resolve2){
+                    console.log('resolve2상태');
+                    resolve2 =JSON.parse(JSON.stringify(resolve2[0]));
+                    resolve2 = resolve2[0];
                     //console.log(`results.qn:`,results.qn);
-                    
-                    QN=parseInt(results.qn,10);
-                    location = results.location;
+                    var QN;
+                    var location;
+                    QN=parseInt(resolve2.qn,10);
+                    location = resolve2.location;
                     console.log('location:',location);
                     console.log('QN:',QN);
                     conv.ask(`I got data`);
