@@ -76,6 +76,7 @@ ap.intent('boy', (conv,params, signin) => {
        };//oauth2.0 option설정
        if(token){
         ////////////오쓰 요청
+        get_userdata(options);
         function get_userdata(options){
             return new Promise(function (resolve1){
                 request.get(options,(error,response,body)=>{
@@ -84,17 +85,14 @@ ap.intent('boy', (conv,params, signin) => {
                        resolve1(false);
                     }
                     else{
-                      body = JSON.parse(body);
+                       body = JSON.parse(body);
                        console.log(body);
                        console.log(`###############`+`resolve body`+`###############`);
                        resolve1(body);
                     }
                });
 
-            });
-        }
-        
-            get_userdata(options).then(function(body){
+            }).then(function(body){
                 if(body==false){
                     console.log(`###############`+`oauth 실패`+`###############`);
                     conv.ask(`fail to get data`);
@@ -108,8 +106,10 @@ ap.intent('boy', (conv,params, signin) => {
             }).catch(function(){
                 console.log('error');
                 conv.ask(`oauth2.0 request error`);
-            }.bind(this));
-     
+            });
+        }
+
+      
        }
        else{
          conv.ask(`accesstoken error, does not exist`);
