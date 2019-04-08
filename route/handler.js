@@ -47,13 +47,16 @@ ap.intent('Answer', (conv, input) => {
     console.log('conv:',conv);
 
     const parameters=conv.contexts.get('mysession');
-    parameters = JSON.parse(parameters);
-    console.log('@@@@@@');
+   
+    console.log('@@@@@@@@@@parameter@@@@@@@@@@@@');
     console.log(parameters);
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     var location = parameters.location;
     var QN = parameters.QN;
     console.log('location:',location);
     console.log('QN:',QN);
+
+    console.log(`$$location:`,conv.contexts.input.mysession.parameters.location);
 
     console.log('############################');
     //console.log('????:',conv.contexts.input.mysession); 여기에 파라메타가 들어있음
