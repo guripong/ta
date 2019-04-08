@@ -88,9 +88,13 @@ ap.intent('boy', (conv,params, signin) => {
                   conv.ask(`I got data`);
               }
         });
+       }
+       else{
+        conv.ask(`accesstoken error, does not exist`);
+       }
 
-
-      } else {
+      } 
+      else {
           /*
         console.log(`conv:`,conv);
         console.log(`params:`,params);
