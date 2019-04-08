@@ -51,11 +51,20 @@ ap.intent('girl', (conv) => {
 
 // 여기서 시작하면 XXX
 ap.intent('boy', (conv,params, signin) => {
-    console.log('###############################');
+   
       if (signin.status === 'OK') {
-        console.log(`conv:`,conv);
+        console.log('###########conv###############');
+        console.log(conv);
+        /*
         console.log(`params:`,params);
         console.log(`signin:`,signin);
+        */
+       console.log('#####################conv.DialogflowConversation########################');
+       console.log(conv.DialogflowConversation);
+       console.log('#######################conv.DialogflowConversation.user#######################');
+       console.log(conv.DialogflowConversation.user);
+       console.log('##########################################################');
+
         conv.ask(`I got your account details. What do you want to do next?`);
       } else {
           /*
