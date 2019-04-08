@@ -1,4 +1,5 @@
 var express = require('express');
+const request = require('request');
 var router = express.Router();
 const {
     dialogflow,
@@ -64,12 +65,31 @@ ap.intent('boy', (conv,params, signin) => {
        console.log('#######################conv.user#######################');
        console.log(conv.user);
        */
-      
+
        console.log('#######################conv.user.access.token#######################');
        console.log(conv.user.access.token);
        console.log('##########################################################');
+       var token = conv.user.access.token;
+       var options={
+        url:`https://devoauth.koreapolyschool.com:443/api/user/profile`,
+        headers:{'Authorization':'Bearer '+token},
+       };//oauth2.0 option설정
+       if(token){
+        ////////////오쓰 요청
+        request.get(options,(error,response,body)=>{
+              if(error){
+                  console.log(`###############`+`oauth 실패`+`###############`);
+                  conv.ask(`fail to get data`);
+              }
+              else{
+                body = JSON.parse(body);
+                 console.log(body);
+                  console.log(`###############`+`oauth 성공`+`###############`);
+                  conv.ask(`I got data`);
+              }
+        });
 
-        conv.ask(`I got your account details. What do you want to do next?`);
+
       } else {
           /*
         console.log(`conv:`,conv);
