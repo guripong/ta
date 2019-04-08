@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+router.post('/', ap);
+
 const {
     dialogflow,
     Image,
@@ -14,7 +16,7 @@ const {
 } = require('actions-on-google')
 
 const ap = dialogflow();
-router.post('/', ap);
+
 
 
 // Register handlers for Dialogflow intents
@@ -29,21 +31,22 @@ ap.intent('Default Welcome Intent', conv => {
 
 })
 
-
-
 ap.intent('Answer', (conv, input) => {
     console.log(`input.any:`, input.any);
     //Carousel  예제
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
 
+
 ap.intent('Stop',conv=>{
     conv.close('good bye bye bye!');
 });
    
+
 ap.intent('Default Fallback Intent', conv => {
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
+
 
 /*
 const SELECTED_ITEM_RESPONSES = {
