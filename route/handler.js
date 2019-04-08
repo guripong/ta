@@ -36,7 +36,13 @@ ap.intent('Answer', (conv, input) => {
     //Carousel  예제
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
-
+ap.intent('Oauth', (conv,params, signin) => {
+    console.log('###############################');
+    console.log('conv:',conv);
+    console.log('conv:',params);
+    //Carousel  예제
+    conv.ask(`heyheyheyhey manman`);
+});
 
 ap.intent('Stop',conv=>{
     console.log('conv:',conv);
