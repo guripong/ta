@@ -63,7 +63,8 @@ ap.intent('boy', (conv,params, signin) => {
         */
        console.log('#######################conv.user#######################');
        console.log(conv.user);
-      
+       console.log('#######################conv.user.access#######################');
+       console.log(conv.user.access);
   
        console.log('##########################################################');
 
