@@ -136,7 +136,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     console.log('QN:',QN);
                     //console.log('ap.getContext():',ap.getContext());
                     ////////////////////////////// dialogflow session 찾아볼것!!!
-
+                    console.log(conv);
                     conv.ask(`I got data`);
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
