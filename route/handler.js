@@ -106,6 +106,9 @@ ap.intent('boy', (conv,params, signin) => {
                 conv.ask(`oauth2.0 request error`);
             }).then(function(body){
                 console.log('do another job:',body.user_id);
+                var oauth_user_id;
+                var QN;
+                var location;
                 return new Promise(function(resolve2,reject2){
                     var sql;
                     var connection;
@@ -119,7 +122,7 @@ ap.intent('boy', (conv,params, signin) => {
                        //oauth_user_id=body.user_id;
                         console.log(`%%% Lanuch에서 new_skill_launch 프로시저 실행시도`);
                         sql=`call final_skill_launch("`+body.user_id+`","`+body.name+`","`+body.email+`");`;
-                        dynamo_db.attributes['oauth_user_id']=body.user_id;
+                        oauth_user_id=body.user_id;
                         console.log(`sql:`,sql);
                         connection = conn;
                         return conn.query(sql);
@@ -133,8 +136,7 @@ ap.intent('boy', (conv,params, signin) => {
                     resolve2 =JSON.parse(JSON.stringify(resolve2[0]));
                     resolve2 = resolve2[0];
                     //console.log(`results.qn:`,results.qn);
-                    var QN;
-                    var location;
+                    
                     QN=parseInt(resolve2.qn,10);
                     location = resolve2.location;
                     console.log('location:',location);
