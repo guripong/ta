@@ -46,9 +46,8 @@ ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
     console.log('conv:',conv);
 
-    const {location,QN}=conv.contexts.get('mysession');
-    console.log('location:',location);
-    console.log('QN:',QN);
+    const parameters=conv.contexts.get('mysession');
+    console.log('parameters:',parameters);
     console.log('############################');
 
     console.log('????:',conv.contexts.input.mysession);
