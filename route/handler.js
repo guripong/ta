@@ -45,7 +45,10 @@ ap.intent('Default Welcome Intent', conv => {
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
     console.log('conv:',conv);
-    console.log('conv.contexts.output.location:',conv.contexts.output['location']);
+
+    const {location,QN}=conv.contexts.get('mysession');
+    console.log('location:',location);
+    console.log('QN:',QN);
     /*
     console.log('input:',input);
    
@@ -145,10 +148,11 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
 
                     const parameters = { // Custom parameters to pass with context
-                        welcome: true,
-                      };
-                    conv.contexts.set('welcome-context', 5, parameters);
-                    
+                        'location': location,
+                        'QN':QN,
+                    };
+                    conv.contexts.set('mysession', 5, parameters);
+
                     conv.ask(`I got data`);
               
                 }).catch(function(error){
