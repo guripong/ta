@@ -112,7 +112,7 @@ ap.intent('boy', (conv,params, signin) => {
              
                     //성공했으면 DB에 기록합니다
                     mysql.createConnection(config).then(function(conn){
-                        body = JSON.parse(body);
+                 
                        // console.log(`body.user_id`,body.user_id);
                        // console.log(`body.name`,body.name);
                        // console.log(`body.email`,body.email);
