@@ -11,8 +11,12 @@ const {
     BasicCard,
     Table,
     List,
+    SignIn,
 } = require('actions-on-google')
-const ap = dialogflow();
+const ap = dialogflow({
+clientId: `power_wizard`,
+
+});
 
 router.post('/', ap);
 
@@ -36,6 +40,10 @@ ap.intent('Answer', (conv, input) => {
     //Carousel  예제
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
+
+pp.intent('TEXT', (conv) => {
+    conv.ask(new SignIn('To get your account details'));
+  });
 ap.intent('Oauth', (conv,params, signin) => {
     console.log('###############################');
     console.log('conv:',conv);
