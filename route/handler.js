@@ -145,9 +145,10 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                     conv.ask(`I got data`);
                     const User_Contexts={
+                        location:'location',
                     }
-                    conv.contexts.set('location',location,User_Contexts);
-                    
+                    conv.contexts.set(User_Contexts.location,location);
+
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
                     console.log(`mysql DB 엑세스 에러:`,error);
