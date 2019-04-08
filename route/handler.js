@@ -52,9 +52,14 @@ ap.intent('Answer', (conv, input) => {
     console.log(`location:`,location);
     console.log(`QN:`,QN);
 
-
+    const parameters = { // Custom parameters to pass with context
+        'location': location,
+        'QN':QN,
+    };
+    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     console.log('############################');
-    //console.log('????:',conv.contexts.input.mysession); 여기에 파라메타가 들어있음
+    
+    
 
     /*
     console.log('input:',input);
