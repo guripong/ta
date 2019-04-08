@@ -93,9 +93,10 @@ ap.intent('boy', (conv,params, signin) => {
 
             }).then(function(body){
                
-                  
+                
                 console.log(`###############`+`oauth 성공`+`###############`);
-                conv.ask(`I got data:`,body.user_id);
+                console.log(`id:`,body.user_id);
+                conv.ask(`I got data`);
                 
             }).catch(function(error){
                 console.log('my request oauth2.0 error:',error);
