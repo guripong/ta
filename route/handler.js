@@ -121,9 +121,10 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                 var oauth_user_id;
                 var QN;
                 var location;
+                var sql;
+                var connection;
                 return new Promise(function(resolve2,reject2){
-                    var sql;
-                    var connection;
+                 
                     //성공했으면 DB에 기록합니다
                     mysql.createConnection(config).then(function(conn){
                  
