@@ -123,6 +123,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                 var location;
                 var sql;
                 var connection;
+                var total_speech;
                 return new Promise(function(resolve2,reject2){
                  
                     //성공했으면 DB에 기록합니다
@@ -161,7 +162,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     const parameters = { // Custom parameters to pass with context
                         'location': location,
                         'QN':QN,
-                        'total_speech':'',
+                        'total_speech':total_speech,
                     };
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     if(location.substr(0,2)=='sw')
@@ -179,15 +180,15 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                               if(QN<=1)
                               {
                                   //처음
-                                  conv.contexts.input.mysession.parameters.total_speech+=` Unit `+u_n+`. Period `+p_n+`. `;
+                                  total_speech+=` Unit `+u_n+`. Period `+p_n+`. `;
                               }
                               else
                               {
-                                conv.contexts.input.mysession.parameters.total_speech+=` Last time, we were studying Unit `
+                                 total_speech+=` Last time, we were studying Unit `
                                    +u_n+`. Period `+p_n+`. Let's continue that lesson. `;
                               }
                     }
-                    conv.ask(conv.contexts.input.mysession.parameters.total_speech);
+                    conv.ask(total_speech);
               
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
