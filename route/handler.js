@@ -123,7 +123,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                 var location;
                 var sql;
                 var connection;
-                var total_speech;
+                var total_speech='';
                 return new Promise(function(resolve2,reject2){
                  
                     //성공했으면 DB에 기록합니다
