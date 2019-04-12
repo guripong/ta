@@ -18,20 +18,28 @@ const {
 
 const ap = dialogflow({
 clientId: `power_wizard`,
-
 });
+
 
 router.post('/', ap);
 //####################################################################################################
-function question(){
+const Speed_E = ` </prosody> `;
+const Speed_S = ` <prosody rate='medium'> `;
+
+function question(total_speech){
     return new Promise(function(resolve1){
         console.log('question function call');
+        total_speech +=' question call success! ';
+
         resolve1('okay');
+
+
+
     });
 }
 
 
-
+//####################################################################################################
 
 
 
@@ -64,6 +72,8 @@ ap.intent('Answer', (conv, input) => {
     const parameters = { // Custom parameters to pass with context
         'location': location,
         'QN':QN,
+        'total_speech':total_speech,
+        'oauth_user_id':oauth_user_id,
     };
 
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
@@ -134,6 +144,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                 var sql;
                 var connection;
                 var total_speech='Welcome to Power Wizard. ';
+
                 const parameters = { // Custom parameters to pass with context
                     'location': location,
                     'QN':QN,
@@ -203,21 +214,28 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                               }
                     }
                     return new Promise(function(resolve1){
-                        question().then(function(results){
+
+                        question(total_speech).then(function(results){
                             if(results=='okay'){
-                                console.log('okay!');
+                                console.log('question 함수에서 잘 가져왔습니다');
+
                                 resolve1('reokay');
                             }
                         })
 
                     }).then(function(results){
                         if(results=='reokay'){
-                            console.log('reokay!');
+
+                            console.log('reokay success');
+                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                            conv.ask(total_speech);
                         }
                         else{
                             console.log('reokay fail');
+                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                            conv.ask(`reokay fail`);
                         }
-                        conv.ask(total_speech);
+                      
                     });
 
               
