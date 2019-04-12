@@ -41,7 +41,7 @@ function question(parameters,conv,resolve1){
         var Rtype_doit_after_qnmove;
         var Rtype_donot_qnmove;
 
-
+        parameters.haha ='maerong';
 
         //console.log('parameters:',parameters);
         console.log('set먹히나');
@@ -49,8 +49,14 @@ function question(parameters,conv,resolve1){
                
         console.log('ask 먹히나');
         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
+
+        
         resolve1('ok resolve1');
         resolve2('ok resolve2');
+
+        
+        /////////////////////////////////복붙후 고칠것///////////////////////
+      
     });
 }
 
@@ -237,10 +243,12 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                         question(parameters,conv,resolve1)
                         .then(function(results_resolve2){
                             console.log(`resolve2:`,results_resolve2);
+                            
                         });
                    
-                    }).then(function(results){
-                        console.log(`resolve1:`,results);
+                    }).then(function(results_resolve1){
+                        console.log(`resolve1:`,results_resolve1);
+                        console.log(parameters);
                     });
 
                       
