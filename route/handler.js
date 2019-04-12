@@ -1206,14 +1206,14 @@ ap.intent('Answer', (conv, input) => {
     
     parameters.total_speech = `you said that ${input.any} `;
 
-    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+    //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     
     console.log(parameters);
 
-    
+
 
     console.log('############################');
-
+/*
     return new Promise(function(resolve1){
 
         question(parameters,conv,resolve1)
@@ -1226,8 +1226,1308 @@ ap.intent('Answer', (conv, input) => {
         console.log(`resolve1:`,results_resolve1);
         //console.log(parameters);
     });
+    */
 
 //###################################################################
+    console.log(`@@@Answer@@@ `);
+    var speak = input.any;
+
+    speak = speak.replace("#","number ");
+    speak = speak.replace("-"," ");
+    speak=speak.toLowerCase();
+
+    console.log(`*************************************************************************`);
+    console.log(`***student say:`,speak,`***`);
+    console.log(`*************************************************************************`);
+
+    var dynamo_db = {} ;
+    dynamo_db.attributes = parameters;
+
+    var QN = dynamo_db.attributes['QN'];
+    var before_QN=QN;
+    var location = dynamo_db.attributes['location'];
+    var sql;
+    var connection;
+    var total_speech=dynamo_db.attributes['total_speech'];
+    var type = dynamo_db.attributes['type'];
+    var log_total_speech=total_speech;
+    var choose_case_num=0;
+    //////////////////
+    var case_num = new Array();
+    var case_array = new Array();
+    var case_feedback = new Array();
+    var case_qn_move = new Array();
+    var case_feedback_dbname = new Array();
+    var D_q_per_point;
+    var D_isgetpoint=0;
+    ///////////////////////////////
+    var reask_left_feedback;
+    var fail_feedback;
+    var reask_qn_move;
+    var C_table_name_array = new Array();
+    var C_table_value_array = new Array();
+
+    var Rtype_quel;
+                
+                
+    if(type=='R'){
+        Rtype_quel=`[Location:`+dynamo_db.attributes['Rtype_doit_que'][dynamo_db.attributes['Rtype_doit_que_index']-1].location+`/Question:`
+                +dynamo_db.attributes['Rtype_doit_que'][dynamo_db.attributes['Rtype_doit_que_index']-1].qn+`]`;
+                
+        console.log(`@@@Answer에서 R타입의 답변에 대한 array 재조회`);
+        location = dynamo_db.attributes['Rtype_doit_que'][dynamo_db.attributes['Rtype_doit_que_index']-1].location;
+        QN = dynamo_db.attributes['Rtype_doit_que'][dynamo_db.attributes['Rtype_doit_que_index']-1].qn;
+    }
+
+    mysql.createConnection(config).then(function(conn){
+    sql=`SELECT case_num,case_array,feedback,qn_move FROM EDUAI.final_skill_case where location="`+location+`" and qn="`+QN+`";`;
+    
+    //sql=`call final_skill_answer("`+dynamo_db.attributes['oauth_user_id']+`","`+location+`","`+type+`","`+QN+`","`+speak+`","`+total_speech+`");`;
+        console.log(`sql:`,sql);
+        connection = conn;
+        return conn.query(sql);
+    }).then(function(results){ 
+        //console.log(`Answer에서 case가져온거:`,results);
+        results = JSON.parse(JSON.stringify(results));
+        //console.log(`Answer에서 case가져온거:`,results);
+        var case_total = results;
+        console.log(`case_total:`,case_total);
+        if(case_array.length)console.log(`case_total.length:`,case_total.length);
+        else console.log(`############################################################case_tatal.length가 없음`);
+    if(case_total.length>=3)
+    {
+            for(var i = 2 ; i<case_total.length ; i++)
+            {
+                case_num[i-2] = case_total[i].case_num;
+                case_array[i-2] = case_total[i].case_array;
+                case_feedback[i-2] = case_total[i].feedback;
+                case_qn_move[i-2] = case_total[i].qn_move;
+                var splitqnmove ;
+
+                splitqnmove = case_qn_move[i-2].split('/');
+            
+                var Random_Number=(Math.floor(Math.random() * splitqnmove.length));  
+                splitqnmove = splitqnmove[Random_Number];
+                splitqnmove = parseInt(splitqnmove,10);
+                case_qn_move[i-2] =splitqnmove;
+                
+                //case_array[i] = new Array();
+                case_array[i-2] = case_array[i-2].toLowerCase();
+                case_array[i-2] = case_array[i-2].split(`/`);   
+
+            }
+    }
+        reask_left_feedback=case_total[0].feedback;
+        fail_feedback = case_total[1].feedback;
+        //
+        /////////////////////////////////////////////////////////
+    
+        ///////////////////////////////////////////
+        reask_qn_move = case_total[1].qn_move;
+        splitqnmove = reask_qn_move.split('/');
+        var Random_Number=(Math.floor(Math.random() * splitqnmove.length));  
+        splitqnmove = splitqnmove[Random_Number];
+        splitqnmove = parseInt(splitqnmove,10);
+        reask_qn_move=splitqnmove;
+
+        
+        
+        if(type=='D') D_q_per_point=parseInt(case_total[0].case_array,10); // D의 문제당 점수
+        
+        for(var i = 0 ; i<case_total.length ;i++)
+        {
+            case_feedback_dbname[i]=``;
+        }//%fb_1234/ 를 읽어야함
+        
+        //reask_left_feedback 이 db를 사용하나 검사
+        
+        var split_feedback;
+        if(reask_left_feedback) split_feedback= reask_left_feedback.split(`/`);
+        if(split_feedback)
+        {
+            case_feedback_dbname[0] = get_feedback_dbname(split_feedback);
+        }
+        if(fail_feedback) split_feedback = fail_feedback.split(`/`);
+        if(split_feedback){
+            case_feedback_dbname[1] = get_feedback_dbname(split_feedback);
+        }
+        for(var i = 2 ; i<case_total.length;i++)
+        {
+            split_feedback = case_feedback[i-2].split(`/`);
+            if(split_feedback) case_feedback_dbname[i] = get_feedback_dbname(split_feedback);
+        }
+        /*
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%:`,case_feedback_dbname);
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[0]);
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[1]);
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[2]);
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[0].length);
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[1].length);
+        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[2].length);*/
+        //여기서 db명만 쫙 뺴와야함
+        ////////////////이부분코드정리좀하자
+        var dbkind= new Array();
+        var dbkindindex=0;
+        for(var i = 0 ; i<case_feedback_dbname.length; i++)
+        {
+            for(var j = 0 ; j<case_feedback_dbname[i].length ; j++)
+            {
+                dbkind[dbkindindex]=case_feedback_dbname[i][j];
+                dbkindindex++;
+            }
+        }
+        //console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,dbkind);
+        
+        
+        
+        if(dbkind.length==0)
+        {
+            return 1;
+        }
+        else
+        {
+            sql = `SELECT feedback,name FROM EDUAI.final_skill_feedback where name='`;
+            for(var i = 0 ; i<dbkind.length ; i++)
+            {
+                if(i+1 !=dbkind.length)
+                {
+                    sql=sql.concat(dbkind[i]+`' or name='`);
+                }
+                else
+                {
+                    sql=sql.concat(dbkind[i]+`'`);
+                }
+            }
+            console.log(`sql:`,sql);
+            return connection.query(sql);
+        }
+        
+    //  sql = `SELECT feedback,name FROM EDUAI.final_skill_feedback where name='`+good+`' or name='good'`;
+    }).then(function(results){ 
+        ////////////////////////피드백 랜덤으로 뽑아올것! ///////////////////////
+        if(results!=1)//피드백에서 db를 안씀
+        {
+            //여기는 피드백 db연산
+            //results 중에서 랜덤으로 하나 골라서 case_feedback 이 3개 있다 칠때, fail_feedback, reask_feedback 까지 총 5개를 랜덤으로 고른걸 넣어줘야함
+            //console.log(results);
+            results = JSON.parse(JSON.stringify(results));
+            var feedbackdb_load = results;
+            console.log(`피드백db읽은결과:`,feedbackdb_load);
+            
+            reask_left_feedback = set_feedback_dbname(feedbackdb_load,reask_left_feedback);
+            fail_feedback = set_feedback_dbname(feedbackdb_load,fail_feedback);
+            for(var i = 0 ; i<case_feedback.length ; i++)
+            {
+                
+                case_feedback[i] = set_feedback_dbname(feedbackdb_load,case_feedback[i]);
+
+                console.log(`바뀐 case_feedback[`,i,`]:`,case_feedback[i]);
+            }
+            console.log(`바뀐 reaskf:`,reask_left_feedback);
+            console.log(`바뀐 failf:`,fail_feedback);
+            
+        }
+        ///////////////////////////////////////여기까지 모두공통////////////////////////////////////////
+    
+            if(type=='C')
+            {
+                var index=0;
+                        for(var i = 0 ; i <case_array.length ; i++)
+                        {
+                            for(var j = 0 ; j<case_array[i].length ; j++)
+                            {
+                                console.log(`C타입 case_array들:`,case_array[i][j]);
+                                //case_array를 쪼개서 #db가 있으면 index 넣자
+                                var tmpsplit = case_array[i][j].split(` `);
+                                for(var k = 0 ; k <tmpsplit.length;k++)
+                                {
+                                    if(tmpsplit[k][0]=='#')
+                                    {
+                                        var tname= tmpsplit[k].substring(1,tmpsplit[k].length-1);
+                                        //중복검사
+                                        var isjungbok = 0;
+                                        for(var p = 0 ; p<C_table_name_array.length; p++)
+                                        {
+                                            if(C_table_name_array[p]==tname)
+                                            {
+                                                console.log(`중복이니까 break`);
+                                                isjungbok=1;
+                                                break;
+                                            }
+                                        }
+                                        if(isjungbok==0)
+                                        {
+                                            C_table_name_array[index]=tname;
+                                            index++;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        sql = `SELECT word,name from final_skill_words where`;
+                        
+                        for(var i = 0 ; i <C_table_name_array.length; i++)
+                        {
+                            console.log(`#########가져올DB목록:`,C_table_name_array[i]);
+                            if(i+1 == C_table_name_array.length)
+                            {
+                                sql = sql.concat(` name = "`+C_table_name_array[i]+`"`);
+                            }
+                            else
+                            {
+                                sql = sql.concat(` name = "`+C_table_name_array[i]+`" or`);
+                            }
+                        }
+                        
+                        console.log(`C타입에서 가져올 sql:`,sql);
+                        return connection.query(sql);
+            }
+            else
+            {
+                return 2;
+            }
+    }).then(function(results){ 
+        if(type=='C')
+        {
+            results = JSON.parse(JSON.stringify(results));
+            console.log(`####바꿈!!!:`,results);
+            var C_table_value_index=0;
+            for(var i = 0 ; i<results.length ; i++)
+            {
+                for(var j = 0 ; j<C_table_name_array.length ; j++)
+                {
+                    results[i].word = results[i].word.toLowerCase();
+                        if(results[i].name==C_table_name_array[j])
+                        {
+                                //console.log(`#####test:`,C_table_value_array[j]);
+                            // if(C_table_value_array[j] && (C_table_value_array[j].length>0))
+                            if(Array.isArray(C_table_value_array[j]))
+                            {
+                                C_table_value_array[j][C_table_value_index]=results[i].word;
+                                C_table_value_index++;
+                            }
+                            else
+                            {
+                                C_table_value_array[j]= new Array();
+                                C_table_value_index=0;      
+                                C_table_value_array[j][C_table_value_index]=results[i].word;
+                                C_table_value_index++;
+                            }
+
+                            break;
+                        }
+                }
+                        
+            }/////////////DB값 읽어온거 C_table_value_array에 넣었음
+            console.log(`우아아아아:`,C_table_value_array);//
+            return 1;
+        }
+        else
+        {
+            return 1;
+        }
+    }).then(function(results){ 
+        if(type =='S')
+        {
+            
+            console.log(`student speak!:`,speak);
+            var isok=0;
+            for(var i = 0 ; i<dynamo_db.attributes['S_sentences_count'] ; i++)
+            {
+                //if(speak==dynamo_db.attributes['S_sentences'][i])
+                for(var j = 0 ; j <dynamo_db.attributes['S_sentences'][i].length ; j++)
+                {
+                    if(speak==dynamo_db.attributes['S_sentences'][i][j])
+                    {
+                        isok=1; //정답이긴함
+                        //
+                        if(dynamo_db.attributes['S_sentences_check'][i]==1)
+                        {
+                            isok=2;
+                            break;
+                        }
+                        
+                        dynamo_db.attributes['S_sentences_check'][i]=1;
+                        break;
+                        
+                    }
+                    if(isok==1 || isok==2) break;
+                }
+                
+            }
+            
+            dynamo_db.attributes['S_should_say_count']--;
+            
+            if(isok==0)
+            {
+                //이상한거 말함 
+                
+                total_speech=case_feedback[4];
+            }
+            else if(isok==1)
+            {
+                total_speech=case_feedback[5];
+                dynamo_db.attributes['S_S_point']++;
+                //점수도 1점 올려줘야함
+                //패스
+            
+                
+            }
+            else if(isok==2)
+            {
+                //중복
+                total_speech=case_feedback[3];
+            }
+            
+            
+            if(dynamo_db.attributes['S_should_say_count']==0)
+            {
+                //다음으로 이동해야함 QuerryLoadPossible1로 바꾸고
+                if(dynamo_db.attributes['S_A_point']==4 && dynamo_db.attributes['S_S_point']==4)
+                {
+                    total_speech = total_speech.concat(case_feedback[2]+` `);
+                }
+                else if(dynamo_db.attributes['S_A_point']==3 && dynamo_db.attributes['S_S_point']==3 && dynamo_db.attributes['S_sentences_count'] <=7)
+                {
+                    total_speech = total_speech.concat(case_feedback[2]+` `);
+                }
+                else if(dynamo_db.attributes['S_A_point']==0 && dynamo_db.attributes['S_S_point']==0)
+                {
+                    total_speech = total_speech.concat(case_feedback[1]+` `);
+                }
+                else if(dynamo_db.attributes['S_A_point']>dynamo_db.attributes['S_S_point'])
+                {
+                    //알렉사이김
+                    total_speech = total_speech.concat(case_feedback[0]+` `);
+                }
+                else if(dynamo_db.attributes['S_A_point']<dynamo_db.attributes['S_S_point'])
+                {
+                    //학생이김
+                    total_speech=total_speech.concat(fail_feedback+` `);
+                }
+                else
+                {
+                    //비김
+                    total_speech=total_speech.concat(reask_left_feedback+` `);
+                }
+
+                                
+                                
+                QN =case_qn_move[0];
+                dynamo_db.attributes['QN'] =case_qn_move[0];
+                dynamo_db.attributes['QuerryLoad_Possible']=1;
+            }
+            else
+            {
+                //그대로 알렉사 진행
+                            var losepercent_split = dynamo_db.attributes['alexa_lost_percentage'].split(`/`);
+                            var losepercent;
+                            losepercent = parseInt(losepercent_split[0],10);
+                            var mytemp=` `;
+                        
+                                
+                                for(var i =1 ; i<losepercent_split.length;i++)
+                                {
+                                    if(i+1==losepercent_split.length)
+                                    {
+                                        mytemp =
+                                        mytemp.concat(losepercent_split[i]);
+                                    }
+                                    else
+                                    {
+                                        mytemp =
+                                        mytemp.concat(losepercent_split[i]+`/`);
+                                    }
+                                }
+                        
+                            if(losepercent_split.length>1)dynamo_db.attributes['alexa_lost_percentage'] = mytemp;
+                        
+                            
+                            var Random_Number=(Math.floor(Math.random() * 100));  
+                            if(Random_Number<losepercent)
+                            {
+                                //console.log(`알렉사가 지는확률걸림 알렉사의실수피드백`);
+                                //질경우임 losepercent가 80일때 Random_Number가 80보다 작게 나올경우에만
+                                //지는피드백을 붙여주고 니턴이라고 하고 보내자
+                                total_speech=total_speech.concat(` `+dynamo_db.attributes['alexa_cannotremember_say']+` `);
+                                //total_speech = total_speech.concat(dynamo_db.attributes['alexa_cannotremember_say']);
+                                dynamo_db.attributes['total_speech'] = dynamo_db.attributes['total_speech'].concat(` `+dynamo_db.attributes['alexa_cannotremember_say']+` `);
+                            }
+                            else
+                            {
+                                //console.log(`알렉사가 제대로하는확률걸림 알렉사의 제대로피드백`);
+                                //이길경우 알렉사가 제대로말함
+                                //랜덤체크중에 하나를 랜덤으로 뽑아내자
+                                dynamo_db.attributes['S_A_point']++;
+                                while(1)
+                                {
+                                    Random_Number =  (Math.floor(Math.random() * dynamo_db.attributes['S_sentences_count']));   
+                                    if(dynamo_db.attributes['S_sentences_check'][Random_Number] ==0) break;
+                                }
+                                total_speech=total_speech.concat(` `+dynamo_db.attributes['question']+` `);
+                                total_speech = total_speech.concat(` `+dynamo_db.attributes['S_sentences'][Random_Number][0]);
+                                dynamo_db.attributes['total_speech'] = dynamo_db.attributes['total_speech'].concat(` `+dynamo_db.attributes['S_sentences'][Random_Number][0]);
+                                dynamo_db.attributes['S_sentences_check'][Random_Number]=1;
+                            }
+            }
+            // Answer 중
+            return 1;
+        }
+        else if(type=='M')
+        {
+            console.log(`student speak!:`,speak);
+        // console.log(`case_qn_move:`,case_qn_move);
+            
+            
+            if(dynamo_db.attributes['M_student_should_say']>1)
+            {
+                console.log(`순서에 맞게 말해야함 MT에서`);
+            // console.log(`dynamo_db.attributes['M_studentpass_index']`,dynamo_db.attributes['M_studentpass_index']);
+            //    console.log(`dynamo_db.attributes['Order_total_word'] [dynamo_db.attributes['M_studentpass_index']]`,dynamo_db.attributes['Order_total_word'] [dynamo_db.attributes['M_studentpass_index']]);
+            
+                if(dynamo_db.attributes['Order_total_word'][dynamo_db.attributes['M_studentpass_index']] == speak)
+                {
+                    console.log(`순서가 맞`);
+                    //통과 순서에 맞음
+                    dynamo_db.attributes['M_student_should_say']--;
+                    //dynamo_db.attributes['total_speech'] = `say next!`;
+                    dynamo_db.attributes['total_speech'] = ` `;
+                    //total_speech = `say next!`;
+                    total_speech=` `;
+                    dynamo_db.attributes['M_studentpass_index']++;
+                    dynamo_db.attributes['QuerryLoad_Possible']=0;
+                    dynamo_db.attributes['M_onlyding'] = 1;
+                    
+                }
+                else //순서가 틀림
+                {
+                    console.log(`순서가 틀`);
+                    QN =case_qn_move[0];
+                    dynamo_db.attributes['QN'] =case_qn_move[0];
+                    dynamo_db.attributes['M_student_should_say']=-500;
+                    dynamo_db.attributes['QuerryLoad_Possible']=1;
+                    total_speech = ``;
+                    total_speech = total_speech.concat(` Oops... The correct order was `);
+                    for(var i = 0 ; i<dynamo_db.attributes['M_wordcount'] ; i++)
+                    {
+                        total_speech = total_speech.concat(dynamo_db.attributes['Order_total_word'][i]+` /%wait_3/ `);
+                    }
+                    total_speech = total_speech.concat(` but you said `);
+                    for(var i = 0 ; i<dynamo_db.attributes['M_studentpass_index'] ; i++)
+                    {
+                        total_speech = total_speech.concat(dynamo_db.attributes['Order_total_word'][i]+` /%wait_3/`);
+                    }
+                    total_speech = total_speech.concat(speak+`. `);
+                    total_speech = total_speech.concat(case_feedback[0]);
+                    //원래 순서 읽어주고
+                    //내가 읽은 순서 읽어줘서 납득시켜야함
+                    //쿼리로드파시블 1
+                    //MT 종료
+                }
+            }
+            else//dynamo_db.attributes['M_student_should_say']==0 인경우
+            {
+                console.log(`새로운걸 말해야함 MT에서`);
+                //새로운걸 말해야함
+                var isok=0;
+                for( var i = 0 ; i<dynamo_db.attributes['M_worddb_array'].length ; i++)
+                {
+                    if(dynamo_db.attributes['M_worddb_array'][i]==speak)
+                    {
+                        if(dynamo_db.attributes['M_worddb_array_check'][i]==0)
+                        {
+                            //단어db에 있고 중복아님 학생이 새로운단어를 제대로 말해부림
+                            console.log(`단어 db에있고 중복아님 통과! mt`);
+                            isok=1;
+                            dynamo_db.attributes['M_worddb_array_check'][i]=1;
+                            dynamo_db.attributes['Order_total_word'][dynamo_db.attributes['M_wordcount']] = speak;
+                            dynamo_db.attributes['QuerryLoad_Possible']=0;
+                            
+                            //total_speech = `i should say new things!`;
+                            total_speech=``; 
+                            
+                            dynamo_db.attributes['M_wordcount'] = dynamo_db.attributes['M_wordcount']+1 ;
+                            dynamo_db.attributes['M_onlyding'] = 0;
+                            ///////////////////////////////////////내가 말한걸 새롭게 저장해줌//////////////////////////
+                            //
+                            total_speech = total_speech.concat(dynamo_db.attributes['question']+` `);
+                            for(var i = 0 ; i <dynamo_db.attributes['M_wordcount'] ; i++)
+                            {
+                                total_speech = total_speech.concat(dynamo_db.attributes['Order_total_word'][i]+`/%wait_3/ `);
+                            }
+                            
+                            //////////////////////////////알렉사가 질 확률을 만들어서 지거나 이김 아래서///////////////////
+                            ////확률어딨나 찾아라
+                            console.log(`바꾸기전 확률모임:`,dynamo_db.attributes['alexa_lost_percentage']);
+                            var lost_percentage;
+                            var alexa_lost_split =dynamo_db.attributes['alexa_lost_percentage'].split(`/`);
+                            var new_alexa_lost_percentage=``;
+                            if(alexa_lost_split.length ==1)
+                            {
+                                console.log(`질확률:`,alexa_lost_split[0]);
+                                lost_percentage = alexa_lost_split[0];
+                            }
+                            else
+                            {
+                                console.log(`질확률:`,alexa_lost_split[0]);
+                                lost_percentage = alexa_lost_split[0];
+                                for(var i = 1 ; i <alexa_lost_split.length ; i++)
+                                {
+                                    if(i+1==alexa_lost_split.length)
+                                    {
+                                        new_alexa_lost_percentage = new_alexa_lost_percentage.concat(alexa_lost_split[i]);
+                                    }
+                                    else
+                                    {
+                                        new_alexa_lost_percentage = new_alexa_lost_percentage.concat(alexa_lost_split[i]+`/`);
+                                    }
+                                    
+                                }
+                                dynamo_db.attributes['alexa_lost_percentage'] = new_alexa_lost_percentage;
+                                
+                            }
+                            console.log(`바꾼후 확률모임:`,dynamo_db.attributes['alexa_lost_percentage']);
+                            var alexa_lost_random=(Math.floor(Math.random() * 100));
+                            ///////////////////////////////확률을 내가정한 확률과 비교해봄/////////////////////////
+                            if(alexa_lost_split[0]>alexa_lost_random)
+                            {
+                                console.log(`알렉사질확률`,alexa_lost_split[0],`랜덤뽑은수`,alexa_lost_random);
+                                console.log(`져야함 알렉사가`);
+                                total_speech =` `;
+                                //dynamo_db.attributes['M_wordcount']
+                                alexa_lost_random=(Math.floor(Math.random() * dynamo_db.attributes['M_wordcount']))+1;
+                                console.log(`틀리기전 말할 단어개수:`,alexa_lost_random);
+                                for(var i = 0 ; i<alexa_lost_random ; i++)
+                                {
+                                    total_speech = total_speech.concat(dynamo_db.attributes['Order_total_word'][i]+`/%wait_3/ `);
+                                }
+                                total_speech = total_speech.concat(fail_feedback);
+                                ///////////////
+                                //짐
+                                QN =case_qn_move[0];
+                                dynamo_db.attributes['QN'] =case_qn_move[0];
+                                dynamo_db.attributes['QuerryLoad_Possible']=1;
+                            }
+                            else
+                            {
+                                console.log(`알렉사질확률`,alexa_lost_split[0],`랜덤뽑은수`,alexa_lost_random);
+                                console.log(`이겨야함 알렉사가`);
+                                var Random_Number;
+                            
+                                for(var i = 0 ;  ;i++)
+                                {
+                                    Random_Number=(Math.floor(Math.random() * dynamo_db.attributes['M_worddb_array'].length)); 
+                                    if(dynamo_db.attributes['M_worddb_array_check'][Random_Number]==0) break;
+                                }
+                                
+                                dynamo_db.attributes['Order_total_word'][dynamo_db.attributes['M_wordcount']] = dynamo_db.attributes['M_worddb_array'][Random_Number];
+                                dynamo_db.attributes['M_wordcount'] = dynamo_db.attributes['M_wordcount']+1 ;
+                                dynamo_db.attributes['M_student_should_say'] = dynamo_db.attributes['M_wordcount']+1;
+                                
+                                
+                                total_speech = total_speech.concat(dynamo_db.attributes['M_worddb_array'][Random_Number]+`/%wait_3/ `);
+                                dynamo_db.attributes['M_studentpass_index'] = 0 ; //내 검사index초기화
+                                
+                                //제대로 통과
+                            
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            //단어db에 있지만 중복임
+                            console.log(`단어 db에 있지만 중복 mt`);
+                            isok=2;
+                            QN =case_qn_move[0];
+                            dynamo_db.attributes['QN'] =case_qn_move[0];
+                            dynamo_db.attributes['QuerryLoad_Possible']=1;
+                            total_speech = ``;
+                            dynamo_db.attributes['M_student_should_say']=-500;
+                            
+                            //correct order was [  원래 순서 읽어주고]
+                            // but you said that [ 내가 읽은 순서 읽어줘서 납득시키자]
+                        
+                            total_speech = total_speech.concat(` Oops... you said `);
+                            for(var i = 0 ; i<dynamo_db.attributes['M_studentpass_index'] ; i++)
+                            {
+                                total_speech = total_speech.concat(dynamo_db.attributes['Order_total_word'][i]+` /%wait_3/`);
+                            }
+                            total_speech = total_speech.concat(speak+`/%wait_3/ `);
+                            total_speech = total_speech.concat(case_feedback[1]);
+                            //쿼리로드파시블 1
+                            //MT 종료
+                            break;
+                        }
+                    }
+                }
+                if(isok==0)
+                {
+                    console.log(`단어 db에 없는걸말함 `);
+                    //db에 없는걸 말함
+                    dynamo_db.attributes['QN'] =case_qn_move[0];
+                    QN =case_qn_move[0];
+                    dynamo_db.attributes['QuerryLoad_Possible']=1;
+                    total_speech = ``;
+                    dynamo_db.attributes['M_student_should_say']=-500;
+                    total_speech = total_speech.concat(` Oops... You said `+speak+`/%wait_3/ `);
+                    total_speech = total_speech.concat(reask_left_feedback);
+
+                    //쿼리로드파시블 1
+                    //MT 종료
+                }
+
+
+                
+            }
+            //dynamo_db.attributes['M_studentpass_index']
+            
+            return 1;
+        }
+        else if(type=='C')// choose_case_num확인필요
+        {
+            //여기 오기전에 애초에 worddb를 쿼리해와야할듯
+            // C타입 Answer의경우
+            
+            total_speech=``;
+            var isjungdab=1;
+            var tmpmyspeak = speak.split(` `);
+            var tmpmyspeak_index=0;
+            //
+            for(var case_count = 0 ; case_count<case_array.length ; case_count++)
+            {
+                for(var i=0; i <case_array[case_count].length ; i++)
+                {
+                    tmpmyspeak_index=0;
+                    isjungdab=1;
+                    console.log(`#############조사한다(정답기준):`,case_array[case_count][i],`###################`);
+                    var tmpjungdabspeak = case_array[case_count][i].split(` `);
+                    //내가한말 i love you    tmpmyspeak에 쪼개서 있음
+                    //정답인경우 i am happy  tmpjungdabspeak에 있음
+                    
+                    for(var k = 0  ; k<tmpjungdabspeak.length ; k++) //정답문장의 개수만큼 반복함 i am a boy가 정답이면
+                    {//정답문장의 개수만큼 반복
+                        console.log(`정답의개수만큼반복중임:tmpjungdabspeak[k]`,tmpjungdabspeak[k],'tmpmyspeak[tmpmyspeak_index]',tmpmyspeak[tmpmyspeak_index]);
+                        if(tmpjungdabspeak[k] == tmpmyspeak[tmpmyspeak_index])
+                        {
+                            if(tmpmyspeak_index < tmpmyspeak.length) 
+                            {
+                                tmpmyspeak_index++;
+                            }
+                            else
+                            {
+                                console.log(`내 발화길이가 다름`);
+                                isjungdab=0;
+                                break;
+                            }
+                        }//정답으로 빠질수 있는경우
+                        else
+                        {
+                            //
+                            // #db#인경우 여기서 연산해야함  C_table_name_Array[x] 와 일치하면
+                            //C_table_value_Array[x][0~length-1] 까지 조사해야함
+                            //tmpmyspeak_index가 유연하게 늘었다 줄었다 해야함;
+                            if(tmpjungdabspeak[k][0]=='#')
+                            {
+                                console.log(`여기서 해당DB의 단어들과 tmpmyspeak를 비교해야함`,tmpjungdabspeak[k].substring(1,tmpjungdabspeak[k].length-1));//sentence
+                                for(var p = 0 ; p<C_table_name_array.length ; p++)
+                                {
+                                    var tmpjungdab;
+                                    if(C_table_name_array[p]==tmpjungdabspeak[k].substring(1,tmpjungdabspeak[k].length-1)) //sentence 나옴
+                                    {
+                                        tmpjungdab=1;
+
+                                        for(var u = 0 ; u<C_table_value_array[p].length ; u++)
+                                        {
+                                            console.log(`C_table_value_array[p][u]:`,C_table_value_array[p][u]);
+                                            var tmpctva;
+                                            tmpctva= C_table_value_array[p][u].split(` `);
+                                            
+                                            tmpjungdab=1;
+                                            var tmpindex=0;
+                                            var y;
+                                            if(tmpmyspeak[tmpmyspeak_index+tmpindex] )
+                                            {
+                                                console.log(`내가 한말에 대해 특히:`,tmpmyspeak[tmpmyspeak_index+tmpindex],`부분을 조사`);//
+                                                for( y = 0 ; y<tmpctva.length ;y++)
+                                                {
+                                                    console.log(`tmpctva[`,y,`]조사:`,tmpctva[y]);
+                                                    console.log(`tmpmyspeak[tmpmyspeak_index+tmpindex]랑비교:`,tmpmyspeak[tmpmyspeak_index+tmpindex]);
+                                                    if( tmpctva[y] == tmpmyspeak[tmpmyspeak_index+tmpindex]  ) //여긴 table : i love  이런게 들어있음  
+                                                    {
+                                                        tmpindex++;
+                                                    }
+                                                    else
+                                                    {
+                                                    tmpjungdab=0; 
+                                                        break;//break는 (갉)으로감
+                                                    }
+                                                    
+                                                }// (갉) tmpjungdab이 0일때 나온 for문
+                                                if(tmpjungdab==1)
+                                                {
+                                                    tmpmyspeak_index = tmpmyspeak_index+tmpindex;
+                                                    break;
+                                                }
+                                            
+                                            }
+                                            else
+                                            {
+                                                console.log(`tmpmyspeak[tmpmyspeak_index+tmpindex]랑비교:`,tmpmyspeak[tmpmyspeak_index+tmpindex]);
+                                                tmpjungdab=0;
+                                                isjungdab=0;
+                                                console.log(`undefine 이라 조사못함`);
+                                                break;
+                                            }
+                                            //if(C_table_value_array[p][u]) 해당값을 쪼개야함 
+                                        }
+                                        
+                                        if(tmpjungdab==1)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            isjungdab=0;
+                                            console.log(`@@@오답일경우 나가자?`);
+                                            break;//오답일경우 나가자? (뒑)
+                                        }
+                                        
+                                    }
+                                    
+                                }//(뒑)
+                                if(isjungdab==0)
+                                {
+                                    console.log(`@@@뒑에서 이어지는경우 break해봄`);
+                                    break;
+                                }
+                                console.log(`@@@ tmpmyspeak.length:`,tmpmyspeak.length,`//tmpmyspeak_index:`,tmpmyspeak_index);
+                                if(tmpmyspeak.length <tmpmyspeak_index)
+                                {
+                                    console.log(`길이문제로 오답입네당`);
+                                    isjungdab=0;
+                                    break;
+                                }
+                                /////////////////하;; 미친다
+                                
+                                //다시저장하고 이거 직어봐야할것                             
+                            }
+                            else
+                            {
+                                isjungdab=0;
+                                break;
+                            }
+                        }
+                        
+                        
+                    }//정답문장의 개수만큼 반복
+                    console.log("#tmpspeak.length:",tmpmyspeak.length,`tmpspeak_index:`,tmpmyspeak_index);
+                    if(tmpmyspeak.length != tmpmyspeak_index)
+                    {
+                        console.log( `내 발화랑 길이가 다르므로 오답`);
+                        isjungdab=0; 
+                    }
+                    if(isjungdab==1)
+                    {
+                        //console.log(`tmpmyspeak.length`,tmpmyspeak.length);
+                        //console.log(`tmpmyspeak_index`,tmpmyspeak_index);
+                        choose_case_num = case_count+2;
+                        if(case_qn_move[case_count]!= -7777)
+                        {
+                            QN=case_qn_move[case_count];
+                        
+                        }
+                        else
+                        {
+                            //-7777
+                        }
+                        if(case_feedback[case_count])total_speech = case_feedback[case_count];
+                            total_speech=total_speech.concat(` `);
+                        //case_array[case_count]
+                        //정답이므로 더이상 case조사가 필요없음
+                        break;
+                    }
+                    
+                
+                }
+                if(isjungdab==1)
+                {
+                    //정답이므로 더이상 case조사가 필요없음
+                    break;
+                }
+                else if(isjungdab==-7777)
+                {
+                    break;
+                }
+                
+            }
+            
+            if(isjungdab==1)
+            {
+                //쿼리로드파시블 1로 바꿔주고 next qn으로 이동
+                console.log(`#########C타입정답`);
+                dynamo_db.attributes['QuerryLoad_Possible']=1;
+                
+            }
+            else if(isjungdab==-7777)
+            {
+                console.log(`########무한반복`);
+            
+            }
+            else
+            {
+                //오답 qn이로 이동
+                
+                console.log(`########C타입오답`);
+                if(dynamo_db.attributes['reask_chance']>0)
+                {
+                    //if(choose_case_num==-1000) choose_case_num = 0;
+                    dynamo_db.attributes['reask_chance']--;
+                    if(reask_left_feedback)total_speech= reask_left_feedback;
+                    else total_speech=``;
+                    total_speech= total_speech.concat(` `);
+                    
+                }
+                else
+                {
+                    choose_case_num=1;
+                    if(fail_feedback)total_speech=fail_feedback;
+                    else total_speech=``;
+                    total_speech= total_speech.concat(` `);
+                    dynamo_db.attributes['QuerryLoad_Possible']=1;
+            
+                    QN=reask_qn_move;
+                }
+            }
+            
+            return 1;
+        }
+        else if(type=='G' ||type=='D' || type=='R') // choose_case_num확인필요
+        {
+            console.log('G,D,R 정답체크');
+            //console.log(`값확인:`,dynamo_db.attributes['QuerryLoad_Possible']);
+            
+        
+            var savedata=``;
+            var tablename;
+            var isjungdab=0;
+            var tmpmyspeak_index;
+            var tmpmyspeak = speak.split(` `);
+            if(Array.isArray(case_array))
+            {//배열일경우에만
+                for(var i = 0 ; i<case_array.length; i++)
+                {
+                    isjungdab=0;
+                    // tmpmyspeak_index=0;
+                    for(var j = 0 ; j<case_array[i].length ; j++)
+                    {
+                        tmpmyspeak_index=0;
+                        console.log(`검사:`,case_array[i][j]);
+                        var tmpjungdab = case_array[i][j].split(` `);
+                        for(var k = 0 ; k<tmpjungdab.length ; k++)
+                        {
+                            
+                            if(tmpjungdab[k][0]=='#')
+                            {
+                                tablename =tmpjungdab[k];
+                                //tmpmyspeak 뒤를 다 이어붙여서 정답임
+                                while(1)
+                                {
+                                    if(tmpmyspeak.length >tmpmyspeak_index+1)
+                                    {
+
+                                        savedata = savedata.concat(tmpmyspeak[tmpmyspeak_index]+` `);
+                                        tmpmyspeak_index++;
+                                    }
+                                    else if(tmpmyspeak.length >tmpmyspeak_index)
+                                    {
+                                        savedata = savedata.concat(tmpmyspeak[tmpmyspeak_index]);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                console.log(`savedata:`,savedata);
+                                if(case_qn_move[i]!=-7777)
+                                {
+                                    isjungdab=1;
+                                    
+                                    
+                                    
+                            
+                                    QN =case_qn_move[i];
+                                
+                                dynamo_db.attributes['QuerryLoad_Possible']=1;
+                                    //QuerryLoad_Possible=1;
+                                }
+                                else
+                                {
+                                    isjungdab=-7777;
+                                }
+                                    total_speech = case_feedback[i];
+                                    total_speech= total_speech.concat(` `);
+                                    choose_case_num=i+2;
+                                    
+                                break;
+                            }
+                            else//
+                            {
+                                if( k+1 ==tmpjungdab.length && tmpjungdab[k]==tmpmyspeak[tmpmyspeak_index] && speak.length ==case_array[i][j].length)
+                                {//tmpjungdab은 정답case를 단어별로 쪼갠거에요   tmpmyspeak는 내가 말한걸가따가 쪼갠거고
+                                    console.log(`k:`,k,`tmpmyspeak_index:`,tmpmyspeak_index);
+                                    console.log(`tmpjungdab[k]:`,tmpjungdab[k],`tmpmyspeak[tmpmyspeak_index]:`,tmpmyspeak[tmpmyspeak_index]);
+                                    console.log(`문자열비교:`,speak.length,case_array[i][j].length);
+                                    isjungdab=2;
+                                    //choose_case_num=i;
+                                    if(case_qn_move[i]!=-7777)
+                                    {
+                                    
+                                        QN =case_qn_move[i];
+                                        dynamo_db.attributes['QuerryLoad_Possible']=1;
+                                    }
+                                    else
+                                    {
+                                        isjungdab=-7777;
+                                    }
+                                    total_speech = case_feedback[i];
+                                        total_speech= total_speech.concat(` `);
+                                        choose_case_num=i+2;
+                                    break;
+                                }
+                                else if(tmpjungdab[k]==tmpmyspeak[tmpmyspeak_index])
+                                {
+                                    tmpmyspeak_index++;
+                                    //일단 통과상태 다음단어 검사
+                                }
+                                
+                                else
+                                {
+                                    console.log(`k:`,k,`tmpmyspeak_index:`,tmpmyspeak_index);
+                                    console.log(`tmpjungdab[k]:`,tmpjungdab[k],`tmpmyspeak[tmpmyspeak_index]:`,tmpmyspeak[tmpmyspeak_index]);
+                                    console.log(`문자열비교:`,speak.length,case_array[i][j].length);
+                                    console.log(case_array[i][j],`는 정답case가 아님`);
+                                    break;
+                                }
+                                
+                            }
+                        }
+                        if(isjungdab==1 || isjungdab==2 || isjungdab==-7777)
+                        {
+                            break;
+                        }
+                        
+                    }
+                    if(isjungdab==1 || isjungdab==2 || isjungdab==-7777)
+                    {
+                        if(type=='D') D_isgetpoint=1;
+                        break;
+                    }
+                    
+                    
+                }
+            }
+            if(isjungdab==1) //저장하는경우
+            {
+                //무조건 정답
+                tablename = tablename.substring(1,tablename.length-1);
+            
+                set_specialdb(dynamo_db.attributes['oauth_user_id'],tablename,savedata);
+                
+            
+            }
+            else if(isjungdab==-7777)
+            {
+                return 3;
+            }
+            else if(isjungdab==2)
+            {
+                //맞은경우 R타입
+                if(type=='R'){
+                    console.log('맞은경우 R타입');
+                    if(dynamo_db.attributes['Rtype_doit_que_index']>1) //큐가 남았음
+                    {
+                        dynamo_db.attributes['QuerryLoad_Possible']=1;
+                        dynamo_db.attributes['isok_bringnextR_que']=1;
+                        console.log('큐가 남았음 (정답)이고 다음큐로 이동');
+                        dynamo_db.attributes['Rtype_doit_que_index']--;
+                        dynamo_db.attributes['R_number']++;
+                        QN=before_QN;
+                        dynamo_db.attributes['QN']=before_QN;
+                    }
+                    else{
+                        //이건 R타입끝나고 갈곳으로 이동!
+                        dynamo_db.attributes['QuerryLoad_Possible']=1;
+                        console.log('큐가 없음 (정답)이고 다음문제로 이동');
+                        dynamo_db.attributes['isok_bringnextR_que']=1;
+                        dynamo_db.attributes['isR_ing']=0;
+                        QN=dynamo_db.attributes['Rtype_doit_after_qnmove'];
+                        dynamo_db.attributes['QN']=dynamo_db.attributes['Rtype_doit_after_qnmove'];
+                        console.log('R타입 끝나고 갈곳으로 이동');
+        
+                    }
+                }
+                return 2;
+            }
+            else //이동하는경우
+            {
+                console.log('틀린경우~~~');
+                
+                if(dynamo_db.attributes['reask_chance']>0)
+                {
+                // if(choose_case_num==-1000) choose_case_num=0;
+                    dynamo_db.attributes['reask_chance']--;
+                    if(reask_left_feedback)total_speech= reask_left_feedback;
+                    else total_speech = ``;
+                    total_speech= total_speech.concat(` `);
+                    console.log('깍김:',dynamo_db.attributes['reask_chance']);
+            
+                    if(type=='R'){
+                    console.log('틀림 : (반복) 해당큐의 찬스가 남았음 R타입');   
+                    dynamo_db.attributes['isok_bringnextR_que']=0;
+                    dynamo_db.attributes['QuerryLoad_Possible']=1;
+                    QN=before_QN;
+                    //틀렸어도 찬스가 있어도 QP가 1이여야함 R타입만 그럼..
+                    //dynamo_db.attributes['QN']=before_QN;
+                    }//@#$
+                }
+                else
+                {
+                    
+                    choose_case_num=1;
+                    if(fail_feedback)total_speech=fail_feedback;
+                    else total_speech=``;
+                    total_speech= total_speech.concat(` `);
+                    dynamo_db.attributes['QuerryLoad_Possible']=1;
+                    QN=reask_qn_move;
+                    
+                    if(type=='R'){
+                    console.log('틀림 : (이동) 해당큐의 찬스가없는 R타입');   
+                    //다음큐가 있으면 이동해야함
+                        if(dynamo_db.attributes['Rtype_doit_que_index']>1) //큐가 남았음
+                            {
+                                dynamo_db.attributes['isok_bringnextR_que']=1;
+                                console.log('큐가 남았음 (오답)이고 찬스가 없어서 다음큐로 이동');
+                                dynamo_db.attributes['Rtype_doit_que_index']--;
+                                dynamo_db.attributes['R_number']++;
+                                dynamo_db.attributes['QN']=before_QN;
+                                QN=before_QN;
+                            }
+                            else{
+                                //이건 R타입끝나고 갈곳으로 이동!
+                                console.log('큐가 없음 (오답)이고 찬스도없고 큐도 없어서 다음문제로 이동');
+                                dynamo_db.attributes['isok_bringnextR_que']=1;
+                                QN=dynamo_db.attributes['Rtype_doit_after_qnmove'];
+                                dynamo_db.attributes['QN']=dynamo_db.attributes['Rtype_doit_after_qnmove'];
+                                dynamo_db.attributes['isR_ing']=0;
+                                console.log('R타입 끝나고 갈곳으로 이동');
+                
+                            }
+    //                            //before_QN=dynamo_db.attributes['Rtype_doit_after_qnmove'];
+                    }
+                }
+                return 3;
+            }
+
+        }//G 타입의 경우
+        else
+        {
+            return -1;
+        }
+    }).then(function(results){ 
+        
+        if(results==-1)
+        {
+            return -1;//this.emit(':tell',`Error! can not load type!`);
+        }
+        else
+        {
+            if(dynamo_db.attributes['QuerryLoad_Possible']==1) //이동하는경우에만!
+            {
+                
+                dynamo_db.attributes['read_number']=0;
+                if(dynamo_db.attributes['is_set']=='N')
+                {
+                    console.log(`set가 원래부터 아닙니다`);
+                    dynamo_db.attributes['QN']=QN;
+                    dynamo_db.attributes['total_speech']=total_speech;
+                
+                }//세트가 아닌경우
+                else//이동하는데 셋트야 Answer부분
+                {
+                    console.log(`D타입 얻을수 있었던  점수:`,D_q_per_point);
+                    console.log(`얻기전 점수:`,dynamo_db.attributes['D_student_grade']);
+                    if(D_isgetpoint==1)
+                    {
+                        dynamo_db.attributes['D_student_grade'] = dynamo_db.attributes['D_student_grade']+D_q_per_point;
+                        if(dynamo_db.attributes['D_student_grade']==1)
+                        total_speech = total_speech.concat(`you have 1 point total. `);
+                        else
+                        total_speech = total_speech.concat(`you have `+dynamo_db.attributes['D_student_grade']+`points total. `);
+                        
+                    }
+                    console.log(`얻고난 후 점수:`,dynamo_db.attributes['D_student_grade']);
+                    
+                    console.log(`Answer에서 셋트인경우에 들어옴`);
+                    
+                        var db_decided_order_set=dynamo_db.attributes['db_decided_order_set'];
+                        if(db_decided_order_set[0] ==' ' && db_decided_order_set.length ==1)
+                        {
+                            if(type=='D')
+                            {
+                                if(dynamo_db.attributes['D_student_grade']>=dynamo_db.attributes['D_pass_grade'])
+                                {
+                                    total_speech=total_speech.concat(` `+dynamo_db.attributes['D_final_ok_pass']+` `);
+                                    //마지막문제를 맞춰서 간신히 통과하는경우고
+                                }
+                                else if(dynamo_db.attributes['D_student_grade']<dynamo_db.attributes['D_pass_grade'])
+                                {
+                                    if(D_isgetpoint==1) 
+                                    {
+                                        total_speech=total_speech.concat(` `+dynamo_db.attributes['D_final_ok_fail']+` `);
+                                    }
+                                    else
+                                    {
+                                        total_speech = dynamo_db.attributes['D_final_no_fail'];
+                                    }
+                                    
+                                }
+                            }
+                            console.log(`다음셋트가 없음 set 빠져나오기`);
+                            dynamo_db.attributes['db_decided_order_set']=` `;
+                            dynamo_db.attributes['is_set'] = 'N';
+                            dynamo_db.attributes['set_start'] = 0;
+                            dynamo_db.attributes['QN']=QN;
+                            dynamo_db.attributes['total_speech']=total_speech;
+                
+                        
+                        
+                        
+                        
+                        }
+                        else
+                        {
+                            var setqn = db_decided_order_set.split(`/`);
+                            console.log(`setqn 값 봅니다.:`,setqn);
+                            var tQN= parseInt(setqn[0],10); 
+                            console.log(`이동할 tQN:`,tQN);
+                            var new_db_decided_order_set=` `;
+                            //
+                            if(setqn.length>0) //아직도 남은경우
+                            {
+                                for(var i =1 ; i<setqn.length ; i++)
+                                {
+                                    if(i+1!=setqn.length)new_db_decided_order_set = new_db_decided_order_set.concat(setqn[i]+`/`);
+                                    else new_db_decided_order_set = new_db_decided_order_set.concat(setqn[i]);
+                                }
+                                dynamo_db.attributes['db_decided_order_set'] = new_db_decided_order_set;
+                                
+                                dynamo_db.attributes['QN']=tQN;
+                                dynamo_db.attributes['total_speech']=total_speech;
+                                
+                            }
+                            else //그냥 끝임
+                            {
+                                console.log(`그냥끝임`);
+                            
+                            }
+                            
+                            if(type=='D')
+                            {
+                                console.log(`중간에 빠져나갈수있다! D타입 셋트!`);
+                                if(dynamo_db.attributes['D_student_grade']>=dynamo_db.attributes['D_pass_grade'])
+                                {
+                                    total_speech=total_speech.concat(` `+dynamo_db.attributes['D_final_ok_pass']+` `);
+                                    QN = case_qn_move[0];
+                                    dynamo_db.attributes['QN']=QN;
+                                    dynamo_db.attributes['total_speech']=total_speech;
+                                }
+                            }
+                            
+                        }
+                }////세트인경우
+                
+                
+                
+            }//이동하는경우
+            else//이동안함
+            {
+
+
+                dynamo_db.attributes['total_speech']=total_speech;
+        
+            }//이동 안하는경우
+            //this.emit(':tell',`succeed`);
+            
+            
+            //console.log(`여기타입:`,type);
+            // R타입 해봅시다
+            if(type=='R' )
+            {
+            // console.log(`C타입 G타입의 경우 지금 answer 프로시저 수정중입니다!#####################################`);
+                // insert into EDUAI.final_skill_say_log values(default,bring_oauth_user_id,bring_location,bring_type,bring_qn,"ALEXA",a_say,now(),-1);
+                // insert into EDUAI.final_skill_say_log values(default,bring_oauth_user_id,bring_location,bring_type,bring_qn,"STUDENT",s_say,now(),case_num);
+                sql = `insert into EDUAI.final_skill_say_log values(default,"`+dynamo_db.attributes['oauth_user_id']+`","`+dynamo_db.attributes['location']+`","`+type+`","`
+                +before_QN+`","ALEXA","`+Rtype_quel+log_total_speech+`",now(),"-1");`;
+                console.log(`R의 sql:`,sql);
+                
+                sql=sql+`insert into EDUAI.final_skill_say_log values(default,"`+dynamo_db.attributes['oauth_user_id']+`","`+dynamo_db.attributes['location']+`","`+type+`","`
+                +before_QN+`","STUDENT","`+speak+`",now(),"`+choose_case_num+`");`;
+                
+                //dynamo_db.attributes['QN']=before_QN; /////@@@@@@@@@빨리 되게해바
+                
+                return connection.query(sql);//question 호출
+                
+            }
+            else if(type=='C'|| type=='G' )
+            {
+            // console.log(`C타입 G타입의 경우 지금 answer 프로시저 수정중입니다!#####################################`);
+            
+                sql=`call final_skill_answer("`+dynamo_db.attributes['oauth_user_id']+`","`+location+`","`+type+`","`+before_QN+`","`+speak+`","`+log_total_speech+`","`
+                +choose_case_num+`","`+dynamo_db.attributes['analysis_flag']+`");`;
+                return connection.query(sql);//question 호출
+                
+            }
+            else
+            {
+                sql=`call final_skill_answer("`+dynamo_db.attributes['oauth_user_id']+`","`+location+`","`+type+`","`+before_QN+`","`+speak+`","`+log_total_speech+`","`
+                +(-7777)+`","`+dynamo_db.attributes['analysis_flag']+`");`;
+                
+                
+                return connection.query(sql);//question 호출
+                
+            }
+        }
+        
+    }).then(function(results){ 
+        connection.end();
+        if(results==-1)
+        {
+            //this.emit(':tell',`Error! can not load type!`);
+            conv.close(`Error! can not load type!`);
+        }
+        else
+        {
+            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+            return new Promise(function(resolve1){
+
+                question(parameters,conv,resolve1)
+                .then(function(results_resolve2){
+                    console.log(`resolve2:`,results_resolve2);
+                    
+                });
+           
+            }).then(function(results_resolve1){
+                console.log(`resolve1:`,results_resolve1);
+                //console.log(parameters);
+            });
+            //this.emit('Question');
+        }
+        
+        
+    }.bind(this));
+
+
 
   
 });
@@ -1487,7 +2787,7 @@ function set_total_speech(speech2,originspeed,parameters){
     return new Promise(function(resolve){
         
     
-        console.log(`@@@ set_alexa_speech@@`);
+        console.log(`@@@ set_total_speech@@`);
         var state=0;
         var speech_when_state1;
         var set_new_speech=``;
