@@ -1199,17 +1199,16 @@ ap.intent('Default Welcome Intent', conv => {
 
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
-    console.log('conv:',conv);
+   // console.log('conv:',conv);
 
     
     const parameters = conv.contexts.input.mysession.parameters;
     
-    parameters.total_speech = `you said that ${input.any} `;
+    //parameters.total_speech = `you said that ${input.any} `;
 
     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     
-    console.log(parameters);
-
+    console.log(`Answer에서의 상황`,parameters);
 
 
     console.log('############################');
@@ -2508,6 +2507,7 @@ ap.intent('Answer', (conv, input) => {
         }
         else
         {
+            parameters = dynamo_db.attributes;
             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
             return new Promise(function(resolve1){
 
