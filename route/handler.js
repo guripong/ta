@@ -2368,7 +2368,7 @@ ap.intent('SignIn POLY', (conv, params, signin) => {
                     'QN': 'not yet qn',
                     'total_speech': total_speech,
                     'oauth_user_id': 'not yet oauth user id',
-                    'Speed_S': ` <prosody rate="x-fast"> <desc>Sound Error</desc>  `,
+                    'Speed_S': ` <prosody rate="x-fast"> <desc>[KPS]</desc>  `,
                     'QuerryLoad_Possible': 1,
                     'set_start': 0,
                     'is_set': 'N',
