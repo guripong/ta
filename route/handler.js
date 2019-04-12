@@ -1140,28 +1140,24 @@ ap.intent('Answer', (conv, input) => {
     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
 
     console.log(`Answer에서의 상황`, parameters);
-
-
     console.log('############################');
-    /*
-        return new Promise(function(resolve1){
-    
-            question(parameters,conv,resolve1)
-            .then(function(results_resolve2){
-                console.log(`resolve2:`,results_resolve2);
-                
-            });
-       
-        }).then(function(results_resolve1){
-            console.log(`resolve1:`,results_resolve1);
-            //console.log(parameters);
-        });
-        */
-
-    //###################################################################
-    console.log(`@@@Answer@@@ `);
     var speak = input.any;
+    parameters.total_speech = `you said that ${speak}`;
+    
+    return new Promise(function (resolve1) {
 
+        question(parameters,conv)
+        .then(function (results_question) {
+                console.log(`Answer의 question호출:`, results_question);
+                resolve1('haha2');
+        });
+
+    }).then(function (results_haha2) {
+        console.log(`Answer의 results_haha2:`, results_haha2);
+        //console.log(parameters);
+    });
+
+    /*
     speak = speak.replace("#", "number ");
     speak = speak.replace("-", " ");
     speak = speak.toLowerCase();
@@ -1281,14 +1277,7 @@ ap.intent('Answer', (conv, input) => {
             split_feedback = case_feedback[i - 2].split(`/`);
             if (split_feedback) case_feedback_dbname[i] = get_feedback_dbname(split_feedback);
         }
-        /*
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%:`,case_feedback_dbname);
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[0]);
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[1]);
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[2]);
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[0].length);
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[1].length);
-        console.log(`@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:`,case_feedback_dbname[2].length);*/
+
         //여기서 db명만 쫙 뺴와야함
         ////////////////이부분코드정리좀하자
         var dbkind = new Array();
@@ -2310,7 +2299,8 @@ ap.intent('Answer', (conv, input) => {
         }
 
 
-    }.bind(conv));
+    });
+    */
 
 
 
