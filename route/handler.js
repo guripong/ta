@@ -24,7 +24,7 @@ clientId: `power_wizard`,
 router.post('/', ap);
 //####################################################################################################
 const Speed_E = ` </prosody> `;
-const Speed_S = ` <prosody rate='medium'> `;
+
 
 function question(parameters){
     return new Promise(function(resolve1){
@@ -140,9 +140,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
             }).then(function(body){
                 console.log('do another job:',body.user_id);
               
-                var oauth_user_id;
-                var QN;
-                var location;
+              
                 var sql;
                 var connection;
                 var total_speech='Welcome to Power Wizard. ';
@@ -152,6 +150,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     'QN':QN,
                     'total_speech':total_speech,
                     'oauth_user_id':oauth_user_id,
+                    'Speed_S':` <prosody rate='medium'> `;
                 };
                 return new Promise(function(resolve2,reject2){
                  
@@ -180,8 +179,8 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     resolve2 = resolve2[0];
                     //console.log(`results.qn:`,results.qn);
                     
-                    QN=parseInt(resolve2.qn,10);
-                    location = resolve2.location;
+                    parameters.QN=parseInt(resolve2.qn,10);
+                    parameters.location = resolve2.location;
                     console.log('location:',location);
                     console.log('QN:',QN);
                     //console.log('ap.getContext():',ap.getContext());
@@ -232,7 +231,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                             console.log('reokay success');
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                            conv.ask(parameters.total_speech);
+                            conv.ask(parameters.Speed_S+parameters.total_speech+Speed_E);
                         }
                         else{
                             console.log('reokay fail');
