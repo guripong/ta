@@ -163,8 +163,9 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     'total_speech':total_speech,
                     'oauth_user_id':'not yet oauth user id',
                     'Speed_S': ` <prosody rate="x-fast">  `,
-                    'QuerryLoad_Possible':
+                    'QuerryLoad_Possible':1,
                 };
+                
                 return new Promise(function(resolve2,reject2){
                  
                     //성공했으면 DB에 기록합니다
