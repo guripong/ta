@@ -917,8 +917,8 @@ function question(parameters,conv,resolve1){
                     console.log(`Error! can not load Direction`);
                     resolve1('ok resolve1');
                     resolve2('ok resolve2');
-                    parameters.total_speech=total_speech;
-                    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                    //parameters.total_speech=total_speech;
+                    //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.close('<speak>'+`Error! can not load Direction`+'</speak>');
                     //this.emit(':tell',`Error! can not load Direction`);
                 }
@@ -978,8 +978,8 @@ function question(parameters,conv,resolve1){
                             console.log(`*************************************************************************`);
                             resolve1('ok resolve1');
                             resolve2('ok resolve2');
-                            parameters.total_speech=total_speech;
-                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                            //parameters.total_speech=total_speech;
+                            //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             conv.close('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                             //realthis.emit(':tell', `${Speed_S}${total_speech}${Speed_E}`);  
                         });
@@ -1029,8 +1029,8 @@ function question(parameters,conv,resolve1){
                 {
                     resolve1('ok resolve1');
                     resolve2('ok resolve2');
-                    parameters.total_speech=total_speech;
-                    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                    //parameters.total_speech=total_speech;
+                    //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.close('<speak>'+parameters.Speed_S+`error can not load is_set at parameters!`+Speed_E+'</speak>');
                    // this.emit(':tell',`error can not load is_set at parameters!`);
                 }
@@ -1168,8 +1168,8 @@ function question(parameters,conv,resolve1){
                 //this.emit(':tell',`QuerryLoad_Possible=0 -> elsetype not yet`);
                 resolve1('ok resolve1');
                 resolve2('ok resolve2');
-                parameters.total_speech=total_speech;
-                conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                //parameters.total_speech=total_speech;
+                //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                 conv.close('<speak>'+parameters.Speed_S+`QuerryLoad_Possible=0 -> elsetype not yet`+Speed_E+'</speak>');
             }
         }//QuerryLoad_possible=0 경우
@@ -2509,7 +2509,8 @@ ap.intent('Answer', (conv, input) => {
         else
         {
             parameters = dynamo_db.attributes;
-            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+            //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+            
             return new Promise(function(resolve1){
 
                 question(parameters,conv,resolve1)
@@ -2699,7 +2700,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
 ap.intent('Stop',conv=>{
     console.log('conv:',conv);
-    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+    //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     conv.close('good bye bye bye!');
 });
    
