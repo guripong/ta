@@ -1027,7 +1027,7 @@ function question(parameters,conv,resolve1){
                            console.log('2222222');
                 
 
-                        });
+                        }.bind(conv));
            
                            
                    
