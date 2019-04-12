@@ -1204,7 +1204,7 @@ ap.intent('Answer', (conv, input) => {
     
     const parameters = conv.contexts.input.mysession.parameters;
     
-    parameters.total_speech = 'you said that ${input.any} ';
+    parameters.total_speech = `you said that ${input.any} `;
 
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     console.log('############################');
