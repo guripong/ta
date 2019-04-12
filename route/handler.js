@@ -1022,6 +1022,7 @@ function question(parameters,conv,resolve1){
                            console.log('11111');
                            parameters.total_speech=total_speech;
                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                           console.log(`찍어보자:`,parameters.Speed_S+parameters.total_speech+Speed_E);
                            conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                            console.log('2222222');
 
