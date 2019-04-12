@@ -1019,9 +1019,13 @@ function question(parameters,conv,resolve1){
                            // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                            resolve1('ok resolve1');
                            resolve2('ok resolve2');
+                           console.log('11111');
                            parameters.total_speech=total_speech;
                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                          conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
+                           conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
+                           console.log('2222222');
+
+
                         });
            
                            
