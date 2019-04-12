@@ -150,7 +150,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     'QN':'not yet qn',
                     'total_speech':total_speech,
                     'oauth_user_id':'not yet oauth user id',
-                    'Speed_S': ` <prosody rate='medium'>  `,
+                    'Speed_S': ` <prosody rate='slow'>  `,
                 };
                 return new Promise(function(resolve2,reject2){
                  
