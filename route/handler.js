@@ -941,8 +941,11 @@ function question(parameters, conv) {
                             console.log(`***alexa say:`, total_speech, `***`);
                             console.log(`*************************************************************************`);
                             resolve_question('question done');
+
                             parameters.total_speech = total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+                            console.log(parameters);
+                            
                             conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                         });
 
@@ -2359,7 +2362,7 @@ ap.intent('SignIn POLY', (conv, params, signin) => {
                 var connection;
                 var total_speech = 'Welcome to Power Wizard. ';
 
-                const parameters = { // Custom parameters to pass with context
+                var parameters = { // Custom parameters to pass with context
                     'location': 'not yet location',
                     'QN': 'not yet qn',
                     'total_speech': total_speech,
