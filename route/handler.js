@@ -2513,19 +2513,19 @@ ap.intent('Answer', (conv, input) => {
 
                 question(parameters,conv,resolve1)
                 .then(function(results_resolve2){
-                    console.log(`resolve2:`,results_resolve2);
+                    console.log(`Answer의 resolve2:`,results_resolve2);
                     
                 });
            
             }).then(function(results_resolve1){
-                console.log(`resolve1:`,results_resolve1);
+                console.log(`Answer의 resolve1:`,results_resolve1);
                 //console.log(parameters);
             });
             //this.emit('Question');
         }
         
         
-    }.bind(this));
+    });
 
 
 
