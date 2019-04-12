@@ -181,6 +181,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     
                     parameters.QN=parseInt(resolve2.qn,10);
                     parameters.location = resolve2.location;
+
                     console.log('location:',location);
                     console.log('QN:',QN);
                     //console.log('ap.getContext():',ap.getContext());
@@ -190,6 +191,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
 
+                    var location = parameters.location;
 
                     if(location.substr(0,2)=='sw')
                     {
@@ -214,6 +216,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                                    +u_n+`. Period `+p_n+`. Let's continue that lesson. `;
                               }
                     }
+                    
                     parameters.total_speech = total_speech;
 
                     return new Promise(function(resolve1){
