@@ -26,8 +26,8 @@ router.post('/', ap);
 const Speed_E = ` </prosody> `;
 
 
-function question(parameters,conv){
-    return new Promise(function(resolve1){
+function question(parameters,conv,resolve1){
+    return new Promise(function(resolve2){
         console.log('question function call');
         //console.log('parameters:',parameters);
         parameters.total_speech+=' question call success! ';
@@ -49,8 +49,8 @@ function question(parameters,conv){
                
         console.log('ask 먹히나');
         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
-
-
+        resolve1('ok resolve1');
+        resolve2('ok resolve2');
     });
 }
 
@@ -234,8 +234,11 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                     return new Promise(function(resolve1){
 
-                        question(parameters,conv);
-                        resolve1('ok call question');
+                        question(parameters,conv,resolve1)
+                        .then(function(results_resolve2){
+                            console.log(`resolve2:`,results_resolve2);
+                        });
+                   
                     }).then(function(results){
                         console.log(`resolve1:`,results);
                     });
