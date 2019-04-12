@@ -26,8 +26,8 @@ router.post('/', ap);
 const Speed_E = ` </prosody> `;
 
 
-function question(parameters,conv,resolve1){
-    return new Promise(function(resolve2){
+function question(parameters,conv){
+    return new Promise(function(resolve_question){
         console.log('question function call');
         //console.log('parameters:',parameters);
         //parameters.total_speech+=' question call success! ';
@@ -917,8 +917,7 @@ function question(parameters,conv,resolve1){
                 if(results==-1)
                 {
                     console.log(`Error! can not load Direction`);
-                    resolve1('ok resolve1');
-                    resolve2('ok resolve2');
+                    resolve_question('question done');
                     //parameters.total_speech=total_speech;
                     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.close('<speak>'+`Error! can not load Direction`+'</speak>');
@@ -942,8 +941,7 @@ function question(parameters,conv,resolve1){
                                     console.log(`*************************************************************************`);
 
                                     //   conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
-                                    resolve1('ok resolve1');
-                                    resolve2('ok resolve2');
+                                    resolve_question('question done');
                                     parameters.total_speech=total_speech;
                                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                                     conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -958,8 +956,7 @@ function question(parameters,conv,resolve1){
                             parameters.isR_ing=0;
                             //R타입 조건 충족 못하는경우...
                             //#@!
-                            resolve1('ok resolve1');
-                            resolve2('ok resolve2');
+                            resolve_question('question done');
                             question(parameters,conv,resolve1)
                             .then(function(results_resolve3){
                                 console.log(results_resolve3);
@@ -978,8 +975,7 @@ function question(parameters,conv,resolve1){
                             console.log(`*************************************************************************`);
                             console.log(`***alexa say:`,total_speech,`***`);
                             console.log(`*************************************************************************`);
-                            resolve1('ok resolve1');
-                            resolve2('ok resolve2');
+                            resolve_question('question done');
                             //parameters.total_speech=total_speech;
                             //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             conv.close('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -999,8 +995,7 @@ function question(parameters,conv,resolve1){
                             console.log(`**********************GCEMS**************************************`);
                             console.log(`***alexa say:`,total_speech,`***`);
                             console.log(`*************************************************************************`);
-                            resolve1('ok resolve1');
-                            resolve2('ok resolve2');
+                            resolve_question('question done');
                             parameters.total_speech=total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -1017,8 +1012,7 @@ function question(parameters,conv,resolve1){
                             console.log(`***alexa say:`,total_speech,`***`);
                             console.log(`*************************************************************************`);
                            // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
-                           resolve1('ok resolve1');
-                           resolve2('ok resolve2');
+                           resolve_question('question done');
                            console.log('11111');
                            parameters.total_speech=total_speech;
                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
@@ -1034,8 +1028,7 @@ function question(parameters,conv,resolve1){
                 }
                 else
                 {
-                    resolve1('ok resolve1');
-                    resolve2('ok resolve2');
+                    resolve_question('question done');
                     //parameters.total_speech=total_speech;
                     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.close('<speak>'+parameters.Speed_S+`error can not load is_set at parameters!`+Speed_E+'</speak>');
@@ -1067,8 +1060,7 @@ function question(parameters,conv,resolve1){
                     console.log(`*************************************************************************`);
                     
                    // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
-                   resolve1('ok resolve1');
-                   resolve2('ok resolve2');
+                   resolve_question('question done');
                    parameters.total_speech=total_speech;
                    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                    conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -1087,8 +1079,7 @@ function question(parameters,conv,resolve1){
                      console.log(`*************************************************************************`);
                 console.log(`***alexa say:`,total_speech,`***`);
                 console.log(`*************************************************************************`);
-                resolve1('ok resolve1');
-                resolve2('ok resolve2');
+                resolve_question('question done');
                 parameters.total_speech=total_speech;
                 conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                 conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -1113,8 +1104,7 @@ function question(parameters,conv,resolve1){
                     console.log(`*************************************************************************`);
                     console.log(`***alexa say:`,total_speech,`***`);
                     console.log(`*************************************************************************`);
-                    resolve1('ok resolve1');
-                    resolve2('ok resolve2');
+                    resolve_question('question done');
                     parameters.total_speech=total_speech;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -1137,8 +1127,7 @@ function question(parameters,conv,resolve1){
                         console.log(`*************************************************************************`);
                         console.log(`***alexa say:`,total_speech,`***`);
                         console.log(`*************************************************************************`);
-                        resolve1('ok resolve1');
-                        resolve2('ok resolve2');
+                        resolve_question('question done');
                         parameters.total_speech=total_speech;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -1159,8 +1148,7 @@ function question(parameters,conv,resolve1){
                         console.log(`*************************************************************************`);
                         console.log(`***alexa say:`,total_speech,`***`);
                         console.log(`*************************************************************************`);
-                        resolve1('ok resolve1');
-                        resolve2('ok resolve2');
+                        resolve_question('question done');
                         parameters.total_speech=total_speech;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
@@ -1173,8 +1161,7 @@ function question(parameters,conv,resolve1){
             else
             {
                 //this.emit(':tell',`QuerryLoad_Possible=0 -> elsetype not yet`);
-                resolve1('ok resolve1');
-                resolve2('ok resolve2');
+                resolve_question('question done');
                 //parameters.total_speech=total_speech;
                 //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                 conv.close('<speak>'+parameters.Speed_S+`QuerryLoad_Possible=0 -> elsetype not yet`+Speed_E+'</speak>');
@@ -2671,16 +2658,17 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                     parameters.total_speech = total_speech;
 
-                    return new Promise(function(resolve3){
+                    return new Promise(function(resolve1){
 
-                        question(parameters,conv,resolve1)
-                        .then(function(results_resolve2){
-                            console.log(`resolve2:`,results_resolve2);
-                            resolve3('aaa');
+                        question(parameters,conv)
+                        .then(function(results_questionresolve){
+                            console.log(`results_questionresolve:`,results_questionresolve);
+                            resolve1('haha1');
+
                         });
                    
-                    }).then(function(results_resolve3){
-                        console.log(`resolve3:`,results_resolve3);
+                    }).then(function(results_haha1){
+                        console.log(`results_haha1:`,results_haha1);
                         //console.log(parameters);
                     });
 
