@@ -44,9 +44,10 @@ function question(parameters,conv){
 
 
         //console.log('parameters:',parameters);
-
+        console.log('set먹히나');
         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                
+        console.log('ask 먹히나');
         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
 
 
@@ -165,7 +166,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     'Speed_S': ` <prosody rate="x-fast">  `,
                     'QuerryLoad_Possible':1,
                 };
-                
+
                 return new Promise(function(resolve2,reject2){
                  
                     //성공했으면 DB에 기록합니다
@@ -234,7 +235,6 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     return new Promise(function(resolve1){
 
                         question(parameters,conv);
-
                     });
 
                       
