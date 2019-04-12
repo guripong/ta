@@ -26,11 +26,11 @@ router.post('/', ap);
 const Speed_E = ` </prosody> `;
 const Speed_S = ` <prosody rate='medium'> `;
 
-function question(total_speech){
+function question(parameters){
     return new Promise(function(resolve1){
         console.log('question function call');
-        total_speech +=' question call success! ';
-
+        parameters.total_speech+=' question call success! ';
+  
         resolve1('okay');
 
 
@@ -215,7 +215,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     }
                     return new Promise(function(resolve1){
 
-                        question(total_speech).then(function(results){
+                        question(parameters).then(function(results){
                             if(results=='okay'){
                                 console.log('question 함수에서 잘 가져왔습니다');
 
