@@ -1207,6 +1207,11 @@ ap.intent('Answer', (conv, input) => {
     parameters.total_speech = `you said that ${input.any} `;
 
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+    
+    console.log(parameters);
+
+    
+
     console.log('############################');
 
     return new Promise(function(resolve1){
@@ -1222,15 +1227,9 @@ ap.intent('Answer', (conv, input) => {
         //console.log(parameters);
     });
 
+//###################################################################
 
-    /*
-    console.log('input:',input);
-   
-    console.log(`input.any:`, input.any);
-    */
-    //Carousel  예제
-
-    //conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
+  
 });
 
 // 여기서 시작하면 XXX
