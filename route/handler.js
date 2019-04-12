@@ -1202,7 +1202,7 @@ ap.intent('Answer', (conv, input) => {
    // console.log('conv:',conv);
 
     
-    const parameters = conv.contexts.input.mysession.parameters;
+    var parameters = conv.contexts.input.mysession.parameters;
     
     //parameters.total_speech = `you said that ${input.any} `;
 
