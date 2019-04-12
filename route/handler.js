@@ -52,6 +52,8 @@ function question(parameters,conv,resolve1){
 
         
       
+        resolve1('ok resolve1');
+        resolve2('ok resolve2');
 
         
         /////////////////////////////////복붙후 고칠것///////////////////////
@@ -1135,8 +1137,6 @@ function question(parameters,conv,resolve1){
             }
         }//QuerryLoad_possible=0 경우
      
-        resolve1('ok resolve1');
-        resolve2('ok resolve2');
     });
 }
 
