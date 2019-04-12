@@ -186,7 +186,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     console.log('QN:',parameters.QN);
                     //console.log('ap.getContext():',ap.getContext());
                     ////////////////////////////// dialogflow session 찾아볼것!!!
-                    console.log(conv);
+                    //console.log(conv);
 
 
                     var location = parameters.location;
@@ -203,7 +203,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                         {
                             p_n = p_n[1];
                         }
-                              if(QN<=1)
+                              if(parameters.QN<=1)
                               {
                                   //처음
                                   total_speech+=` Unit `+u_n+`. Period `+p_n+`. `;
