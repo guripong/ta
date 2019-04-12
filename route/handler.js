@@ -956,7 +956,8 @@ function question(parameters,conv,resolve1){
                             parameters.isR_ing=0;
                             //R타입 조건 충족 못하는경우...
                             //#@!
-                       
+                            resolve1('ok resolve1');
+                            resolve2('ok resolve2');
                             question(parameters,conv,resolve1)
                             .then(function(results_resolve3){
                                 console.log(results_resolve3);
