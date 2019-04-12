@@ -146,10 +146,10 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                 var total_speech='Welcome to Power Wizard. ';
 
                 const parameters = { // Custom parameters to pass with context
-                    'location': location,
-                    'QN':QN,
+                    'location': 'not yet location',
+                    'QN':'not yet qn',
                     'total_speech':total_speech,
-                    'oauth_user_id':oauth_user_id,
+                    'oauth_user_id':'not yet oauth user id',
                     'Speed_S': ` <prosody rate='medium'>  `,
                 };
                 return new Promise(function(resolve2,reject2){
