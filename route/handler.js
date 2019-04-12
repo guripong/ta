@@ -946,7 +946,7 @@ function question(parameters, conv) {
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             console.log(`ioaslkfnaslkfnsalkfnsalkfnasklfbsalkfbsak;lfbsalkfbsaklfbasklfalksfbalksbf`);
                             console.log('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
-                            conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech +'hi'+ Speed_E + '</speak>');
+                            conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech +'bbi'+ Speed_E + '</speak>');
                         });
 
                     }
