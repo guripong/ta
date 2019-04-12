@@ -1113,9 +1113,6 @@ function question(parameters, conv) {
 
 
 //####################################################################################################
-
-
-
 // Register handlers for Dialogflow intents
 ap.intent('Default Welcome Intent', conv => {
     //console.log('conv:',conv);
@@ -2474,14 +2471,46 @@ ap.intent('SignIn POLY', (conv, params, signin) => {
 });
 
 ap.intent('Stop', conv => {
-    console.log('conv:', conv);
+    //console.log('conv:', conv);
     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-    conv.close('good bye bye bye!');
+    
+    var parameters = conv.contexts.input.mysession.parameters;
+    var dynamo_db = {};
+    dynamo_db.attributes=parameters;
+    
+    //!!!!!
+    var WhyTerminated = `#####NewStop function call######`;
+  
+      var sql;
+      var connection;
+      var alexa_speech = dynamo_db.attributes[`alexa_speech`];
+ 
+//        console.log(`QN:`,QN);
+//        console.log(`location:`,location);
+      return new Promise(function(){
+        mysql.createConnection(config).then(function(conn){
+            sql=`call final_skill_stop ("`+dynamo_db.attributes['oauth_user_id']+`","`+dynamo_db.attributes['location']+`","`
+            +dynamo_db.attributes['type']+`","`+
+            dynamo_db.attributes['QN']+`","`+
+            alexa_speech+`","`+WhyTerminated+`","`+parseInt(dynamo_db.attributes['activity'],10)+`")`;
+            connection = conn;
+            console.log(`sql:`,sql);
+            return conn.query(sql);
+        }).then(function(results){ 
+            connection.end();
+            //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
+            conv.close('good bye bye bye!');
+        }); 
+      });
+    
+
+
+   
 });
 
 
 ap.intent('Default Fallback Intent', conv => {
-    console.log('conv:', conv);
+    //console.log('conv:', conv);
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
