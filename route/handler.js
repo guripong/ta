@@ -2477,7 +2477,7 @@ ap.intent('Stop', conv => {
     var parameters = conv.contexts.input.mysession.parameters;
     var dynamo_db = {};
     dynamo_db.attributes=parameters;
-    
+
     //!!!!!
     var WhyTerminated = `#####NewStop function call######`;
   
@@ -2487,7 +2487,8 @@ ap.intent('Stop', conv => {
  
 //        console.log(`QN:`,QN);
 //        console.log(`location:`,location);
-      return new Promise(function(){
+
+      return new Promise(function(resolve_stop){
         mysql.createConnection(config).then(function(conn){
             sql=`call final_skill_stop ("`+dynamo_db.attributes['oauth_user_id']+`","`+dynamo_db.attributes['location']+`","`
             +dynamo_db.attributes['type']+`","`+
@@ -2499,8 +2500,12 @@ ap.intent('Stop', conv => {
         }).then(function(results){ 
             connection.end();
             //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
-            conv.close('good bye bye bye!');
+            resolve_stop('stop plz');
         }); 
+      }).then(function(resolvedatstop){
+         console.log(resolvedatstop);
+         
+         conv.close(`OK. I'll talk to you later. Bye.`);
       });
     
 
