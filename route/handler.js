@@ -1201,22 +1201,28 @@ ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
     console.log('conv:',conv);
 
-    var location = conv.contexts.input.mysession.parameters.location;
-    var QN = conv.contexts.input.mysession.parameters.QN;
-
-    console.log(`location:`,location);
-    console.log(`QN:`,QN);
-
-    const parameters = { // Custom parameters to pass with context
-        'location': location,
-        'QN':QN,
-        'total_speech':total_speech,
-        'oauth_user_id':oauth_user_id,
-    };
+    
+    const parameters = conv.contexts.input.mysession.parameters;
+    
+    parameters.total_speech = 'you said that ${input.any} ';
 
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     console.log('############################');
-    
+
+    return new Promise(function(resolve1){
+
+        question(parameters,conv,resolve1)
+        .then(function(results_resolve2){
+            console.log(`resolve2:`,results_resolve2);
+            
+        });
+   
+    }).then(function(results_resolve1){
+        console.log(`resolve1:`,results_resolve1);
+        //console.log(parameters);
+    });
+
+
     /*
     console.log('input:',input);
    
@@ -1224,7 +1230,7 @@ ap.intent('Answer', (conv, input) => {
     */
     //Carousel  예제
 
-    conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
+    //conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
 
 // 여기서 시작하면 XXX
