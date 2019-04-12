@@ -193,6 +193,7 @@ function question(parameters,conv,resolve1){
                         if(parameters.set_start==0) ////////첫셋트인경우 세트로 묶은 새로운 질문번호중 하나의 정보를 새롭게 가져와야함
                         {
                             //첫 셋트인경우
+                            console.log('첫셋트');
                             if(results[0][0].direction)total_speech = total_speech.concat(results[0][0].direction+` `);
                             
                             parameters.set_start=1;  //set_start 가 1이면 처음  2이면 중간 0이면 셋트아님
@@ -707,6 +708,7 @@ function question(parameters,conv,resolve1){
                             if(parameters.set_start==2)
                             { //question 처음이라고 보시면됨
                                
+                                console.log('question 처음이라고 보시면됨');
                                 results =JSON.parse(JSON.stringify(results));
                                 //새로가져온결과 :`,results);
                                 
@@ -2510,7 +2512,7 @@ ap.intent('Answer', (conv, input) => {
         {
             parameters = dynamo_db.attributes;
             //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-            
+            console.log('다시 question 호출시도');
             return new Promise(function(resolve1){
 
                 question(parameters,conv,resolve1)
