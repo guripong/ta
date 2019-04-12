@@ -234,7 +234,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             console.log('하아..',parameters.Speed_S+parameters.total_speech+Speed_E);
                             //conv.ask(parameters.Speed_S+parameters.total_speech+Speed_E);
-                            conv.ask('<speak><prosody rate="x-fast">'+parameters.total_speech+'</prosody></speak>');
+                            conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                         }
                         else{
                             console.log('reokay fail');
