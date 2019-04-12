@@ -235,6 +235,9 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     return new Promise(function(resolve1){
 
                         question(parameters,conv);
+                        resolve1('ok call question');
+                    }).then(function(results){
+                        console.log(`resolve1:`,results);
                     });
 
                       
