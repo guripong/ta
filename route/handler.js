@@ -1023,11 +1023,11 @@ function question(parameters,conv,resolve1){
                            parameters.total_speech=total_speech;
                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                            console.log(`찍어보자:`,parameters.Speed_S+parameters.total_speech+Speed_E);
+                           
                            conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                            console.log('2222222');
                 
-
-                        }.bind(conv));
+                        });
            
                            
                    
@@ -2671,16 +2671,16 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                     parameters.total_speech = total_speech;
 
-                    return new Promise(function(resolve1){
+                    return new Promise(function(resolve3){
 
                         question(parameters,conv,resolve1)
                         .then(function(results_resolve2){
                             console.log(`resolve2:`,results_resolve2);
-                            
+                            resolve3('aaa');
                         });
                    
-                    }).then(function(results_resolve1){
-                        console.log(`resolve1:`,results_resolve1);
+                    }).then(function(results_resolve3){
+                        console.log(`resolve3:`,results_resolve3);
                         //console.log(parameters);
                     });
 
