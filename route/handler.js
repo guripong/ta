@@ -2507,14 +2507,14 @@ ap.intent('Answer', (conv, input) => {
             console.log('다시 question 호출시도');
             return new Promise(function(resolve1){
 
-                question(parameters,conv,resolve1)
-                .then(function(results_resolve2){
-                    console.log(`Answer의 resolve2:`,results_resolve2);
-                    
+                question(parameters,conv)
+                .then(function(results_question){
+                    console.log(`Answer의 question호출:`,results_question);
+                    resolve1('haha2');
                 });
            
-            }).then(function(results_resolve1){
-                console.log(`Answer의 resolve1:`,results_resolve1);
+            }).then(function(results_haha2){
+                console.log(`Answer의 results_haha2:`,results_haha2);
                 //console.log(parameters);
             });
             //this.emit('Question');
