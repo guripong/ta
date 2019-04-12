@@ -23,7 +23,7 @@ const ap = dialogflow({
 
 router.post('/', ap);
 //####################################################################################################
-const Speed_E = `<desc>Sound Error</desc> </prosody> `;
+const Speed_E = ` </prosody> `;
 
 
 function question(parameters, conv) {
@@ -2368,7 +2368,7 @@ ap.intent('SignIn POLY', (conv, params, signin) => {
                     'QN': 'not yet qn',
                     'total_speech': total_speech,
                     'oauth_user_id': 'not yet oauth user id',
-                    'Speed_S': ` <prosody rate="x-fast">  `,
+                    'Speed_S': ` <prosody rate="x-fast"> <desc>Sound Error</desc>  `,
                     'QuerryLoad_Possible': 1,
                     'set_start': 0,
                     'is_set': 'N',
