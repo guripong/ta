@@ -30,7 +30,7 @@ function question(parameters,conv,resolve1){
     return new Promise(function(resolve2){
         console.log('question function call');
         //console.log('parameters:',parameters);
-        parameters.total_speech+=' question call success! ';
+        //parameters.total_speech+=' question call success! ';
         var QN = parameters.QN;
         var location = parameters.location;
         var sql;
@@ -41,18 +41,17 @@ function question(parameters,conv,resolve1){
         var Rtype_doit_after_qnmove;
         var Rtype_donot_qnmove;
 
-        parameters.haha ='maerong';
+        //parameters.haha ='maerong';
 
         //console.log('parameters:',parameters);
-        console.log('set먹히나');
-        conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+        //console.log('set먹히나');
+       // conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                
-        console.log('ask 먹히나');
-        conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
+        //console.log('ask 먹히나');
+        //conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
 
         
-        resolve1('ok resolve1');
-        resolve2('ok resolve2');
+      
 
         
         /////////////////////////////////복붙후 고칠것///////////////////////
@@ -1120,9 +1119,13 @@ function question(parameters,conv,resolve1){
             else
             {
                 //this.emit(':tell',`QuerryLoad_Possible=0 -> elsetype not yet`);
+                
                 conv.close('<speak>'+parameters.Speed_S+`QuerryLoad_Possible=0 -> elsetype not yet`+Speed_E+'</speak>');
             }
         }//QuerryLoad_possible=0 경우
+        conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+        resolve1('ok resolve1');
+        resolve2('ok resolve2');
     });
 }
 
