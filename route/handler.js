@@ -2596,6 +2596,9 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     'oauth_user_id':'not yet oauth user id',
                     'Speed_S': ` <prosody rate="x-fast">  `,
                     'QuerryLoad_Possible':1,
+                    'set_start':0,
+                    'is_set':'N',
+                    'isR_ing':0,
                 };
 
                 return new Promise(function(resolve2,reject2){
