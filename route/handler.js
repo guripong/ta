@@ -917,6 +917,7 @@ function question(parameters,conv,resolve1){
                     console.log(`Error! can not load Direction`);
                     resolve1('ok resolve1');
                     resolve2('ok resolve2');
+                    parameters.total_speech=total_speech;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.close('<speak>'+`Error! can not load Direction`+'</speak>');
                     //this.emit(':tell',`Error! can not load Direction`);
@@ -928,7 +929,7 @@ function question(parameters,conv,resolve1){
                         if(parameters.isR_ing==1){
                               var realthis=this;
                               
-                              parameters.total_speech=total_speech;
+                              
                             
                             //
                             
@@ -941,6 +942,7 @@ function question(parameters,conv,resolve1){
                                     //   conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                                     resolve1('ok resolve1');
                                     resolve2('ok resolve2');
+                                    parameters.total_speech=total_speech;
                                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                                     conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                                     //realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -975,6 +977,7 @@ function question(parameters,conv,resolve1){
                             console.log(`*************************************************************************`);
                             resolve1('ok resolve1');
                             resolve2('ok resolve2');
+                            parameters.total_speech=total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             conv.close('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                             //realthis.emit(':tell', `${Speed_S}${total_speech}${Speed_E}`);  
@@ -995,6 +998,7 @@ function question(parameters,conv,resolve1){
                             console.log(`*************************************************************************`);
                             resolve1('ok resolve1');
                             resolve2('ok resolve2');
+                            parameters.total_speech=total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                         });
@@ -1012,6 +1016,7 @@ function question(parameters,conv,resolve1){
                            // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                            resolve1('ok resolve1');
                            resolve2('ok resolve2');
+                           parameters.total_speech=total_speech;
                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                           conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                         });
@@ -1023,6 +1028,7 @@ function question(parameters,conv,resolve1){
                 {
                     resolve1('ok resolve1');
                     resolve2('ok resolve2');
+                    parameters.total_speech=total_speech;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.close('<speak>'+parameters.Speed_S+`error can not load is_set at parameters!`+Speed_E+'</speak>');
                    // this.emit(':tell',`error can not load is_set at parameters!`);
@@ -1055,6 +1061,7 @@ function question(parameters,conv,resolve1){
                    // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                    resolve1('ok resolve1');
                    resolve2('ok resolve2');
+                   parameters.total_speech=total_speech;
                    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                    conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                 });
@@ -1074,6 +1081,7 @@ function question(parameters,conv,resolve1){
                 console.log(`*************************************************************************`);
                 resolve1('ok resolve1');
                 resolve2('ok resolve2');
+                parameters.total_speech=total_speech;
                 conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                 conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                 //realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1099,6 +1107,7 @@ function question(parameters,conv,resolve1){
                     console.log(`*************************************************************************`);
                     resolve1('ok resolve1');
                     resolve2('ok resolve2');
+                    parameters.total_speech=total_speech;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                     //this.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1122,6 +1131,7 @@ function question(parameters,conv,resolve1){
                         console.log(`*************************************************************************`);
                         resolve1('ok resolve1');
                         resolve2('ok resolve2');
+                        parameters.total_speech=total_speech;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                       //  realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1143,6 +1153,7 @@ function question(parameters,conv,resolve1){
                         console.log(`*************************************************************************`);
                         resolve1('ok resolve1');
                         resolve2('ok resolve2');
+                        parameters.total_speech=total_speech;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                        // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1156,6 +1167,7 @@ function question(parameters,conv,resolve1){
                 //this.emit(':tell',`QuerryLoad_Possible=0 -> elsetype not yet`);
                 resolve1('ok resolve1');
                 resolve2('ok resolve2');
+                parameters.total_speech=total_speech;
                 conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                 conv.close('<speak>'+parameters.Speed_S+`QuerryLoad_Possible=0 -> elsetype not yet`+Speed_E+'</speak>');
             }
