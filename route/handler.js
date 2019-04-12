@@ -26,15 +26,28 @@ router.post('/', ap);
 const Speed_E = ` </prosody> `;
 
 
-function question(parameters){
+function question(parameters,conv){
     return new Promise(function(resolve1){
         console.log('question function call');
-        console.log('parameters:',parameters);
+        //console.log('parameters:',parameters);
         parameters.total_speech+=' question call success! ';
-        console.log('parameters:',parameters);
+        var QN = parameters.QN;
+        var location = parameters.location;
+        var sql;
+        var connection;
+        var total_speech=parameters.total_speech;
+        var QuerryLoad_Possible =parameters.QuerryLoad_Possible;
+        var direction;
+        var Rtype_doit_after_qnmove;
+        var Rtype_donot_qnmove;
 
-        resolve1('okay');
 
+
+        //console.log('parameters:',parameters);
+
+        conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+               
+        conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
 
 
     });
@@ -90,7 +103,6 @@ ap.intent('Answer', (conv, input) => {
 
     conv.ask(new SimpleResponse(`Answer Intent! you said that! ${input.any}`));
 });
-
 
 // 여기서 시작하면 XXX
 ap.intent('SignIn POLY', (conv,params, signin) => {
@@ -151,6 +163,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                     'total_speech':total_speech,
                     'oauth_user_id':'not yet oauth user id',
                     'Speed_S': ` <prosody rate="x-fast">  `,
+                    'QuerryLoad_Possible':
                 };
                 return new Promise(function(resolve2,reject2){
                  
@@ -219,32 +232,11 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                     return new Promise(function(resolve1){
 
-                        question(parameters).then(function(results){
-                            if(results=='okay'){
-                                console.log('question 함수에서 잘 가져왔습니다');
+                        question(parameters,conv);
 
-                                resolve1('reokay');
-                            }
-                        })
-
-                    }).then(function(results){
-                        if(results=='reokay'){
-
-                            console.log('reokay success');
-                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                            console.log('하아..',parameters.Speed_S+parameters.total_speech+Speed_E);
-                            //conv.ask(parameters.Speed_S+parameters.total_speech+Speed_E);
-                            conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
-                        }
-                        else{
-                            console.log('reokay fail');
-                            conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                            conv.ask(`reokay fail`);
-                        }
-                      
                     });
 
-              
+                      
                 }).catch(function(error){
                     if(connection && connection.end) connection.end();
                     console.log(`mysql DB 엑세스 에러:`,error);
