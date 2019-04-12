@@ -945,8 +945,8 @@ function question(parameters, conv) {
                             parameters.total_speech = total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             console.log(parameters);
-                            
-                            conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
+                            conv.ask('hihihihi');
+                           // conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                         });
 
                     }
