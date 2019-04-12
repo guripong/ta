@@ -972,7 +972,7 @@ function question(parameters,conv,resolve1){
                     else if(parameters.type=='E')
                     {
                        
-                        var realthis=this;
+                      
                         set_total_speech(total_speech,parameters.Speed_S,parameters).then(function(results){
                             total_speech=results;
                             console.log(`*************************************************************************`);
@@ -992,11 +992,11 @@ function question(parameters,conv,resolve1){
                     }
                     else //G C E M S
                     {
-                     
+                        
                    
                         set_total_speech(total_speech,parameters.Speed_S,parameters).then(function(results){
                             total_speech=results;
-                            console.log(`*************************************************************************`);
+                            console.log(`**********************GCEMS**************************************`);
                             console.log(`***alexa say:`,total_speech,`***`);
                             console.log(`*************************************************************************`);
                             resolve1('ok resolve1');
@@ -1013,7 +1013,7 @@ function question(parameters,conv,resolve1){
               
                         set_total_speech(total_speech,parameters.Speed_S,parameters).then(function(results){
                             total_speech=results;
-                             console.log(`*************************************************************************`);
+                             console.log(`********************GC*************************************************`);
                             console.log(`***alexa say:`,total_speech,`***`);
                             console.log(`*************************************************************************`);
                            // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
