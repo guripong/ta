@@ -2514,10 +2514,9 @@ ap.intent('Answer', (conv, input) => {
                 });
            
             }).then(function(results_haha2){
-                console.log(`Answer의 results_haha2:`,results_haha2);
-                conv.ask('bug');
+                console.log(`Answer의 results_haha2:`,results_haha2); 
                 //console.log(parameters);
-            });
+            }.bind(conv));
             //this.emit('Question');
         }
         
