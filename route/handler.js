@@ -32,7 +32,7 @@ function question(parameters){
         console.log('parameters:',parameters);
         parameters.total_speech+=' question call success! ';
         console.log('parameters:',parameters);
-        
+
         resolve1('okay');
 
 
@@ -165,7 +165,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                         console.log(`%%% Lanuch에서 new_skill_launch 프로시저 실행시도`);
                         sql=`call final_skill_launch("`+body.user_id+`","`+body.name+`","`+body.email+`");`;
 
-                        oauth_user_id=body.user_id;
+                        parameters.oauth_user_id=body.user_id;
                         console.log(`sql:`,sql);
                         connection = conn;
                         return conn.query(sql);
@@ -215,6 +215,8 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
                                    +u_n+`. Period `+p_n+`. Let's continue that lesson. `;
                               }
                     }
+                    parameters.total_speech = total_speech;
+
                     return new Promise(function(resolve1){
 
                         question(parameters).then(function(results){
@@ -230,7 +232,7 @@ ap.intent('SignIn POLY', (conv,params, signin) => {
 
                             console.log('reokay success');
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                            conv.ask(total_speech);
+                            conv.ask(parameters.total_speech);
                         }
                         else{
                             console.log('reokay fail');
