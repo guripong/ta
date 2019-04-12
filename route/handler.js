@@ -29,8 +29,10 @@ const Speed_S = ` <prosody rate='medium'> `;
 function question(parameters){
     return new Promise(function(resolve1){
         console.log('question function call');
+        console.log('parameters:',parameters);
         parameters.total_speech+=' question call success! ';
-  
+        console.log('parameters:',parameters);
+        
         resolve1('okay');
 
 
