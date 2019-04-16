@@ -1127,20 +1127,108 @@ function question(parameters, conv) {
 }
 
 ap.intent('POLY', (conv,input) =>{
-    /*
-    var parameters = conv.contexts.input.mysession.parameters;
-    console.log(`폴리인텐트`, parameters);
-    console.log('############################');
-    console.log('input:',input);
-    */
+    console.log('@@@@@@@@@@@@@@@@@@@@@@POLY@@@@@@@@@@@@@@@@@@@@@@@@');
     //input.any  or input.polycommand
     console.log('input:',input);
     var speak;
+    input.polycommand?speak=input.polycommand:speak=input.any;
+    console.log(`*************************************************************************`);
+    console.log(`***student say:`, speak, `***`);
+    console.log(`*************************************************************************`);
+
+    var parameters = conv.contexts.input.mysession.parameters;
+    var dynamo_db ={};
+    dynamo_db.attributes = parameters;
+
     if(input.polycommand){
-        conv.close('poly intent call');
+        console.log('계획된 POLY 명령어 사용했음');
+
+        if(command =='slow')
+        {
+           
+            dynamo_db.attributes['total_speech']=`OK I'll speak a bit slower. `;
+              if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='medium'> `)
+              {
+               dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> `;
+               } 
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='slow'> `)
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-slow'> `;
+               } 
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='fast'> `)
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> `;
+               }
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='x-fast'> `)
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> `;
+               }
+               else
+               {
+                   dynamo_db.attributes['total_speech']=`I can't do that. this is the slowest I can speak. `;
+               }
+               if(dynamo_db.attributes['type']=='M') dynamo_db.attributes['M_polyrepeat'] = 1;
+              if(dynamo_db.attributes['type']=='R')dynamo_db.attributes['QuerryLoad_Possible']=1;
+                     
+        }
+        else if(command =='fast')
+        {
+            console.log(`dynamo_db.attributes['Speed_S']:`,dynamo_db.attributes['Speed_S']);
+            dynamo_db.attributes['total_speech']=`OK I'll speak a bit faster. `;
+               if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='medium'> `)
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> `;
+               }
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='fast'> `) 
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-fast'> `;
+               } 
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='x-slow'> `)
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> `;
+               } 
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='slow'> `) 
+               {
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> `;
+               }
+               else
+               {
+                   dynamo_db.attributes['total_speech']=`I can't do that. this is the fastest I can speak. `;
+               }
+           if(dynamo_db.attributes['type']=='M') dynamo_db.attributes['M_polyrepeat'] = 1;
+           if(dynamo_db.attributes['type']=='R')dynamo_db.attributes['QuerryLoad_Possible']=1;
+        
+        }
+
+        return new Promise(function (resolve1) {
+
+            question(parameters, conv)
+                .then(function (results_question) {
+                    console.log(`POLY의 question호출:`, results_question);
+                    resolve1('POLY question호출 끝남');
+                });
+
+        }).then(function (results_haha2) {
+            console.log(`Answer의 results_haha2:`, results_haha2);
+            //console.log(parameters);
+        });
     }    
     else{
-        conv.close('poly command that '+input.any+' does not exist');
+        
+        console.log('비계획된 POLY 명령어 사용했음');
+        //conv.close('poly command that '+input.any+' does not exist');
+        dynamo_db.attributes['total_speech']='poly command that '+input.any+' does not exist';
+        return new Promise(function (resolve1) {
+            question(parameters, conv)
+                .then(function (results_question) {
+                    console.log(`POLY의 question호출:`, results_question);
+                    resolve1('POLY question호출 끝남');
+                });
+
+        }).then(function (results_haha2) {
+            console.log(`Answer의 results_haha2:`, results_haha2);
+            //console.log(parameters);
+        });
     }
 
 
