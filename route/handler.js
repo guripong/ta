@@ -24,7 +24,7 @@ const ap = dialogflow({
 router.post('/', ap);
 //####################################################################################################
 const Speed_E = ` </prosody> `;
-
+const beep= `<audio src='https://s3.amazonaws.com/eduai/speakingwizard/beep2.mp3'/>`;
 
 function question(parameters, conv) {
     return new Promise(function (resolve_question) {
@@ -945,8 +945,8 @@ function question(parameters, conv) {
                             parameters.total_speech = total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             console.log(`ioaslkfnaslkfnsalkfnsalkfnasklfbsalkfbsak;lfbsalkfbsaklfbasklfalksfbalksbf`);
-                            console.log('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
-                            conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
+                            console.log('<speak>' + parameters.Speed_S + parameters.total_speech +beep+ Speed_E + '</speak>');
+                            conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech +beep+ Speed_E + '</speak>');
                 
                         });
 
