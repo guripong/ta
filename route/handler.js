@@ -1133,8 +1133,8 @@ ap.intent('POLY', (conv,input) =>{
     console.log('############################');
     console.log('input:',input);
     */
-    var speak = input.any;
-    console.log(speak);
+    console.log('input:',input);
+    
 
     conv.close('poly intent call');
 
