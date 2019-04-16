@@ -2591,7 +2591,7 @@ ap.intent('Stop', conv => {
     //        console.log(`QN:`,QN);
     //        console.log(`location:`,location);
 
-    return new Promise(function (resolve_stop) {
+    return new Promise(function (resolve_stop,reject) {
         mysql.createConnection(config).then(function (conn) {
             sql = `call final_skill_stop ("` + dynamo_db.attributes['oauth_user_id'] + `","` + dynamo_db.attributes['location'] + `","`
                 + dynamo_db.attributes['type'] + `","` +
@@ -2608,8 +2608,11 @@ ap.intent('Stop', conv => {
         });
     }).then(function (resolvedatstop) {
         console.log(`resolve_stop 끝!!`,resolvedatstop);
-
+        
         conv.close(`OK. I'll talk to you later. Bye.`);
+    }).catch(function(error){
+        console.log('error:',error);
+        conv.close('error');
     });
 
 
