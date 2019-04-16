@@ -1133,10 +1133,17 @@ ap.intent('POLY', (conv,input) =>{
     console.log('############################');
     console.log('input:',input);
     */
+    //input.any  or input.polycommand
     console.log('input:',input);
+    var speak;
+    if(input.polycommand){
+        conv.close('poly intent call');
+    }    
+    else{
+        conv.close('poly command that '+input.any+' does not exist');
+    }
 
 
-    conv.ask('poly intent call');
 
 });
 //####################################################################################################
