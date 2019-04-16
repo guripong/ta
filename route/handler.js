@@ -1241,8 +1241,11 @@ ap.intent('Answer', (conv, input) => {
 //    var speak = input.any;
     console.log(input);
     var speak;
-    input.u1?speak=input.u1:speak=input.any;
 
+    if(input.any) speak=input.any;
+    if(input.u1) speak=input.u1;
+    if(input.u2_1) speak=input.u2_1;
+    if(input.u2_2) speak=input.u2_2;
 
 
 
@@ -2574,6 +2577,7 @@ ap.intent('Stop', conv => {
     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
 
     var parameters = conv.contexts.input.mysession.parameters;
+
     var dynamo_db = {};
     dynamo_db.attributes = parameters;
 
