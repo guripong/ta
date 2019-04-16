@@ -2602,11 +2602,12 @@ ap.intent('Stop', conv => {
             return conn.query(sql);
         }).then(function (results) {
             connection.end();
+            console.log(`results:`,results);
             //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
             resolve_stop('stop plz');
         });
     }).then(function (resolvedatstop) {
-        console.log(resolvedatstop);
+        console.log(`resolve_stop 끝!!`,resolvedatstop);
 
         conv.close(`OK. I'll talk to you later. Bye.`);
     });
