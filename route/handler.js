@@ -1240,7 +1240,7 @@ ap.intent('Answer', (conv, input) => {
     console.log('############################');
     var speak = input.any;
     console.log(input);
-    
+
 
 
 
@@ -2580,7 +2580,7 @@ ap.intent('Stop', conv => {
 
     var sql;
     var connection;
-    var alexa_speech = dynamo_db.attributes[`alexa_speech`];
+    var total_speech = dynamo_db.attributes[`total_speech`];
 
     //        console.log(`QN:`,QN);
     //        console.log(`location:`,location);
@@ -2590,7 +2590,7 @@ ap.intent('Stop', conv => {
             sql = `call final_skill_stop ("` + dynamo_db.attributes['oauth_user_id'] + `","` + dynamo_db.attributes['location'] + `","`
                 + dynamo_db.attributes['type'] + `","` +
                 dynamo_db.attributes['QN'] + `","` +
-                alexa_speech + `","` + WhyTerminated + `","` + parseInt(dynamo_db.attributes['activity'], 10) + `")`;
+                total_speech + `","` + WhyTerminated + `","` + parseInt(dynamo_db.attributes['activity'], 10) + `")`;
             connection = conn;
             console.log(`sql:`, sql);
             return conn.query(sql);
