@@ -1238,9 +1238,10 @@ ap.intent('Answer', (conv, input) => {
 
     console.log(`Answer에서의 상황`, parameters);
     console.log('############################');
-    var speak = input.any;
+//    var speak = input.any;
     console.log(input);
-
+    var speak=input.u1;
+    
 
 
 
