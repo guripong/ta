@@ -2602,9 +2602,17 @@ ap.intent('Stop', conv => {
             return conn.query(sql);
         }).then(function (results) {
             connection.end();
-            console.log(`results:`,results);
-            //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
-            resolve_stop('stop plz');
+            if(error){
+                console.log('에라:',error);
+                reject('에러남');
+            }
+            else{
+                console.log(`results:`,results);
+                //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
+                resolve_stop('stop plz');
+            }
+
+
         });
     }).then(function (resolvedatstop) {
         console.log(`resolve_stop 끝!!`,resolvedatstop);
