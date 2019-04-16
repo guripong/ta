@@ -24,7 +24,7 @@ const ap = dialogflow({
 router.post('/', ap);
 //####################################################################################################
 const Speed_E = ` </prosody> `;
-const beep= ` <audio src='https://s3.amazonaws.com/eduai/speakingwizard/beep2.mp3'/> `;
+const beep = ` <audio src='https://s3.amazonaws.com/eduai/speakingwizard/beep2.mp3'/> `;
 
 function question(parameters, conv) {
     return new Promise(function (resolve_question) {
@@ -888,7 +888,7 @@ function question(parameters, conv) {
                                 console.log(`*************************************************************************`);
 
                                 //   conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
-                              
+
                                 resolve_question('question done');
                                 parameters.total_speech = total_speech;
                                 conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
@@ -918,7 +918,7 @@ function question(parameters, conv) {
 
 
                         set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
-                            
+
                             total_speech = results;
                             total_speech = total_speech + beep;
                             console.log(`*************************************************************************`);
@@ -946,14 +946,14 @@ function question(parameters, conv) {
                             console.log(`***alexa say:`, total_speech, `***`);
                             console.log(`*************************************************************************`);
                             resolve_question('question done');
-                            
+
 
                             parameters.total_speech = total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                        
+
                             console.log('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                             conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
-                
+
                         });
 
                     }
@@ -970,7 +970,7 @@ function question(parameters, conv) {
                         // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                         resolve_question('question done');
                         console.log('11111');
-                        
+
 
                         parameters.total_speech = total_speech;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
@@ -1038,7 +1038,7 @@ function question(parameters, conv) {
                     console.log(`***alexa say:`, total_speech, `***`);
                     console.log(`*************************************************************************`);
                     resolve_question('question done');
-                    parameters.total_speech = total_speech+beep;
+                    parameters.total_speech = total_speech + beep;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                     //realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1062,7 +1062,7 @@ function question(parameters, conv) {
                     console.log(`*************************************************************************`);
                     resolve_question('question done');
                     total_speech = total_speech + beep;
-                    parameters.total_speech = total_speech+beep;
+                    parameters.total_speech = total_speech + beep;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                     //this.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1074,7 +1074,7 @@ function question(parameters, conv) {
                     for (var i = 0; i < parameters.M_wordcount; i++) {
                         total_speech = total_speech.concat(parameters.Order_total_word[i] + `. `);
                     }
-                    parameters.total_speech = total_speech+beep;
+                    parameters.total_speech = total_speech + beep;
 
                     //var realthis=this;
                     set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
@@ -1084,7 +1084,7 @@ function question(parameters, conv) {
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
                         resolve_question('question done');
-                        parameters.total_speech = total_speech+beep;
+                        parameters.total_speech = total_speech + beep;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                         //  realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1105,7 +1105,7 @@ function question(parameters, conv) {
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
                         resolve_question('question done');
-                        parameters.total_speech = total_speech+beep;
+                        parameters.total_speech = total_speech + beep;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                         // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1126,112 +1126,83 @@ function question(parameters, conv) {
     });
 }
 
-ap.intent('POLY', (conv,input) =>{
+ap.intent('POLY', (conv, input) => {
     console.log('@@@@@@@@@@@@@@@@@@@@@@POLY@@@@@@@@@@@@@@@@@@@@@@@@');
     //input.any  or input.polycommand
-    console.log('input:',input);
-    var command=input.polycommand;
+    console.log('input:', input);
+    var command = input.polycommand;
     console.log(`*************************************************************************`);
     console.log(`***student say: poly `, command, `***`);
     console.log(`*************************************************************************`);
 
     var parameters = conv.contexts.input.mysession.parameters;
-    var dynamo_db ={};
+    var dynamo_db = {};
     dynamo_db.attributes = parameters;
 
-    if(input.polycommand){
-        console.log('계획된 POLY 명령어 사용했음');
 
-        if(command =='slow')
-        {
-           
-            dynamo_db.attributes['total_speech']=`OK I'll speak a bit slower. `;
-              if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='medium'>`) !== -1)
-              {
-               dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc>  `;
-               } 
-               else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='slow'>`) !== -1 )
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-slow'> <desc>[KPS]</desc>  `;
-               } 
-               else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='fast'>`) !== -1 )
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> <desc>[KPS]</desc>  `;
-               }
-               else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='x-fast'>`) !== -1 )
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> <desc>[KPS]</desc>  `;
-               }
-               else
-               {
-                   dynamo_db.attributes['total_speech']=`I can't do that. this is the slowest I can speak. `;
-               }
-               if(dynamo_db.attributes['type']=='M') dynamo_db.attributes['M_polyrepeat'] = 1;
-              if(dynamo_db.attributes['type']=='R')dynamo_db.attributes['QuerryLoad_Possible']=1;
-                     
+    if (command == 'slow') {
+    
+        dynamo_db.attributes['total_speech'] = `OK I'll speak a bit slower. `;
+        if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='medium'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc> `;
         }
-        else if(command =='fast')
-        {
-            //` <prosody rate="medium"> <desc>[KPS]</desc>  `
-            console.log(`dynamo_db.attributes['Speed_S']:`,dynamo_db.attributes['Speed_S']);
-            dynamo_db.attributes['total_speech']=`OK I'll speak a bit faster. `;
-              if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='medium'>`) !== -1)
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> <desc>[KPS]</desc>`;
-               }
-               else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='fast'>`) !== -1)
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-fast'> <desc>[KPS]</desc>  `;
-               } 
-               else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='x-slow'>`) !== -1)
-     
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc>  `;
-               } 
-               else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='slow'>`) !== -1)
-               {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> <desc>[KPS]</desc>  `;
-               }
-               else
-               {
-                   dynamo_db.attributes['total_speech']=`I can't do that. this is the fastest I can speak. `;
-               }
-           if(dynamo_db.attributes['type']=='M') dynamo_db.attributes['M_polyrepeat'] = 1;
-           if(dynamo_db.attributes['type']=='R')dynamo_db.attributes['QuerryLoad_Possible']=1;
-        
+        else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='slow'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-slow'> <desc>[KPS]</desc> `;
         }
+        else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='fast'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> <desc>[KPS]</desc> `;
+        }
+        else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='x-fast'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> <desc>[KPS]</desc> `;
+        }
+        else {
+            dynamo_db.attributes['total_speech'] = `I can't do that. this is the slowest I can speak. `;
+        }
+        if (dynamo_db.attributes['type'] == 'M') dynamo_db.attributes['M_polyrepeat'] = 1;
+        if (dynamo_db.attributes['type'] == 'R') dynamo_db.attributes['QuerryLoad_Possible'] = 1;
 
-        return new Promise(function (resolve1) {
+    }
+    else if (command == 'fast') {
+        //` <prosody rate="medium"> <desc>[KPS]</desc>  `
+        console.log(`dynamo_db.attributes['Speed_S']:`, dynamo_db.attributes['Speed_S']);
+        dynamo_db.attributes['total_speech'] = `OK I'll speak a bit faster. `;
+        if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='medium'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> <desc>[KPS]</desc> `;
+        }
+        else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='fast'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-fast'> <desc>[KPS]</desc> `;
+        }
+        else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='x-slow'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc> `;
+        }
+        else if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='slow'>`) !== -1) {
+            dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> <desc>[KPS]</desc> `;
+        }
+        else {
+            dynamo_db.attributes['total_speech'] = `I can't do that. this is the fastest I can speak. `;
+        }
+        if (dynamo_db.attributes['type'] == 'M') dynamo_db.attributes['M_polyrepeat'] = 1;
+        if (dynamo_db.attributes['type'] == 'R') dynamo_db.attributes['QuerryLoad_Possible'] = 1;
 
-            question(parameters, conv)
-                .then(function (results_question) {
-                    console.log(`POLY의 question호출:`, results_question);
-                    resolve1('POLY question호출 끝남');
-                });
-
-        }).then(function (results_haha2) {
-            console.log(`Answer의 results_haha2:`, results_haha2);
-            //console.log(parameters);
-        });
-    }    
-    else{
-
-        console.log('비계획된 POLY 명령어 사용했음');
-        //conv.close('poly command that '+input.any+' does not exist');
-        dynamo_db.attributes['total_speech']='poly command that '+input.any+' does not exist';
-        return new Promise(function (resolve1) {
-            question(parameters, conv)
-                .then(function (results_question) {
-                    console.log(`POLY의 question호출:`, results_question);
-                    resolve1('POLY question호출 끝남');
-                });
-
-        }).then(function (results_haha2) {
-            console.log(`Answer의 results_haha2:`, results_haha2);
-            //console.log(parameters);
-        });
+    }
+    else {
+        dynamo_db.attributes['total_speech'] = 'poly command that ' + input.any + ' does not exist';
     }
 
+
+
+    return new Promise(function (resolve1) {
+
+        question(parameters, conv)
+            .then(function (results_question) {
+                console.log(`POLY의 question호출:`, results_question);
+                resolve1('POLY question호출 끝남');
+            });
+
+    }).then(function (results_haha2) {
+        console.log(`Answer의 results_haha2:`, results_haha2);
+        //console.log(parameters);
+    });
 
 
 });
@@ -2413,15 +2384,15 @@ ap.intent('Answer', (conv, input) => {
                     resolve_answer('okayman');
                 });
                 //this.emit('Question');
-                
+
             }
 
-            
+
 
         });
 
-    }).then(function (results_resolveanswer){
-        console.log('results_resolveanswer:',results_resolveanswer);
+    }).then(function (results_resolveanswer) {
+        console.log('results_resolveanswer:', results_resolveanswer);
     });//resolve Answer 핗요
 
 
@@ -2596,44 +2567,44 @@ ap.intent('SignIn POLY', (conv, params, signin) => {
 ap.intent('Stop', conv => {
     //console.log('conv:', conv);
     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-    
+
     var parameters = conv.contexts.input.mysession.parameters;
     var dynamo_db = {};
-    dynamo_db.attributes=parameters;
+    dynamo_db.attributes = parameters;
 
     //!!!!!
     var WhyTerminated = `#####NewStop function call######`;
-  
-      var sql;
-      var connection;
-      var alexa_speech = dynamo_db.attributes[`alexa_speech`];
- 
-//        console.log(`QN:`,QN);
-//        console.log(`location:`,location);
 
-      return new Promise(function(resolve_stop){
-        mysql.createConnection(config).then(function(conn){
-            sql=`call final_skill_stop ("`+dynamo_db.attributes['oauth_user_id']+`","`+dynamo_db.attributes['location']+`","`
-            +dynamo_db.attributes['type']+`","`+
-            dynamo_db.attributes['QN']+`","`+
-            alexa_speech+`","`+WhyTerminated+`","`+parseInt(dynamo_db.attributes['activity'],10)+`")`;
+    var sql;
+    var connection;
+    var alexa_speech = dynamo_db.attributes[`alexa_speech`];
+
+    //        console.log(`QN:`,QN);
+    //        console.log(`location:`,location);
+
+    return new Promise(function (resolve_stop) {
+        mysql.createConnection(config).then(function (conn) {
+            sql = `call final_skill_stop ("` + dynamo_db.attributes['oauth_user_id'] + `","` + dynamo_db.attributes['location'] + `","`
+                + dynamo_db.attributes['type'] + `","` +
+                dynamo_db.attributes['QN'] + `","` +
+                alexa_speech + `","` + WhyTerminated + `","` + parseInt(dynamo_db.attributes['activity'], 10) + `")`;
             connection = conn;
-            console.log(`sql:`,sql);
+            console.log(`sql:`, sql);
             return conn.query(sql);
-        }).then(function(results){ 
+        }).then(function (results) {
             connection.end();
             //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
             resolve_stop('stop plz');
-        }); 
-      }).then(function(resolvedatstop){
-         console.log(resolvedatstop);
+        });
+    }).then(function (resolvedatstop) {
+        console.log(resolvedatstop);
 
-         conv.close(`OK. I'll talk to you later. Bye.`);
-      });
-    
+        conv.close(`OK. I'll talk to you later. Bye.`);
+    });
 
 
-   
+
+
 });
 
 
