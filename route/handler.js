@@ -1126,7 +1126,17 @@ function question(parameters, conv) {
     });
 }
 
+ap.intent('POLY', (conv,input) =>{
+    var parameters = conv.contexts.input.mysession.parameters;
+    console.log(`Answer에서의 상황`, parameters);
+    console.log('############################');
+    console.log('input:',input);
+    var speak = input.any;
+    console.log(speak);
+    
+    conv.close('poly intent call');
 
+});
 //####################################################################################################
 // Register handlers for Dialogflow intents
 ap.intent('Default Welcome Intent', conv => {
@@ -1142,7 +1152,7 @@ ap.intent('Default Welcome Intent', conv => {
     }))
     conv.ask(`is it cute`);
     */
-})
+});
 
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
