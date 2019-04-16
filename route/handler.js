@@ -1208,6 +1208,7 @@ ap.intent('POLY', (conv, input) => {
 });
 //####################################################################################################
 // Register handlers for Dialogflow intents
+
 ap.intent('Default Welcome Intent', conv => {
     //console.log('conv:',conv);
 
@@ -1223,6 +1224,7 @@ ap.intent('Default Welcome Intent', conv => {
     */
 });
 
+
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
     // console.log('conv:',conv);
@@ -1237,7 +1239,8 @@ ap.intent('Answer', (conv, input) => {
     console.log(`Answer에서의 상황`, parameters);
     console.log('############################');
     var speak = input.any;
-
+    console.log(input);
+    
 
 
 
