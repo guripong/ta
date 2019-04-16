@@ -1127,13 +1127,15 @@ function question(parameters, conv) {
 }
 
 ap.intent('POLY', (conv,input) =>{
+    /*
     var parameters = conv.contexts.input.mysession.parameters;
-    console.log(`Answer에서의 상황`, parameters);
+    console.log(`폴리인텐트`, parameters);
     console.log('############################');
     console.log('input:',input);
+    */
     var speak = input.any;
     console.log(speak);
-    
+
     conv.close('poly intent call');
 
 });
