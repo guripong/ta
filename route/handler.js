@@ -1132,7 +1132,7 @@ ap.intent('POLY', (conv, input) => {
     console.log('input:', input);
     var command = input.polycommand;
     console.log(`*************************************************************************`);
-    console.log(`***student say: poly `, command, `***`);
+    console.log(`***student say: `, command, `***`);
     console.log(`*************************************************************************`);
 
     var parameters = conv.contexts.input.mysession.parameters;
@@ -1140,7 +1140,7 @@ ap.intent('POLY', (conv, input) => {
     dynamo_db.attributes = parameters;
 
 
-    if (command == 'slow') {
+    if (command == 'poly slow') {
     
         dynamo_db.attributes['total_speech'] = `OK I'll speak a bit slower. `;
         if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='medium'>`) !== -1) {
@@ -1162,7 +1162,7 @@ ap.intent('POLY', (conv, input) => {
         if (dynamo_db.attributes['type'] == 'R') dynamo_db.attributes['QuerryLoad_Possible'] = 1;
 
     }
-    else if (command == 'fast') {
+    else if (command == 'poly fast') {
         //` <prosody rate="medium"> <desc>[KPS]</desc>  `
         console.log(`dynamo_db.attributes['Speed_S']:`, dynamo_db.attributes['Speed_S']);
         dynamo_db.attributes['total_speech'] = `OK I'll speak a bit faster. `;
@@ -1186,7 +1186,7 @@ ap.intent('POLY', (conv, input) => {
 
     }
     else {
-        dynamo_db.attributes['total_speech'] = 'poly command that ' + input.any + ' does not exist';
+        dynamo_db.attributes['total_speech'] =  input.polycommand + ' command does not exist. ';
     }
 
 
