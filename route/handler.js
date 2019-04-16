@@ -882,6 +882,7 @@ function question(parameters, conv) {
 
                             set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                                 total_speech = results;
+                                total_speech = total_speech + beep;
                                 console.log(`*************************************************************************`);
                                 console.log(`***alexa say:`, total_speech, `***`);
                                 console.log(`*************************************************************************`);
@@ -917,7 +918,9 @@ function question(parameters, conv) {
 
 
                         set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
+                            
                             total_speech = results;
+                            total_speech = total_speech + beep;
                             console.log(`*************************************************************************`);
                             console.log(`***alexa say:`, total_speech, `***`);
                             console.log(`*************************************************************************`);
@@ -938,15 +941,16 @@ function question(parameters, conv) {
 
                         set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                             total_speech = results;
+                            total_speech = total_speech + beep;
                             console.log(`**********************GCEMS**************************************`);
                             console.log(`***alexa say:`, total_speech, `***`);
                             console.log(`*************************************************************************`);
                             resolve_question('question done');
-                            total_speech = total_speech + beep;
                             
+
                             parameters.total_speech = total_speech;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
-                            console.log(`ioaslkfnaslkfnsalkfnsalkfnasklfbsalkfbsak;lfbsalkfbsaklfbasklfalksfbalksbf`);
+                        
                             console.log('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                             conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                 
@@ -959,12 +963,15 @@ function question(parameters, conv) {
 
                     set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                         total_speech = results;
+                        total_speech = total_speech + beep;
                         console.log(`********************GC*************************************************`);
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
                         // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                         resolve_question('question done');
                         console.log('11111');
+                        
+
                         parameters.total_speech = total_speech;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         console.log(`찍어보자:`, parameters.Speed_S + parameters.total_speech + Speed_E);
@@ -999,11 +1006,13 @@ function question(parameters, conv) {
 
                 total_speech = total_speech.concat(` `);
                 total_speech = total_speech.concat(parameters.question);
+
                 parameters.total_speech = total_speech;
 
                 // var realthis=this;
                 set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                     total_speech = results;
+                    total_speech = total_speech + beep;
                     console.log(`*************************************************************************`);
                     console.log(`***alexa say:`, total_speech, `***`);
                     console.log(`*************************************************************************`);
@@ -1024,6 +1033,7 @@ function question(parameters, conv) {
                 //var realthis=this;
                 set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                     total_speech = results;
+                    total_speech = total_speech + beep;
                     console.log(`*************************************************************************`);
                     console.log(`***alexa say:`, total_speech, `***`);
                     console.log(`*************************************************************************`);
@@ -1051,6 +1061,7 @@ function question(parameters, conv) {
                     console.log(`***alexa say:`, total_speech, `***`);
                     console.log(`*************************************************************************`);
                     resolve_question('question done');
+                    total_speech = total_speech + beep;
                     parameters.total_speech = total_speech+beep;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
@@ -1068,6 +1079,7 @@ function question(parameters, conv) {
                     //var realthis=this;
                     set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                         total_speech = results;
+                        total_speech = total_speech + beep;
                         console.log(`*************************************************************************`);
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
@@ -1088,6 +1100,7 @@ function question(parameters, conv) {
                     //var realthis=this;
                     set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
                         total_speech = results;
+                        total_speech = total_speech + beep;
                         console.log(`*************************************************************************`);
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
