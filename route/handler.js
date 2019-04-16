@@ -1240,8 +1240,9 @@ ap.intent('Answer', (conv, input) => {
     console.log('############################');
 //    var speak = input.any;
     console.log(input);
-    var speak=input.u1;
-    
+    var speak;
+    input.u1?speak=input.u1:speak=input.any;
+
 
 
 
