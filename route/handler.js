@@ -1130,10 +1130,10 @@ ap.intent('POLY', (conv,input) =>{
     console.log('@@@@@@@@@@@@@@@@@@@@@@POLY@@@@@@@@@@@@@@@@@@@@@@@@');
     //input.any  or input.polycommand
     console.log('input:',input);
-    var speak;
-    input.polycommand?speak=input.polycommand:speak=input.any;
+    var command;
+    input.polycommand?command=input.polycommand:command=input.any;
     console.log(`*************************************************************************`);
-    console.log(`***student say:`, speak, `***`);
+    console.log(`***student say: poly `, command, `***`);
     console.log(`*************************************************************************`);
 
     var parameters = conv.contexts.input.mysession.parameters;
@@ -1214,7 +1214,7 @@ ap.intent('POLY', (conv,input) =>{
         });
     }    
     else{
-        
+
         console.log('비계획된 POLY 명령어 사용했음');
         //conv.close('poly command that '+input.any+' does not exist');
         dynamo_db.attributes['total_speech']='poly command that '+input.any+' does not exist';
