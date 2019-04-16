@@ -154,7 +154,7 @@ function question(parameters, conv) {
 
 
 
-                            parameters.total_speech = total_speech;
+                            parameters.total_speech = total_speech+beep;
 
                             return 1;
 
@@ -693,7 +693,7 @@ function question(parameters, conv) {
 
 
                             parameters.reask_chance = results[0][0].reask_chance;
-                            parameters.total_speech = total_speech;
+                            parameters.total_speech = total_speech+beep;
 
 
 
@@ -888,7 +888,7 @@ function question(parameters, conv) {
 
                                 //   conv.ask('<speak>'+parameters.Speed_S+parameters.total_speech+Speed_E+'</speak>');
                                 resolve_question('question done');
-                                parameters.total_speech = total_speech;
+                                parameters.total_speech = total_speech+beep;
                                 conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                                 conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                                 //realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -898,7 +898,7 @@ function question(parameters, conv) {
                             parameters.QN = Rtype_donot_qnmove;
                             parameters.QuerryLoad_Possible = 1;
                             //total_speech+=` R type doesn't satisfied. `;///////수정요망
-                            parameters.total_speech = total_speech;
+                            parameters.total_speech = total_speech+beep;
                             parameters.isR_ing = 0;
                             //R타입 조건 충족 못하는경우...
                             //#@!
@@ -942,7 +942,7 @@ function question(parameters, conv) {
                             console.log(`*************************************************************************`);
                             resolve_question('question done');
 
-                            parameters.total_speech = total_speech;
+                            parameters.total_speech = total_speech+beep;
                             conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                             console.log(`ioaslkfnaslkfnsalkfnsalkfnasklfbsalkfbsak;lfbsalkfbsaklfbasklfalksfbalksbf`);
                             console.log('<speak>' + parameters.Speed_S + parameters.total_speech +beep+ Speed_E + '</speak>');
@@ -963,7 +963,7 @@ function question(parameters, conv) {
                         // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                         resolve_question('question done');
                         console.log('11111');
-                        parameters.total_speech = total_speech;
+                        parameters.total_speech = total_speech+beep;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         console.log(`찍어보자:`, parameters.Speed_S + parameters.total_speech + Speed_E);
 
@@ -997,7 +997,7 @@ function question(parameters, conv) {
 
                 total_speech = total_speech.concat(` `);
                 total_speech = total_speech.concat(parameters.question);
-                parameters.total_speech = total_speech;
+                parameters.total_speech = total_speech+beep;
 
                 // var realthis=this;
                 set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
@@ -1008,7 +1008,7 @@ function question(parameters, conv) {
 
                     // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
                     resolve_question('question done');
-                    parameters.total_speech = total_speech;
+                    parameters.total_speech = total_speech+beep;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                 });
@@ -1026,7 +1026,7 @@ function question(parameters, conv) {
                     console.log(`***alexa say:`, total_speech, `***`);
                     console.log(`*************************************************************************`);
                     resolve_question('question done');
-                    parameters.total_speech = total_speech;
+                    parameters.total_speech = total_speech+beep;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                     //realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1049,7 +1049,7 @@ function question(parameters, conv) {
                     console.log(`***alexa say:`, total_speech, `***`);
                     console.log(`*************************************************************************`);
                     resolve_question('question done');
-                    parameters.total_speech = total_speech;
+                    parameters.total_speech = total_speech+beep;
                     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                     conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                     //this.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1061,7 +1061,7 @@ function question(parameters, conv) {
                     for (var i = 0; i < parameters.M_wordcount; i++) {
                         total_speech = total_speech.concat(parameters.Order_total_word[i] + `. `);
                     }
-                    parameters.total_speech = total_speech;
+                    parameters.total_speech = total_speech+beep;
 
                     //var realthis=this;
                     set_total_speech(total_speech, parameters.Speed_S, parameters).then(function (results) {
@@ -1070,7 +1070,7 @@ function question(parameters, conv) {
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
                         resolve_question('question done');
-                        parameters.total_speech = total_speech;
+                        parameters.total_speech = total_speech+beep;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                         //  realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -1090,7 +1090,7 @@ function question(parameters, conv) {
                         console.log(`***alexa say:`, total_speech, `***`);
                         console.log(`*************************************************************************`);
                         resolve_question('question done');
-                        parameters.total_speech = total_speech;
+                        parameters.total_speech = total_speech+beep;
                         conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
                         conv.ask('<speak>' + parameters.Speed_S + parameters.total_speech + Speed_E + '</speak>');
                         // realthis.emit(':ask', `${Speed_S}${total_speech}${Speed_E}${beep}`, `Please say that again.${beep}`);
@@ -2430,7 +2430,7 @@ ap.intent('SignIn POLY', (conv, params, signin) => {
                         }
                     }
 
-                    parameters.total_speech = total_speech;
+                    parameters.total_speech = total_speech+beep;
 
                     return new Promise(function (resolve1) {
 
