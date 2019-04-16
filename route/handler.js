@@ -1147,21 +1147,21 @@ ap.intent('POLY', (conv,input) =>{
         {
            
             dynamo_db.attributes['total_speech']=`OK I'll speak a bit slower. `;
-              if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='medium'> `)
+              if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='medium'> <desc>[KPS]</desc>  `)
               {
-               dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> `;
+               dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc>  `;
                } 
-               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='slow'> `)
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='slow'> <desc>[KPS]</desc>  `)
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-slow'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-slow'> <desc>[KPS]</desc>  `;
                } 
-               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='fast'> `)
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='fast'> <desc>[KPS]</desc>  `)
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> <desc>[KPS]</desc>  `;
                }
-               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='x-fast'> `)
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='x-fast'> <desc>[KPS]</desc>  `)
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> <desc>[KPS]</desc>  `;
                }
                else
                {
@@ -1173,23 +1173,24 @@ ap.intent('POLY', (conv,input) =>{
         }
         else if(command =='fast')
         {
+            //` <prosody rate="medium"> <desc>[KPS]</desc>  `
             console.log(`dynamo_db.attributes['Speed_S']:`,dynamo_db.attributes['Speed_S']);
             dynamo_db.attributes['total_speech']=`OK I'll speak a bit faster. `;
-               if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='medium'> `)
+               if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='medium'> <desc>[KPS]</desc>  `)
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='fast'> <desc>[KPS]</desc>`;
                }
-               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='fast'> `) 
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='fast'> <desc>[KPS]</desc>  `) 
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-fast'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='x-fast'> <desc>[KPS]</desc>  `;
                } 
-               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='x-slow'> `)
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='x-slow'> <desc>[KPS]</desc>  `)
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc>  `;
                } 
-               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='slow'> `) 
+               else if (dynamo_db.attributes['Speed_S'] == ` <prosody rate='slow'> <desc>[KPS]</desc>  `) 
                {
-                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> `;
+                   dynamo_db.attributes['Speed_S'] = ` <prosody rate='medium'> <desc>[KPS]</desc>  `;
                }
                else
                {
