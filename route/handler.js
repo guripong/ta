@@ -1134,9 +1134,9 @@ ap.intent('POLY', (conv,input) =>{
     console.log('input:',input);
     */
     console.log('input:',input);
-    
 
-    conv.close('poly intent call');
+
+    conv.ask('poly intent call');
 
 });
 //####################################################################################################
