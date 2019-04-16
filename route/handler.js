@@ -1130,8 +1130,7 @@ ap.intent('POLY', (conv,input) =>{
     console.log('@@@@@@@@@@@@@@@@@@@@@@POLY@@@@@@@@@@@@@@@@@@@@@@@@');
     //input.any  or input.polycommand
     console.log('input:',input);
-    var command;
-    input.polycommand?command=input.polycommand:command=input.any;
+    var command=input.polycommand;
     console.log(`*************************************************************************`);
     console.log(`***student say: poly `, command, `***`);
     console.log(`*************************************************************************`);
