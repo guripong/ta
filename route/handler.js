@@ -1227,7 +1227,7 @@ ap.intent('Default Welcome Intent', conv => {
 
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
-     console.log('테스트:',conv.arguments.raw.input);
+     console.log('테스트:',conv.arguments.raw.input.text.rawText);
 
 
     var parameters = conv.contexts.input.mysession.parameters;
@@ -1240,7 +1240,7 @@ ap.intent('Answer', (conv, input) => {
     console.log('############################');
     //    var speak = input.any;
     console.log(input);
-    var speak=conv.arguments.raw.input.rawText;
+    var speak=conv.arguments.raw.input.text.rawText;
 /*
     if (input.any) speak = input.any;
     else if (input.output1) speak = input.output1;
