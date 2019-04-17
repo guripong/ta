@@ -1227,7 +1227,7 @@ ap.intent('Default Welcome Intent', conv => {
 
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
-     console.log('테스트:',conv.arguments.raw.input);
+     console.log('테스트:',conv.arguments.raw.input.rawText);
 
 
     var parameters = conv.contexts.input.mysession.parameters;
@@ -1240,19 +1240,19 @@ ap.intent('Answer', (conv, input) => {
     console.log('############################');
     //    var speak = input.any;
     console.log(input);
-    var speak;
-
+    var speak=conv.arguments.raw.input.rawText;
+/*
     if (input.any) speak = input.any;
-    if (input.output1) speak = input.output1;
-    if (input.output2) speak = input.output2;
-    if (input.output3) speak = input.output3;
-    if (input.output4) speak = input.output4;
-    if (input.output5) speak = input.output5;
-    if (input.output6) speak = input.output6;
-    if (input.output7) speak = input.output7;
-    if (input.output8) speak = input.output8;
-    if (input.output9) speak = input.output9;
-
+    else if (input.output1) speak = input.output1;
+    else if (input.output2) speak = input.output2;
+    else if (input.output3) speak = input.output3;
+    else if (input.output4) speak = input.output4;
+    else if (input.output5) speak = input.output5;
+    else if (input.output6) speak = input.output6;
+    else if (input.output7) speak = input.output7;
+    else if (input.output8) speak = input.output8;
+    else if (input.output9) speak = input.output9;
+*/
 
 
     speak = speak.replace("#", "number ");
