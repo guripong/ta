@@ -1876,23 +1876,42 @@ ap.intent('Answer', (conv, input) => {
 
                                         console.log('tmpmyspeak_index:', tmpmyspeak_index);
                                         console.log('내발화:', tmpmyspeak[tmpmyspeak_index]);
-                                        var mynumber = tmpmyspeak[tmpmyspeak_index].replace(/[^0-9]/g, "") * 1;
+                                        var isnumber = 0;
+                                        for (var fi = 0; fi < tmpmyspeak.length; fi++) {
+                                            if (tmpmyspeak[fi] * 1 > 48 && tmpmyspeak[fi] * 1 < 58) {
+                                                isnumber = 1;
+                                                break;
+                                            }
+                                        }
+                                        var mynumber;
+                                        if (isnumber == 1) {
+                                            console.log(`숫자:`, mynumber);
+                                            mynumber = tmpmyspeak[tmpmyspeak_index].replace(/[^0-9]/g, "") * 1;
 
-                                        console.log(`숫자:`, mynumber);
+                                            if (mynumber >= condition_min && mynumber <= condition_max) {
+                                                console.log('숫자범위 합격', mynumber);
+                                                tmpmyspeak_index++;
 
-                                        if (mynumber >= condition_min && mynumber <= condition_max) {
-                                            console.log('숫자범위 합격', mynumber);
-                                            tmpmyspeak_index++;
-
+                                            }
+                                            else {
+                                                console.log('숫자범위 불합격');
+                                                isjungdab = 0;
+                                                //tmpmyspeak_index=0; 안해두댐 위에for문에서 새로해줌
+                                                //i like #@num5_10# pizza/[여기조사하러감]/i love #@num5_10# pineapple
+                                                console.log(`@@@다음 case array 조사하로 고고 break`);
+                                                break;
+                                            }
                                         }
                                         else {
-                                            console.log('숫자범위 불합격');
+                                            console.log('숫자가 아님');
                                             isjungdab = 0;
                                             //tmpmyspeak_index=0; 안해두댐 위에for문에서 새로해줌
                                             //i like #@num5_10# pizza/[여기조사하러감]/i love #@num5_10# pineapple
                                             console.log(`@@@다음 case array 조사하로 고고 break`);
                                             break;
                                         }
+
+                                
                                     }
                                     else {
 
