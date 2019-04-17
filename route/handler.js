@@ -1141,7 +1141,7 @@ ap.intent('POLY', (conv, input) => {
 
 
     if (command == 'poly slow') {
-    
+
         dynamo_db.attributes['total_speech'] = `OK I'll speak a bit slower. `;
         if (dynamo_db.attributes['Speed_S'].indexOf(`<prosody rate='medium'>`) !== -1) {
             dynamo_db.attributes['Speed_S'] = ` <prosody rate='slow'> <desc>[KPS]</desc> `;
@@ -1186,7 +1186,7 @@ ap.intent('POLY', (conv, input) => {
 
     }
     else {
-        dynamo_db.attributes['total_speech'] =  input.polycommand + ' command does not exist. ';
+        dynamo_db.attributes['total_speech'] = input.polycommand + ' command does not exist. ';
     }
 
 
@@ -1238,20 +1238,20 @@ ap.intent('Answer', (conv, input) => {
 
     console.log(`Answer에서의 상황`, parameters);
     console.log('############################');
-//    var speak = input.any;
+    //    var speak = input.any;
     console.log(input);
     var speak;
 
-    if(input.any) speak=input.any;
-    if(input.output1) speak=input.output1;
-    if(input.output2) speak=input.output2; 
-    if(input.output3) speak=input.output3;
-    if(input.output4) speak=input.output4;
-    if(input.output5) speak=input.output5;
-    if(input.output6) speak=input.output6;
-    if(input.output7) speak=input.output7;
-    if(input.output8) speak=input.output8;
-    if(input.output9) speak=input.output9;
+    if (input.any) speak = input.any;
+    if (input.output1) speak = input.output1;
+    if (input.output2) speak = input.output2;
+    if (input.output3) speak = input.output3;
+    if (input.output4) speak = input.output4;
+    if (input.output5) speak = input.output5;
+    if (input.output6) speak = input.output6;
+    if (input.output7) speak = input.output7;
+    if (input.output8) speak = input.output8;
+    if (input.output9) speak = input.output9;
 
 
 
@@ -1865,77 +1865,111 @@ ap.intent('Answer', (conv, input) => {
                                 //C_table_value_Array[x][0~length-1] 까지 조사해야함
                                 //tmpmyspeak_index가 유연하게 늘었다 줄었다 해야함;
                                 if (tmpjungdabspeak[k][0] == '#') {
-                                    console.log(`여기서 해당DB의 단어들과 tmpmyspeak를 비교해야함`, tmpjungdabspeak[k].substring(1, tmpjungdabspeak[k].length - 1));//sentence
-                                    for (var p = 0; p < C_table_name_array.length; p++) {
-                                        var tmpjungdab;
-                                        if (C_table_name_array[p] == tmpjungdabspeak[k].substring(1, tmpjungdabspeak[k].length - 1)) //sentence 나옴
-                                        {
-                                            tmpjungdab = 1;
+                                    if (tmpjungdabspeak[k].substr(1, 4) == '@num') {
+                                        var condition_min = tmpjungdabspeak[k].substr(5, tmpjungdabspeak[k].length - 6).split('_')[0];
+                                        var condition_max = tmpjungdabspeak[k].substr(5, tmpjungdabspeak[k].length - 6).split('_')[1];
+                                        var tmpjungdab = 1;
+                                        console.log('실제발화값이 사이여야함');
+                                        console.log('min:', condition_min);
+                                        console.log('max:', condition_max);
 
-                                            for (var u = 0; u < C_table_value_array[p].length; u++) {
-                                                console.log(`C_table_value_array[p][u]:`, C_table_value_array[p][u]);
-                                                var tmpctva;
-                                                tmpctva = C_table_value_array[p][u].split(` `);
 
-                                                tmpjungdab = 1;
-                                                var tmpindex = 0;
-                                                var y;
-                                                if (tmpmyspeak[tmpmyspeak_index + tmpindex]) {
-                                                    console.log(`내가 한말에 대해 특히:`, tmpmyspeak[tmpmyspeak_index + tmpindex], `부분을 조사`);//
-                                                    for (y = 0; y < tmpctva.length; y++) {
-                                                        console.log(`tmpctva[`, y, `]조사:`, tmpctva[y]);
-                                                        console.log(`tmpmyspeak[tmpmyspeak_index+tmpindex]랑비교:`, tmpmyspeak[tmpmyspeak_index + tmpindex]);
-                                                        if (tmpctva[y] == tmpmyspeak[tmpmyspeak_index + tmpindex]) //여긴 table : i love  이런게 들어있음  
-                                                        {
-                                                            tmpindex++;
-                                                        }
-                                                        else {
-                                                            tmpjungdab = 0;
-                                                            break;//break는 (갉)으로감
-                                                        }
+                                        console.log('tmpmyspeak_index:', tmpmyspeak_index);
+                                        console.log('내발화:', tmpmyspeak[tmpmyspeak_index]);
+                                        var mynumber = tmpmyspeak[tmpmyspeak_index].replace(/[^0-9]/g, "") * 1;
 
-                                                    }// (갉) tmpjungdab이 0일때 나온 for문
-                                                    if (tmpjungdab == 1) {
-                                                        tmpmyspeak_index = tmpmyspeak_index + tmpindex;
-                                                        break;
-                                                    }
+                                        console.log(`숫자:`, mynumber);
 
-                                                }
-                                                else {
-                                                    console.log(`tmpmyspeak[tmpmyspeak_index+tmpindex]랑비교:`, tmpmyspeak[tmpmyspeak_index + tmpindex]);
-                                                    tmpjungdab = 0;
-                                                    isjungdab = 0;
-                                                    console.log(`undefine 이라 조사못함`);
-                                                    break;
-                                                }
-                                                //if(C_table_value_array[p][u]) 해당값을 쪼개야함 
-                                            }
-
-                                            if (tmpjungdab == 1) {
-                                                break;
-                                            }
-                                            else {
-                                                isjungdab = 0;
-                                                console.log(`@@@오답일경우 나가자?`);
-                                                break;//오답일경우 나가자? (뒑)
-                                            }
+                                        if (mynumber >= condition_min && mynumber <= condition_max) {
+                                            console.log('숫자범위 합격', mynumber);
+                                            tmpmyspeak_index++;
 
                                         }
-
-                                    }//(뒑)
-                                    if (isjungdab == 0) {
-                                        console.log(`@@@뒑에서 이어지는경우 break해봄`);
-                                        break;
+                                        else {
+                                            console.log('숫자범위 불합격');
+                                            isjungdab = 0;
+                                            //tmpmyspeak_index=0; 안해두댐 위에for문에서 새로해줌
+                                            //i like #@num5_10# pizza/[여기조사하러감]/i love #@num5_10# pineapple
+                                            console.log(`@@@다음 case array 조사하로 고고 break`);
+                                            break;
+                                        }
                                     }
-                                    console.log(`@@@ tmpmyspeak.length:`, tmpmyspeak.length, `//tmpmyspeak_index:`, tmpmyspeak_index);
-                                    if (tmpmyspeak.length < tmpmyspeak_index) {
-                                        console.log(`길이문제로 오답입네당`);
-                                        isjungdab = 0;
-                                        break;
-                                    }
-                                    /////////////////하;; 미친다
+                                    else {
 
-                                    //다시저장하고 이거 직어봐야할것                             
+
+
+                                        console.log(`여기서 해당DB의 단어들과 tmpmyspeak를 비교해야함`, tmpjungdabspeak[k].substring(1, tmpjungdabspeak[k].length - 1));//sentence
+                                        for (var p = 0; p < C_table_name_array.length; p++) {
+                                            var tmpjungdab;
+                                            if (C_table_name_array[p] == tmpjungdabspeak[k].substring(1, tmpjungdabspeak[k].length - 1)) //sentence 나옴
+                                            {
+                                                tmpjungdab = 1;
+
+                                                for (var u = 0; u < C_table_value_array[p].length; u++) {
+                                                    console.log(`C_table_value_array[p][u]:`, C_table_value_array[p][u]);
+                                                    var tmpctva;
+                                                    tmpctva = C_table_value_array[p][u].split(` `);
+
+                                                    tmpjungdab = 1;
+                                                    var tmpindex = 0;
+                                                    var y;
+                                                    if (tmpmyspeak[tmpmyspeak_index + tmpindex]) {
+                                                        console.log(`내가 한말에 대해 특히:`, tmpmyspeak[tmpmyspeak_index + tmpindex], `부분을 조사`);//
+                                                        for (y = 0; y < tmpctva.length; y++) {
+                                                            console.log(`tmpctva[`, y, `]조사:`, tmpctva[y]);
+                                                            console.log(`tmpmyspeak[tmpmyspeak_index+tmpindex]랑비교:`, tmpmyspeak[tmpmyspeak_index + tmpindex]);
+                                                            if (tmpctva[y] == tmpmyspeak[tmpmyspeak_index + tmpindex]) //여긴 table : i love  이런게 들어있음  
+                                                            {
+                                                                tmpindex++;
+                                                            }
+                                                            else {
+                                                                tmpjungdab = 0;
+                                                                break;//break는 (갉)으로감
+                                                            }
+
+                                                        }// (갉) tmpjungdab이 0일때 나온 for문
+                                                        if (tmpjungdab == 1) {
+                                                            tmpmyspeak_index = tmpmyspeak_index + tmpindex;
+                                                            break;
+                                                        }
+
+                                                    }
+                                                    else {
+                                                        console.log(`tmpmyspeak[tmpmyspeak_index+tmpindex]랑비교:`, tmpmyspeak[tmpmyspeak_index + tmpindex]);
+                                                        tmpjungdab = 0;
+                                                        isjungdab = 0;
+                                                        console.log(`undefine 이라 조사못함`);
+                                                        break;
+                                                    }
+                                                    //if(C_table_value_array[p][u]) 해당값을 쪼개야함 
+                                                }
+
+                                                if (tmpjungdab == 1) {
+                                                    break;
+                                                }
+                                                else {
+                                                    isjungdab = 0;
+                                                    console.log(`@@@오답일경우 나가자?`);
+                                                    break;//오답일경우 나가자? (뒑)
+                                                }
+
+                                            }
+
+                                        }//(뒑)
+                                        if (isjungdab == 0) {
+                                            console.log(`@@@뒑에서 이어지는경우 break해봄`);
+                                            break;
+                                        }
+                                        console.log(`@@@ tmpmyspeak.length:`, tmpmyspeak.length, `//tmpmyspeak_index:`, tmpmyspeak_index);
+                                        if (tmpmyspeak.length < tmpmyspeak_index) {
+                                            console.log(`길이문제로 오답입네당`);
+                                            isjungdab = 0;
+                                            break;
+                                        }
+                                        /////////////////하;; 미친다
+
+                                        //다시저장하고 이거 직어봐야할것  
+                                    }
                                 }
                                 else {
                                     isjungdab = 0;
@@ -2582,7 +2616,7 @@ ap.intent('Stop', conv => {
     //console.log('conv:', conv);
     //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
 
-    if(conv.contexts.input.mysession) var parameters = conv.contexts.input.mysession.parameters;
+    if (conv.contexts.input.mysession) var parameters = conv.contexts.input.mysession.parameters;
 
     var dynamo_db = {};
     dynamo_db.attributes = parameters;
@@ -2597,7 +2631,7 @@ ap.intent('Stop', conv => {
     //        console.log(`QN:`,QN);
     //        console.log(`location:`,location);
 
-    return new Promise(function (resolve_stop,reject) {
+    return new Promise(function (resolve_stop, reject) {
         mysql.createConnection(config).then(function (conn) {
             sql = `call final_skill_stop ("` + dynamo_db.attributes['oauth_user_id'] + `","` + dynamo_db.attributes['location'] + `","`
                 + dynamo_db.attributes['type'] + `","` +
@@ -2608,24 +2642,24 @@ ap.intent('Stop', conv => {
             return conn.query(sql);
         }).then(function (results) {
             connection.end();
-          
-      
-                console.log(`results:`,results);
-                //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
-                resolve_stop('stop plz');
-            
 
 
-        }).catch(function (error){
-            console.log('mysql에러:',error);
+            console.log(`results:`, results);
+            //this.emit(':tell',`OK. I'll talk to you later. Bye.`);
+            resolve_stop('stop plz');
+
+
+
+        }).catch(function (error) {
+            console.log('mysql에러:', error);
             reject('에러남');
         });
     }).then(function (resolvedatstop) {
-        console.log(`resolve_stop 끝!!`,resolvedatstop);
-        
+        console.log(`resolve_stop 끝!!`, resolvedatstop);
+
         conv.close(`OK. I'll talk to you later. Bye.`);
-    }).catch(function(error){
-        console.log('error:',error);
+    }).catch(function (error) {
+        console.log('error:', error);
         conv.close('error');
     });
 
