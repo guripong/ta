@@ -1227,7 +1227,7 @@ ap.intent('Default Welcome Intent', conv => {
 
 ap.intent('Answer', (conv, input) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
-     console.log('conv:',conv);
+     console.log('테스트:',conv.arguments.raw.input);
 
 
     var parameters = conv.contexts.input.mysession.parameters;
