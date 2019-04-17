@@ -1243,9 +1243,15 @@ ap.intent('Answer', (conv, input) => {
     var speak;
 
     if(input.any) speak=input.any;
-    if(input.u1) speak=input.u1;
-    if(input.u2_1) speak=input.u2_1;
-    if(input.u2_2) speak=input.u2_2;
+    if(input.output1) speak=input.output1;
+    if(input.output2) speak=input.output2; 
+    if(input.output3) speak=input.output3;
+    if(input.output4) speak=input.output4;
+    if(input.output5) speak=input.output5;
+    if(input.output6) speak=input.output6;
+    if(input.output7) speak=input.output7;
+    if(input.output8) speak=input.output8;
+    if(input.output9) speak=input.output9;
 
 
 
