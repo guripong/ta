@@ -1876,17 +1876,12 @@ ap.intent('Answer', (conv, input) => {
 
                                         console.log('tmpmyspeak_index:', tmpmyspeak_index);
                                         console.log('내발화:', tmpmyspeak[tmpmyspeak_index]);
-                                        var isnumber = 0;
-                                        for (var fi = 0; fi < tmpmyspeak.length; fi++) {
-                                            if (tmpmyspeak[fi] * 1 > 48 && tmpmyspeak[fi] * 1 < 58) {
-                                                isnumber = 1;
-                                                break;
-                                            }
-                                        }
-                                        var mynumber;
-                                        if (isnumber == 1) {
+
+                                        var mynumber = parseInt(tmpmyspeak[tmpmyspeak_index])*1;
+
+                                        if (mynumber) {
                                             console.log(`숫자:`, mynumber);
-                                            mynumber = tmpmyspeak[tmpmyspeak_index].replace(/[^0-9]/g, "") * 1;
+                                         
 
                                             if (mynumber >= condition_min && mynumber <= condition_max) {
                                                 console.log('숫자범위 합격', mynumber);
