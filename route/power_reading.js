@@ -20,6 +20,30 @@ const ap = dialogflow({
 });
 
 router.post('/', ap);
+ap.intent('Answer', (conv, input) => {
+    console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
+     console.log('테스트:',conv.arguments.raw.input.text.rawText);
+
+
+    var parameters = conv.contexts.input.mysession.parameters;
+
+    //parameters.total_speech = `you said that ${input.any} `;
+
+    //conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+
+    console.log(`Answer에서의 상황`, parameters);
+    console.log('############################');
+    //    var speak = input.any;
+    console.log(input);
+    var speak=conv.arguments.raw.input.text.rawText;
+    conv.ask(`you said that ${speak}`);
+    conv.ask(new Image({
+        url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
+        alt: 'A cat',
+    }))
+    conv.ask(`say anything again!`);
+});
+
 
 ap.intent('Default Welcome Intent', conv => {
     //console.log('conv:',conv);
@@ -79,7 +103,7 @@ ap.intent('Oauth', (conv, params, signin) => {
             }).then(function (body) {
                 console.log('do another job:', body.user_id);
 
-               conv.ask(`Welcome to Power Reading! `);
+               conv.ask(`Welcome to Power Reading! say anythings!`);
 
 
              
@@ -87,7 +111,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         }
         else {
             console.log('access token이 없음');
-            conv.ask(`accesstoken error, does not exist`);
+            conv.close(`accesstoken error, does not exist`);
         }
 
     }
@@ -104,7 +128,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
 ap.intent('Stop', conv => {
 
-    conv.close(`OK. I'll talk to you later. Bye.`);
+    conv.close(`OK. Close Power Reading. Bye.`);
    
 });
 
