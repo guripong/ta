@@ -2685,7 +2685,7 @@ ap.intent('Stop', conv => {
 
 ap.intent('Default Fallback Intent', conv => {
     //console.log('conv:', conv);
-    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
+  //  conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
 
