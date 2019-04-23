@@ -239,16 +239,7 @@ ap.intent('Answer', (conv, input,option) => {
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){ //터치가능
         conv.ask(new SimpleResponse(`you said that ${speak}. here is mix example`));
         conv.ask(new Suggestions(kind_of_suggestions));
-        conv.ask(new MediaObject({
-            name: 'Jazz in Paris',
-            url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
-            description: 'A funky Jazz tune',
-            icon: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
-              alt: 'Ocean view',
-            }),
-          }));
-          conv.ask(new BasicCard({
+        conv.ask(new BasicCard({
             title: 'My Cat',
             subtitle: `what i heard: ${speak}`,
             text: `   😂😃😄😅 📱.  \n
@@ -272,7 +263,16 @@ ap.intent('Answer', (conv, input,option) => {
             //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
             //display  X 구글홈허브
         }));
-
+        conv.ask(new MediaObject({
+            name: 'Jazz in Paris',
+            url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
+            description: 'A funky Jazz tune',
+            icon: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+              alt: 'Ocean view',
+            }),
+        }));
+          
     }
     /*
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
