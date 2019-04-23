@@ -27,7 +27,7 @@ ap.intent('Answer', (conv, input,option) => {
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
-    if(speak.indexOf('type 1')!==-1)
+    if(speak.indexOf('type 1')!==-1 || speak.indexOf('type one')!==-1)
     {
         conv.ask(`you said that ${speak}.  here is basic card example`);
         conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
@@ -56,7 +56,7 @@ ap.intent('Answer', (conv, input,option) => {
             //display  X 구글홈허브
         }));
     }
-    else if(speak.indexOf('type 2')!==-1){
+    else if(speak.indexOf('type 2')!==-1 || speak.indexOf('type two')!==-1){
         console.log('음악예제');
    
         conv.ask(new SimpleResponse(`you said that ${speak}. here is MediaObject example`));
@@ -72,7 +72,7 @@ ap.intent('Answer', (conv, input,option) => {
         }));
         
     }
-    else if(speak.indexOf('type 3')!==-1){
+    else if(speak.indexOf('type 3')!==-1 || speak.indexOf('type three')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is List example`));
         conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
         conv.ask(new List({
