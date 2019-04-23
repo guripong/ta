@@ -30,6 +30,7 @@ ap.intent('Answer', (conv, input) => {
     if(speak.indexOf('type 1')!==-1)
     {
         conv.ask(`you said that ${speak}.  here is basic card example`);
+        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
         conv.ask(new BasicCard({
             title: 'My Cat',
             subtitle: `what i heard: ${speak}`,
@@ -47,6 +48,8 @@ ap.intent('Answer', (conv, input) => {
             image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
             alt: 'Image alternate text',
+            width : 200,
+            heigh : 200,
             }),
             
             //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
@@ -68,6 +71,10 @@ ap.intent('Answer', (conv, input) => {
           }),
         }));
         
+    }
+    else if(speak.indexOf('type 3')!==-1){
+
+
     }
     else{
         conv.ask(`you said that ${speak}`);
