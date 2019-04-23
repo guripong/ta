@@ -27,10 +27,10 @@ ap.intent('Answer', (conv, input) => {
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
-    
+
     conv.ask(`you said that ${speak}`);
     conv.ask(new Image({
-        url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
+        url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
         alt: 'A cat',
     }))
     conv.ask(`say anything again!`);
