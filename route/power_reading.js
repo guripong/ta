@@ -42,7 +42,7 @@ ap.intent('Default Fallback Intent', conv => {
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
 ap.intent('Oauth', (conv, params, signin) => {
-
+    console.log('######################Oauth@@@@@@@@@@@@@@@@@@');
     if (signin.status === 'OK') {
    
         console.log('#######################conv.user.access.token#######################');
