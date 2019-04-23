@@ -73,8 +73,55 @@ ap.intent('Answer', (conv, input) => {
         
     }
     else if(speak.indexOf('type 3')!==-1){
-
-
+        conv.ask(new SimpleResponse(`you said that ${speak}. here is List example`));
+        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new List({
+            title: 'List Title',
+            items: {
+              // Add the first item to the list
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'synonym 1',
+                  'synonym 2',
+                  'synonym 3',
+                ],
+                title: 'Title of First List Item',
+                description: 'This is a description of a list item.',
+                image: new Image({
+                  url: 'IMG_URL_AOG.com',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the list
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+              ],
+                title: 'Google Home',
+                description: 'Google Home is a voice-activated speaker powered by ' +
+                  'the Google Assistant.',
+                image: new Image({
+                  url: 'IMG_URL_GOOGLE_HOME.com',
+                  alt: 'Google Home',
+                }),
+              },
+              // Add the third item to the list
+              'SELECTION_KEY_GOOGLE_PIXEL': {
+                synonyms: [
+                  'Google Pixel XL',
+                  'Pixel',
+                  'Pixel XL',
+                ],
+                title: 'Google Pixel',
+                description: 'Pixel. Phone by Google.',
+                image: new Image({
+                  url: 'IMG_URL_GOOGLE_PIXEL.com',
+                  alt: 'Google Pixel',
+                }),
+              },
+            },
+          }));
     }
     else{
         conv.ask(`you said that ${speak}`);
