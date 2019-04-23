@@ -131,7 +131,7 @@ ap.intent('Answer', (conv, input,option) => {
           title: 'Table Title',
           subtitle: 'Table Subtitle',
           image: new Image({
-            url: 'https://avatars0.githubusercontent.com/u/23533486',
+            url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
             alt: 'Actions on Google'
           }),
           columns: [
@@ -164,8 +164,59 @@ ap.intent('Answer', (conv, input,option) => {
           buttons: new Button({
             title: 'Button Title',
             url: 'https://github.com/actions-on-google' //버튼 링크줘서 보내버리기
-          }),
+          }), //버튼 안먹힘
         }));
+
+    }
+    else if(speak.indexOf('type 5')!==-1 || speak.indexOf('type five')!==-1){
+        conv.ask(new SimpleResponse(`you said that ${speak}. here is Carousel example`));
+        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Carousel({
+            items: {
+              // Add the first item to the carousel
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'synonym 1',
+                  'synonym 2',
+                  'synonym 3',
+                ],
+                title: 'Title of First Carousel Item',
+                description: 'This is a description of a carousel item.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the carousel
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+              ],
+                title: 'Google Home',
+                description: 'Google Home is a voice-activated speaker powered by ' +
+                  'the Google Assistant.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  alt: 'Google Home',
+                }),
+              },
+              // Add third item to the carousel
+              'SELECTION_KEY_GOOGLE_PIXEL': {
+                synonyms: [
+                  'Google Pixel XL',
+                  'Pixel',
+                  'Pixel XL',
+                ],
+                title: 'Google Pixel',
+                description: 'Pixel. Phone by Google.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  alt: 'Google Pixel',
+                }),
+              },
+            },
+          }));
 
     }
     else{
