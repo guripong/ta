@@ -35,18 +35,22 @@ ap.intent('Answer', (conv, input) => {
         text: `   😂😃😄😅 📱.  \n
         MY NAME IS **JOHN**  \n
         https://www.fileformat.info/info/unicode/block/emoticons/list.htm  \n
+        overflow \n
+        overflow \n
         `, // Note the two spaces before '\n' required for a line break to be rendered in the card.    
         buttons: new Button({
           title: 'This is a button',
           url: 'https://assistant.google.com/',
         }),
+        //buttons X 구글홈허브
         image: new Image({
           url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
           alt: 'Image alternate text',
         }),
         display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+        //display  X 구글홈허브
     }));
-    
+
 
 
     /*
@@ -120,7 +124,7 @@ ap.intent('Oauth', (conv, params, signin) => {
             }).then(function (body) {
                 console.log('do another job:', body.user_id);
 
-               conv.ask(`Welcome to Power Reading! say anythings!`);
+               conv.ask(`Welcome to Power reading! say anythings!`);
 
 
              
