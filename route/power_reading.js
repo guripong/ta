@@ -83,7 +83,7 @@ ap.intent('Answer', (conv, input,option) => {
           url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
           description: 'A funky Jazz tune',
           icon: new Image({
-            url: 'https://storage.googleapis.com/automotive-media/album_art.jpg',
+            url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
             alt: 'Ocean view',
           }),
         }));
@@ -120,7 +120,7 @@ ap.intent('Answer', (conv, input,option) => {
                 description: 'Google Home is a voice-activated speaker powered by ' +
                   'the Google Assistant.',
                 image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
                   alt: 'Google Home',
                 }),
               },
@@ -197,7 +197,7 @@ ap.intent('Answer', (conv, input,option) => {
                   'synonym 2',
                   'synonym 3',
                 ],
-                title: 'Title of First Carousel Item',
+                title: 'cat1',
                 description: 'This is a description of a carousel item.',
                 image: new Image({
                   url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
@@ -210,11 +210,11 @@ ap.intent('Answer', (conv, input,option) => {
                   'Google Home Assistant',
                   'Assistant on the Google Home',
               ],
-                title: 'Google Home',
+                title: 'cat2',
                 description: 'Google Home is a voice-activated speaker powered by ' +
                   'the Google Assistant.',
                 image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
                   alt: 'Google Home',
                 }),
               },
@@ -247,6 +247,7 @@ ap.intent('Answer', (conv, input,option) => {
     }*/
     //안먹힘 폰만됨
     else{
+        conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(`you said that ${speak}`);
     }
 
