@@ -20,6 +20,13 @@ const {
 const ap = dialogflow({
     clientId: `power_reading`,
 });
+const kind_of_suggestions = [
+    'type 1',
+    'type 2',
+    'type 3',
+    'type 4',
+    'type 5',
+  ];
 
 router.post('/', ap);
 ap.intent('Answer', (conv, input,option) => {
@@ -36,7 +43,7 @@ ap.intent('Answer', (conv, input,option) => {
     if(speak.indexOf('type 1')!==-1 || speak.indexOf('type one')!==-1)
     {
         conv.ask(`you said that ${speak}.  here is basic card example`);
-        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new BasicCard({
             title: 'My Cat',
             subtitle: `what i heard: ${speak}`,
@@ -70,7 +77,7 @@ ap.intent('Answer', (conv, input,option) => {
         console.log('음악예제');
    
         conv.ask(new SimpleResponse(`you said that ${speak}. here is MediaObject example`));
-        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new MediaObject({
           name: 'Jazz in Paris',
           url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
@@ -80,11 +87,12 @@ ap.intent('Answer', (conv, input,option) => {
             alt: 'Ocean view',
           }),
         }));
+        conv.ask(new SimpleResponse(`choose type 1 to 5`));
         
     }
     else if(speak.indexOf('type 3')!==-1 || speak.indexOf('type three')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is List example`));
-        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new List({
             title: 'List Title',
             items: {
@@ -135,7 +143,7 @@ ap.intent('Answer', (conv, input,option) => {
     }
     else if(speak.indexOf('type 4')!==-1 || speak.indexOf('type four')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Table example`));
-        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new Table({
           title: 'Table Title',
           subtitle: 'Table Subtitle',
@@ -179,7 +187,7 @@ ap.intent('Answer', (conv, input,option) => {
     }
     else if(speak.indexOf('type 5')!==-1 || speak.indexOf('type five')!==-1){ //터치가능
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Carousel example`));
-        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new Carousel({
             items: {
               // Add the first item to the carousel
@@ -228,6 +236,7 @@ ap.intent('Answer', (conv, input,option) => {
           }));
 
     }
+    /*
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example`));
         conv.ask(new Suggestions(['apple', 'banana']));
@@ -235,7 +244,8 @@ ap.intent('Answer', (conv, input,option) => {
           name: 'Suggestion Link',
           url: 'https://assistant.google.com/',
         }));
-    }
+    }*/
+    //안먹힘 폰만됨
     else{
         conv.ask(`you said that ${speak}`);
     }
@@ -320,8 +330,8 @@ ap.intent('Oauth', (conv, params, signin) => {
             }).then(function (body) {
                 console.log('do another job:', body.user_id);
 
-               conv.ask(`Welcome to Power reading! say anythings!`);
-
+               conv.ask(`Welcome to Power reading! choose types!`);
+               conv.ask(new Suggestions(kind_of_suggestions));
 
              
             });
