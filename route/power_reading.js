@@ -23,7 +23,7 @@ router.post('/', ap);
 ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
    
-
+    console.log('option:',option);
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
@@ -82,8 +82,8 @@ ap.intent('Answer', (conv, input,option) => {
               'SELECTION_KEY_ONE': {
                 synonyms: [
                   'apple',
-                  'synonym 2',
-                  'synonym 3',
+                  'Apple',
+                  'I like an apple',
                 ],
                 title: 'Title of First List Item',
                 description: 'This is a description of a list item.',
