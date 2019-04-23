@@ -25,6 +25,7 @@ ap.intent('Answer', (conv, input,option) => {
    
     console.log('option:',option);
     var speak=conv.arguments.raw.input.text.rawText;
+    speak = speak.toLowerCase();
     console.log('speak:',speak);
 
     if(speak.indexOf('type 1')!==-1 || speak.indexOf('type one')!==-1)
