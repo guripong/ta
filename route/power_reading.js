@@ -48,7 +48,7 @@ ap.intent('Answer', (conv, input) => {
           alt: 'Image alternate text',
         }),
         
-        display: 'CROPPED', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+        display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
         //display  X 구글홈허브
     }));
 
