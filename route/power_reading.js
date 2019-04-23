@@ -27,10 +27,15 @@ ap.intent('Answer', (conv, input) => {
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
-    
+
     conv.ask(`you said that ${speak}`);
     conv.ask(new BasicCard({
-        text: `BasicCard Example! \n Speak: ${speak}!!`, // Note the two spaces before '\n' required for
+        text: `Speak: ${speak}!!
+        This is a basic card.  Text in a basic card can include "quotes" and
+        most other unicode characters including emoji 📱.  Basic cards also support
+        some markdown formatting like *emphasis* or _italics_, **strong** or
+        __bold__, and ***bold itallic*** or ___strong emphasis___ as well as other
+        things like line  \nbreaks`, // Note the two spaces before '\n' required for
                                      // a line break to be rendered in the card.
         subtitle: 'This is a subtitle',
         title: 'Title: this is a title',
