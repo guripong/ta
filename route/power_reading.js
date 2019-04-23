@@ -13,6 +13,8 @@ const {
     Table,
     List,
     SignIn,
+    LinkOutSuggestion,
+
 } = require('actions-on-google')
 
 const ap = dialogflow({
@@ -49,13 +51,17 @@ ap.intent('Answer', (conv, input,option) => {
             image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
             alt: 'Image alternate text',
-            width : 200,
-            heigh : 200,
+            width : 500,
+            heigh : 500,
             }),
             
             //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
             //display  X 구글홈허브
         }));
+        conv.ask(new SimpleResponse({
+            speech: 'This is the second simple response.',
+            text: 'This is the 2nd simple response.',
+          }));
     }
     else if(speak.indexOf('type 2')!==-1 || speak.indexOf('type two')!==-1){
         console.log('음악예제');
@@ -218,6 +224,14 @@ ap.intent('Answer', (conv, input,option) => {
             },
           }));
 
+    }
+    else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
+        conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example`));
+        conv.ask(new Suggestions(intentSuggestions));
+        conv.ask(new LinkOutSuggestion({
+          name: 'Suggestion Link',
+          url: 'https://assistant.google.com/',
+        }));
     }
     else{
         conv.ask(`you said that ${speak}`);
