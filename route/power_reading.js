@@ -123,6 +123,50 @@ ap.intent('Answer', (conv, input,option) => {
             },
           }));
     }
+    else if(speak.indexOf('type 4')!==-1 || speak.indexOf('type four')!==-1){
+        conv.ask(new SimpleResponse(`you said that ${speak}. here is Table example`));
+        conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
+        conv.ask(new Table({
+          title: 'Table Title',
+          subtitle: 'Table Subtitle',
+          image: new Image({
+            url: 'https://avatars0.githubusercontent.com/u/23533486',
+            alt: 'Actions on Google'
+          }),
+          columns: [
+            {
+              header: 'header 1',
+              align: 'CENTER', //가운데
+            },
+            {
+              header: 'header 2',
+              align: 'LEADING',//왼쪽
+            },
+            {
+              header: 'header 3',
+              align: 'TRAILING',//뒤쪽
+            },
+          ],
+          rows: [
+            {
+              cells: ['row 1 item 1', 'row 1 item 2', 'row 1 item 3'],
+              dividerAfter: false, //1째줄 td 구분선
+            },
+            {
+              cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
+              dividerAfter: true, //2째줄 td 구분선
+            },
+            {
+              cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
+            },
+          ],
+          buttons: new Button({
+            title: 'Button Title',
+            url: 'https://github.com/actions-on-google' //버튼 링크줘서 보내버리기
+          }),
+        }));
+
+    }
     else{
         conv.ask(`you said that ${speak}`);
     }
