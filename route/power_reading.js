@@ -20,7 +20,7 @@ const ap = dialogflow({
 });
 
 router.post('/', ap);
-ap.intent('Answer', (conv, input) => {
+ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
    
 
@@ -139,6 +139,15 @@ ap.intent('Answer', (conv, input) => {
     */
 });
 
+ap.intent('actions.intent.OPTION', (conv, params, option) => {
+    console.log(option);
+    let response = 'You did not select any item';
+    if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
+      response = SELECTED_ITEM_RESPONSES[option];
+    }
+    conv.ask(response);
+});
+
 
 ap.intent('Default Welcome Intent', conv => {
     //console.log('conv:',conv);
@@ -157,7 +166,6 @@ ap.intent('Default Welcome Intent', conv => {
 });
 ap.intent('Default Fallback Intent', conv => {
     //console.log('conv:', conv);
-    conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
 
