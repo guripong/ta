@@ -27,6 +27,8 @@ ap.intent('Answer', (conv, input) => {
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
+    
+    conv.ask(`you said that ${speak}`);
     conv.ask(new BasicCard({
         text: `BasicCard Example! \n Speak: ${speak}!!`, // Note the two spaces before '\n' required for
                                      // a line break to be rendered in the card.
