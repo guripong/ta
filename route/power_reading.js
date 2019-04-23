@@ -134,7 +134,7 @@ ap.intent('Answer', (conv, input,option) => {
                 title: 'Google Pixel',
                 description: 'Pixel. Phone by Google.',
                 image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
                   alt: 'Google Pixel',
                 }),
               },
@@ -228,7 +228,7 @@ ap.intent('Answer', (conv, input,option) => {
                 title: 'Google Pixel',
                 description: 'Pixel. Phone by Google.',
                 image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
                   alt: 'Google Pixel',
                 }),
               },
