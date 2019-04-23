@@ -81,14 +81,14 @@ ap.intent('Answer', (conv, input) => {
               // Add the first item to the list
               'SELECTION_KEY_ONE': {
                 synonyms: [
-                  'synonym 1',
+                  'apple',
                   'synonym 2',
                   'synonym 3',
                 ],
                 title: 'Title of First List Item',
                 description: 'This is a description of a list item.',
                 image: new Image({
-                  url: 'IMG_URL_AOG.com',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
                   alt: 'Image alternate text',
                 }),
               },
@@ -102,7 +102,7 @@ ap.intent('Answer', (conv, input) => {
                 description: 'Google Home is a voice-activated speaker powered by ' +
                   'the Google Assistant.',
                 image: new Image({
-                  url: 'IMG_URL_GOOGLE_HOME.com',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
                   alt: 'Google Home',
                 }),
               },
@@ -116,7 +116,7 @@ ap.intent('Answer', (conv, input) => {
                 title: 'Google Pixel',
                 description: 'Pixel. Phone by Google.',
                 image: new Image({
-                  url: 'IMG_URL_GOOGLE_PIXEL.com',
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
                   alt: 'Google Pixel',
                 }),
               },
