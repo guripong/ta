@@ -27,13 +27,30 @@ ap.intent('Answer', (conv, input) => {
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
-
+    conv.ask(new BasicCard({
+        text: `BasicCard Example! \n Speak: ${speak}!!`, // Note the two spaces before '\n' required for
+                                     // a line break to be rendered in the card.
+        subtitle: 'This is a subtitle',
+        title: 'Title: this is a title',
+        buttons: new Button({
+          title: 'This is a button',
+          url: 'https://assistant.google.com/',
+        }),
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+          alt: 'Image alternate text',
+        }),
+        display: 'CROPPED',
+      }));
+    /*
+    ////////////////Image 예제////////
     conv.ask(`you said that ${speak}`);
     conv.ask(new Image({
         url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
         alt: 'A cat',
     }))
     conv.ask(`say anything again!`);
+    */
 });
 
 
@@ -57,6 +74,7 @@ ap.intent('Default Fallback Intent', conv => {
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
+
 ap.intent('Oauth', (conv, params, signin) => {
     console.log('######################Oauth@@@@@@@@@@@@@@@@@@');
     if (signin.status === 'OK') {
