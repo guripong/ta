@@ -31,8 +31,9 @@ ap.intent('Answer', (conv, input) => {
     conv.ask(`you said that ${speak}`);
     conv.ask(new BasicCard({
         title: 'My Cat',
-        subtitle: `You sad that **${speak}**`,
+        subtitle: `what i heard: ${speak}`,
         text: `   😂😃😄😅 📱.  \n
+        MY NAME IS **JOHN**  \n
         https://www.fileformat.info/info/unicode/block/emoticons/list.htm  \n
         `, // Note the two spaces before '\n' required for a line break to be rendered in the card.    
         buttons: new Button({
@@ -43,8 +44,11 @@ ap.intent('Answer', (conv, input) => {
           url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
           alt: 'Image alternate text',
         }),
-        display: 'CROPPED',
-      }));
+        display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+    }));
+    
+
+
     /*
     ////////////////Image 예제////////
     conv.ask(`you said that ${speak}`);
@@ -141,7 +145,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
 ap.intent('Stop', conv => {
 
-    conv.close(`OK. Close Power Reading. Bye.`);
+    conv.close(`OK. Close 'Power reading'. Bye.`);
    
 });
 
