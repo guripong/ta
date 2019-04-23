@@ -27,7 +27,7 @@ ap.intent('Answer', (conv, input) => {
     var speak=conv.arguments.raw.input.text.rawText;
     console.log('speak:',speak);
 
-    if(speak.indexOf('basic card')!==-1)
+    if(speak.indexOf('type 1')!==-1)
     {
         conv.ask(`you said that ${speak}.  here is basic card example`);
         conv.ask(new BasicCard({
@@ -52,6 +52,55 @@ ap.intent('Answer', (conv, input) => {
             //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
             //display  X 구글홈허브
         }));
+    }
+    else if(speak.indexOf('type 2')!==-1){
+        conv.ask(`you said that ${speak}. here is Carousel example`);
+        conv.ask(new Carousel({
+            items: {
+              // Add the first item to the carousel
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'synonym 1',
+                  'synonym 2',
+                  'synonym 3',
+                ],
+                title: 'Title of First Carousel Item',
+                description: 'This is a description of a carousel item.',
+                image: new Image({
+                  url: 'IMG_URL_AOG.com',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the carousel
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+              ],
+                title: 'Google Home',
+                description: 'Google Home is a voice-activated speaker powered by ' +
+                  'the Google Assistant.',
+                image: new Image({
+                  url: 'IMG_URL_GOOGLE_HOME.com',
+                  alt: 'Google Home',
+                }),
+              },
+              // Add third item to the carousel
+              'SELECTION_KEY_GOOGLE_PIXEL': {
+                synonyms: [
+                  'Google Pixel XL',
+                  'Pixel',
+                  'Pixel XL',
+                ],
+                title: 'Google Pixel',
+                description: 'Pixel. Phone by Google.',
+                image: new Image({
+                  url: 'IMG_URL_GOOGLE_PIXEL.com',
+                  alt: 'Google Pixel',
+                }),
+              },
+            },
+          }));
     }
     else{
         conv.ask(`you said that ${speak}`);
