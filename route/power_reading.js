@@ -177,7 +177,7 @@ ap.intent('Answer', (conv, input,option) => {
         }));
 
     }
-    else if(speak.indexOf('type 5')!==-1 || speak.indexOf('type five')!==-1){
+    else if(speak.indexOf('type 5')!==-1 || speak.indexOf('type five')!==-1){ //터치가능
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Carousel example`));
         conv.ask(new Suggestions(['suggestion 1', 'suggestion 2']));
         conv.ask(new Carousel({
@@ -230,7 +230,7 @@ ap.intent('Answer', (conv, input,option) => {
     }
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example`));
-        conv.ask(new Suggestions(intentSuggestions));
+        conv.ask(new Suggestions(['apple', 'banana']));
         conv.ask(new LinkOutSuggestion({
           name: 'Suggestion Link',
           url: 'https://assistant.google.com/',
