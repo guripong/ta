@@ -54,13 +54,13 @@ ap.intent('Answer', (conv, input) => {
         }));
     }
     else if(speak.indexOf('type 2')!==-1){
-        conv.ask(`you said that ${speak}. here is Carousel example`);
+        conv.ask(`you said that ${speak}. here is MediaObject example`);
         conv.ask(new MediaObject({
             name: 'Jazz in Paris',
             url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
             description: 'A funky Jazz tune',
             icon: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+              url: 'https://storage.googleapis.com/automotive-media/album_art.jpg',
               alt: 'Album cover of an ccean view',
             }),
         }));
