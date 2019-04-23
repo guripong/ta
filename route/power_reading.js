@@ -41,7 +41,7 @@ ap.intent('Default Fallback Intent', conv => {
     conv.contexts.set('mysession', 1, parameters); //다음발화때 유용함
     conv.ask(`I didn't understand. Can you tell me something else?`)
 });
-ap.intent('Oauth 2.0', (conv, params, signin) => {
+ap.intent('Oauth', (conv, params, signin) => {
 
     if (signin.status === 'OK') {
    
