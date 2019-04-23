@@ -30,15 +30,11 @@ ap.intent('Answer', (conv, input) => {
 
     conv.ask(`you said that ${speak}`);
     conv.ask(new BasicCard({
-        text: `
-        Speak: **${speak}**!!  \n
-        other unicode characters including emoji  \n
-        😂😃😄😅 📱.  \n
+        title: 'My Cat',
+        subtitle: `You sad that **${speak}**`,
+        text: `   😂😃😄😅 📱.  \n
         https://www.fileformat.info/info/unicode/block/emoticons/list.htm  \n
-        `, // Note the two spaces before '\n' required for
-                                     // a line break to be rendered in the card.
-        subtitle: 'This is a subtitle',
-        title: 'Title: this is a title',
+        `, // Note the two spaces before '\n' required for a line break to be rendered in the card.    
         buttons: new Button({
           title: 'This is a button',
           url: 'https://assistant.google.com/',
