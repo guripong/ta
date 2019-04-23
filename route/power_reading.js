@@ -47,7 +47,8 @@ ap.intent('Answer', (conv, input) => {
           url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
           alt: 'Image alternate text',
         }),
-        display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+        
+        display: 'CROPPED', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
         //display  X 구글홈허브
     }));
 
