@@ -187,16 +187,13 @@ ap.intent('Answer', (conv, input,option) => {
               cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
             },
           ],
-          buttons: new Button({
-            title: 'Button Title',
-            url: 'https://github.com/actions-on-google' //버튼 링크줘서 보내버리기
-          }), //버튼 안먹힘
+      
         }));
 
     }
     else if(speak.indexOf('type 5')!==-1 || speak.indexOf('type five')!==-1){ //터치가능
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Carousel example`));
-        //conv.ask(new Suggestions(kind_of_suggestions));
+        conv.ask(new Suggestions(kind_of_suggestions));
         //@ Carousel 은 items 에 2개이상 없으면 동작 안함
         conv.ask(new Carousel({
           buttons: new Button({
@@ -253,6 +250,7 @@ ap.intent('Answer', (conv, input,option) => {
           }));
 
     }
+    /*
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){ //터치가능
        return conv.json({
         "payload": {
@@ -294,8 +292,8 @@ ap.intent('Answer', (conv, input,option) => {
           }
         }
       });
-    }
-    /*
+    }*/
+    
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example`));
         conv.ask(new Suggestions(['apple', 'banana']));
@@ -303,7 +301,7 @@ ap.intent('Answer', (conv, input,option) => {
           name: 'Suggestion Link',
           url: 'https://assistant.google.com/',
         }));
-    }*/
+    }
     //안먹힘 폰만됨
     else{
         conv.ask(new Suggestions(kind_of_suggestions));
