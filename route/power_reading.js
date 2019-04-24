@@ -15,6 +15,7 @@ const {
     SignIn,
     LinkOutSuggestion,
     BrowseCarousel,
+    BrowseCarouselItem,
 
 } = require('actions-on-google')
 
