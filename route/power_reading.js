@@ -71,7 +71,7 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(new SimpleResponse({
             speech: 'This is the second simple response.',
             text: 'This is the 2nd simple response.',
-          }));
+        }));
     }
     else if(speak.indexOf('type 2')!==-1 || speak.indexOf('type two')!==-1){
         console.log('음악예제');
