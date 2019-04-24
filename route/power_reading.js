@@ -209,7 +209,7 @@ ap.intent('Answer', (conv, input,option) => {
                   url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
                   alt: 'Image alternate text',
                 }),
-                "openUrlAction": {
+                openUrlAction: {
                   "url": "https://www.youtube.com/watch?v=1rb1Ou_pim8"
                 },
               },
