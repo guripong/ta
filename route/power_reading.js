@@ -263,10 +263,10 @@ ap.intent('Answer', (conv, input,option) => {
           },
         }));
 
-        new SimpleResponse({
+        conv.ask(new SimpleResponse({
           speech: 'This is the second simple response.',
           text: 'This is the 2nd simple response.',
-        });
+        }));
      
         console.log('############################');
         console.log(conv);  
