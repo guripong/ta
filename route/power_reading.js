@@ -244,7 +244,7 @@ ap.intent('Answer', (conv, input,option) => {
           speech:`you said that ${speak}. here is new example`,
           text:`haha`,
         }));
-        conv.ask(new Suggestions(kind_of_suggestions));
+      //  conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new BrowseCarousel({
           items: [
             new BrowseCarouselItem({
@@ -269,11 +269,12 @@ ap.intent('Answer', (conv, input,option) => {
             }),
           ],
         }));
+        /*
         conv.ask(new SimpleResponse({
           speech: 'This is the second simple response.',
           text: 'This is the 2nd simple response.',
         }));
-     
+        */
         console.log('############################');
         console.log(conv);  
     }
