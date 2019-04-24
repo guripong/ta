@@ -240,7 +240,7 @@ ap.intent('Answer', (conv, input,option) => {
 
     }
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){ //터치가능
-       return res.json({
+       return conv.json({
         "payload": {
           "google": {
             "expectUserResponse": true,
