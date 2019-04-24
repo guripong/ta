@@ -258,20 +258,6 @@ ap.intent('Answer', (conv, input,option) => {
                 alt: 'Image alternate text',
               }),
             },
-            // Add the second item to the carousel
-            'SELECTION_KEY_GOOGLE_HOME': {
-              synonyms: [
-                'Google Home Assistant',
-                'Assistant on the Google Home',
-            ],
-              title: 'cat2',
-              description: 'Google Home is a voice-activated speaker powered by ' +
-                'the Google Assistant.',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
-                alt: 'Google Home',
-              }),
-            },
            
           },
         }));
