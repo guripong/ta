@@ -251,7 +251,7 @@ ap.intent('Answer', (conv, input,option) => {
               url: 'google.com',
               description: 'Description of item 1',
               image: new Image({
-                url: 'IMG_URL.com',
+                url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
                 alt: 'Image alternate text',
               }),
               footer: 'Item 1 footer',
@@ -261,7 +261,7 @@ ap.intent('Answer', (conv, input,option) => {
               url: 'google.com',
               description: 'Google Assistant on Android and iOS',
               image: new Image({
-                url: 'IMG_URL_Assistant.com',
+                url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
                 alt: 'Image alternate text',
               }),
               footer: 'More information about the Google Assistant',
