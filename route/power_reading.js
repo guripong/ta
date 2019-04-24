@@ -242,12 +242,26 @@ ap.intent('Answer', (conv, input,option) => {
           text:`haha`,
         }));
         conv.ask(new Suggestions(kind_of_suggestions));
-        conv.ask(new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
-          alt: 'Image alternate text',
-          height: 100,
-          width: 100,
-        }),
+        conv.ask(new Carousel({
+          items: {
+            // Add the first item to the carousel
+            'SELECTION_KEY_ONE': {
+              synonyms: [
+                'synonym 1',
+                'synonym 2',
+                'synonym 3',
+              ],
+              title: 'cat1',
+              description: 'This is a description of a carousel item.',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                alt: 'Image alternate text',
+                width : 100,
+                heigh : 100,
+              }),
+            },
+          },
+        }));
         new SimpleResponse({
           speech: 'This is the second simple response.',
           text: 'This is the 2nd simple response.',
