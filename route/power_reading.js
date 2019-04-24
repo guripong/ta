@@ -237,7 +237,10 @@ ap.intent('Answer', (conv, input,option) => {
 
     }
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){ //터치가능
-        conv.ask(new SimpleResponse(`you said that ${speak}. here is mix example`));
+        conv.ask(new SimpleResponse({
+          speech:`you said that ${speak}. here is new example`,
+          text:`haha`,
+        }));
         conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(new Image({
           url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
