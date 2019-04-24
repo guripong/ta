@@ -33,6 +33,10 @@ const kind_of_suggestions = [
 
 router.post('/', ap);
 ap.intent('Answer', (conv, input,option) => {
+
+});
+/*
+ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
    
     console.log('option:',option);
@@ -250,49 +254,8 @@ ap.intent('Answer', (conv, input,option) => {
           }));
 
     }
-    /*
-    else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){ //터치가능
-       return conv.json({
-        "payload": {
-          "google": {
-            "expectUserResponse": true,
-            "richResponse": {
-              "items": [
-                {
-                  "simpleResponse": {
-                    "textToSpeech": "This is a basic card example."
-                  }
-                },
-                {
-                  "basicCard": {
-                    "title": "Title: this is a title",
-                    "subtitle": "This is a subtitle",
-                    "formattedText": "This is a basic card.  Text in a basic card can include \"quotes\" and\n"+
-                    "most other unicode characters including emoji 📱.Basic cards also support\n"+
-                    "some markdown formatting like *emphasis* or _italics_, **strong** or\n"+
-                    "__bold__, and ***bold itallic*** or ___strong emphasis___ as well as other\n"+
-                    "things like line  \nbreaks",
-                    "image": {
-                      "url": "https://example.com/image.png",
-                      "accessibilityText": "Image alternate text"
-                    },
-                    "buttons": [
-                      {
-                        "title": "This is a button",
-                        "openUrlAction": {
-                          "url": "https://assistant.google.com/"
-                        }
-                      }
-                    ],
-                    "imageDisplayOptions": "CROPPED"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      });
-    }*/
+    
+   
     
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example`));
@@ -302,23 +265,57 @@ ap.intent('Answer', (conv, input,option) => {
           url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
         }));
     }
+    else if(speak.indexOf('type 7')!==-1 || speak.indexOf('type seven')!==-1){ //터치가능
+      return conv.json({
+       "payload": {
+         "google": {
+           "expectUserResponse": true,
+           "richResponse": {
+             "items": [
+               {
+                 "simpleResponse": {
+                   "textToSpeech": "This is a basic card example."
+                 }
+               },
+               {
+                 "basicCard": {
+                   "title": "Title: this is a title",
+                   "subtitle": "This is a subtitle",
+                   "formattedText": "This is a basic card.  Text in a basic card can include \"quotes\" and\n"+
+                   "most other unicode characters including emoji 📱.Basic cards also support\n"+
+                   "some markdown formatting like *emphasis* or _italics_, **strong** or\n"+
+                   "__bold__, and ***bold itallic*** or ___strong emphasis___ as well as other\n"+
+                   "things like line  \nbreaks",
+                   "image": {
+                     "url": "https://example.com/image.png",
+                     "accessibilityText": "Image alternate text"
+                   },
+                   "buttons": [
+                     {
+                       "title": "This is a button",
+                       "openUrlAction": {
+                         "url": "https://assistant.google.com/"
+                       }
+                     }
+                   ],
+                   "imageDisplayOptions": "CROPPED"
+                 }
+               }
+             ]
+           }
+         }
+       }
+     });
+   }
     //안먹힘 폰만됨
     else{
         conv.ask(new Suggestions(kind_of_suggestions));
         conv.ask(`you said that ${speak}`);
     }
-
-
-    /*
-    ////////////////Image 예제////////
-    conv.ask(`you said that ${speak}`);
-    conv.ask(new Image({
-        url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
-        alt: 'A cat',
-    }))
-    conv.ask(`say anything again!`);
-    */
 });
+*/
+
+
 ap.catch((conv,error)=>{
   console.error(error);
   conv.ask('Error number 1. ask to john');
@@ -393,8 +390,13 @@ ap.intent('Oauth', (conv, params, signin) => {
             }).then(function (body) {
                 console.log('do another job:', body.user_id);
 
-               conv.ask(`Welcome to Power reading! choose types!`);
-               conv.ask(new Suggestions(kind_of_suggestions));
+
+                conv.ask(new SimpleResponse({
+                  speech: 'Welcome to Power reading! There are 2 Type',
+                  text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+                }));
+             
+               conv.ask(new Suggestions(['1.Pre-Reading Overview','2. Let\'s Read \n']));
 
              
             });
