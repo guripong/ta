@@ -18,6 +18,7 @@ const {
 } = require('actions-on-google')
 
 const ap = dialogflow({
+    debug:true,
     clientId: `power_reading`,
 });
 const kind_of_suggestions = [
@@ -282,6 +283,11 @@ ap.intent('Answer', (conv, input,option) => {
     conv.ask(`say anything again!`);
     */
 });
+ap.catch((conv,error)=>{
+  console.error(error);
+  conv.ask('Error number 1. ask to john');
+});
+
 
 ap.intent('actions.intent.OPTION', (conv, params, option) => {
     console.log(option);
