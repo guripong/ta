@@ -156,6 +156,10 @@ ap.intent('Answer', (conv, input,option) => {
             url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
             alt: 'Actions on Google'
           }),
+          buttons: new Button({
+            title: 'This is a button',
+            url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
+            }),
           columns: [
             {
               header: 'header 1',
@@ -195,6 +199,10 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(new Suggestions(kind_of_suggestions));
         //@ Carousel 은 items 에 2개이상 없으면 동작 안함
         conv.ask(new Carousel({
+          buttons: new Button({
+            title: 'This is a button',
+            url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
+            }),
             items: {
               // Add the first item to the carousel
               'SELECTION_KEY_ONE': {
