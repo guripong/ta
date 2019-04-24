@@ -242,10 +242,13 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(new Image({
           url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
           alt: 'Image alternate text',
-          width : 500,
-          heigh : 500,
         }));
-          
+        conv.ask(new SimpleResponse({
+          speech: 'This is the second simple response.',
+          text: 'This is the 2nd simple response.',
+        }));
+        console.log('############################');
+        console.log(conv);  
     }
     /*
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
