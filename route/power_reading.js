@@ -296,7 +296,7 @@ ap.intent('Answer', (conv, input,option) => {
     
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example`));
-        conv.ask(new Suggestions(['apple', 'banana']));
+       // conv.ask(new Suggestions(['apple', 'banana']));
         conv.ask(new LinkOutSuggestion({
           name: 'Suggestion Link',
           url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
