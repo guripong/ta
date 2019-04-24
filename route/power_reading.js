@@ -299,7 +299,7 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(new Suggestions(['apple', 'banana']));
         conv.ask(new LinkOutSuggestion({
           name: 'Suggestion Link',
-          url: 'https://assistant.google.com/',
+          url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
         }));
     }
     //안먹힘 폰만됨
