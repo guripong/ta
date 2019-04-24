@@ -242,11 +242,15 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(new Image({
           url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
           alt: 'Image alternate text',
-        }));
-        conv.ask(new SimpleResponse({
+          height: 100,
+          width: 100,
+        }),
+        new SimpleResponse({
           speech: 'This is the second simple response.',
           text: 'This is the 2nd simple response.',
-        }));
+        })
+        );
+     
         console.log('############################');
         console.log(conv);  
     }
