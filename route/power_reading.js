@@ -272,20 +272,7 @@ ap.intent('Answer', (conv, input,option) => {
                 alt: 'Google Home',
               }),
             },
-            // Add third item to the carousel
-            'SELECTION_KEY_GOOGLE_PIXEL': {
-              synonyms: [
-                'Google Pixel XL',
-                'Pixel',
-                'Pixel XL',
-              ],
-              title: 'cat3',
-              description: 'Pixel. Phone by Google.',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
-                alt: 'Google Pixel',
-              }),
-            },
+           
           },
         }));
 
