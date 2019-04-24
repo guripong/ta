@@ -267,51 +267,44 @@ ap.intent('Answer', (conv, input,option) => {
           //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
           //display  X 구글홈허브
          }));
-         conv.ask(new Carousel({
-          items: {
-            // Add the first item to the carousel
-            'SELECTION_KEY_ONE': {
-              synonyms: [
-                'synonym 1',
-                'synonym 2',
-                'synonym 3',
-              ],
-              title: 'cat1',
-              description: 'This is a description of a carousel item.',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
-                alt: 'Image alternate text',
-              }),
+         conv.ask(new Table({
+          title: 'Table Title',
+          subtitle: 'Table Subtitle',
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+            alt: 'Actions on Google'
+          }),
+          columns: [
+            {
+              header: 'header 1',
+              align: 'CENTER', //가운데
             },
-            // Add the second item to the carousel
-            'SELECTION_KEY_GOOGLE_HOME': {
-              synonyms: [
-                'Google Home Assistant',
-                'Assistant on the Google Home',
-            ],
-              title: 'cat2',
-              description: 'Google Home is a voice-activated speaker powered by ' +
-                'the Google Assistant.',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
-                alt: 'Google Home',
-              }),
+            {
+              header: 'header 2',
+              align: 'LEADING',//왼쪽
             },
-            // Add third item to the carousel
-            'SELECTION_KEY_GOOGLE_PIXEL': {
-              synonyms: [
-                'Google Pixel XL',
-                'Pixel',
-                'Pixel XL',
-              ],
-              title: 'cat3',
-              description: 'Pixel. Phone by Google.',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
-                alt: 'Google Pixel',
-              }),
+            {
+              header: 'header 3',
+              align: 'TRAILING',//뒤쪽
             },
-          },
+          ],
+          rows: [
+            {
+              cells: ['row 1 item 1', 'row 1 item 2', 'row 1 item 3'],
+              dividerAfter: false, //1째줄 td 구분선
+            },
+            {
+              cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
+              dividerAfter: true, //2째줄 td 구분선
+            },
+            {
+              cells: ['row 2 item 1', 'row 2 item 2', 'row 2 item 3'],
+            },
+          ],
+          buttons: new Button({
+            title: 'Button Title',
+            url: 'https://github.com/actions-on-google' //버튼 링크줘서 보내버리기
+          }), //버튼 안먹힘
         }));
 
 
