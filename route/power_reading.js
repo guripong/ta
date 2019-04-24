@@ -58,7 +58,7 @@ ap.intent('Answer', (conv, input,option) => {
             `, // Note the two spaces before '\n' required for a line break to be rendered in the card.    
             buttons: new Button({
             title: 'This is a button',
-            url: 'https://assistant.google.com/',
+            url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
             }),
             //buttons X 구글홈허브
             image: new Image({
