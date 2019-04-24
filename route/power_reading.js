@@ -76,8 +76,7 @@ ap.intent('Answer', (conv, input,option) => {
     else if(speak.indexOf('type 2')!==-1 || speak.indexOf('type two')!==-1){
         console.log('음악예제');
    
-        conv.ask(new SimpleResponse(`you said that ${speak}. here is MediaObject example`));
-        conv.ask(new Suggestions(kind_of_suggestions));
+        conv.ask(`you said that ${speak}. here is MediaObject example`);
         conv.ask(new MediaObject({
           name: 'Jazz in Paris',
           url: 'https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3',
@@ -87,8 +86,8 @@ ap.intent('Answer', (conv, input,option) => {
             alt: 'Ocean view',
           }),
         }));
-        conv.ask(new SimpleResponse(`choose type 1 to 5`));
-        
+        conv.ask(new Suggestions(kind_of_suggestions));
+               
     }
     else if(speak.indexOf('type 3')!==-1 || speak.indexOf('type three')!==-1){
         conv.ask(new SimpleResponse(`you said that ${speak}. here is List example`));
