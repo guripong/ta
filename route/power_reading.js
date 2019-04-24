@@ -196,7 +196,7 @@ ap.intent('Answer', (conv, input,option) => {
     }
     else if(speak.indexOf('type 5')!==-1 || speak.indexOf('type five')!==-1){ //터치가능
         conv.ask(new SimpleResponse(`you said that ${speak}. here is Carousel example`));
-        conv.ask(new Suggestions(kind_of_suggestions));
+        //conv.ask(new Suggestions(kind_of_suggestions));
         //@ Carousel 은 items 에 2개이상 없으면 동작 안함
         conv.ask(new Carousel({
           buttons: new Button({
