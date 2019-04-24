@@ -256,8 +256,34 @@ ap.intent('Answer', (conv, input,option) => {
               image: new Image({
                 url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
                 alt: 'Image alternate text',
-                width : 100,
-                heigh : 100,
+              }),
+            },
+            // Add the second item to the carousel
+            'SELECTION_KEY_GOOGLE_HOME': {
+              synonyms: [
+                'Google Home Assistant',
+                'Assistant on the Google Home',
+            ],
+              title: 'cat2',
+              description: 'Google Home is a voice-activated speaker powered by ' +
+                'the Google Assistant.',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
+                alt: 'Google Home',
+              }),
+            },
+            // Add third item to the carousel
+            'SELECTION_KEY_GOOGLE_PIXEL': {
+              synonyms: [
+                'Google Pixel XL',
+                'Pixel',
+                'Pixel XL',
+              ],
+              title: 'cat3',
+              description: 'Pixel. Phone by Google.',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/cat3.PNG',
+                alt: 'Google Pixel',
               }),
             },
           },
