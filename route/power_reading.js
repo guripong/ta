@@ -55,11 +55,14 @@ ap.intent('Answer', (conv, input,option) => {
             https://www.fileformat.info/info/unicode/block/emoticons/list.htm  \n
             overflow \n
             overflow \n
-            `, // Note the two spaces before '\n' required for a line break to be rendered in the card.    
+            `,
+
+            // Note the two spaces before '\n' required for a line break to be rendered in the card.    
             buttons: new Button({
             title: 'This is a button',
             url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
             }),
+
             //buttons X 구글홈허브
             image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
@@ -206,6 +209,9 @@ ap.intent('Answer', (conv, input,option) => {
                   url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
                   alt: 'Image alternate text',
                 }),
+                "openUrlAction": {
+                  "url": "https://www.youtube.com/watch?v=1rb1Ou_pim8"
+                },
               },
               // Add the second item to the carousel
               'SELECTION_KEY_GOOGLE_HOME': {
