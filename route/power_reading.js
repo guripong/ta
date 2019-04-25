@@ -44,14 +44,42 @@ ap.intent('Answer', (conv, input,option) => {
   }
   console.log('speak:',speak);
 
+  if(parameters.location =='first' && parameters.QN ==0){
+    if(speak.indexOf('1')!= -1 || speak.indexOf('one')!= -1 ||speak.indexOf('pre-reading overview')!= -1  ){
+      parameters.QN=1;
+      parameters.Location='E1';
+      conv.contexts.set('mysession', 1, parameters);
+      conv.close(`your location is ${parameters.location}`);
+    }
+    else if(speak.indexOf('2')!= -1 || speak.indexOf('two')!= -1 || speak.indexOf('read')!= -1)    {
+      parameters.QN=1;
+      parameters.Location='E2';
+      conv.contexts.set('mysession', 1, parameters);
+      conv.close(`your location is ${parameters.location}`);
+    }
+    else{
 
+      conv.contexts.set('mysession', 1, parameters);
+      conv.ask(new SimpleResponse({
+        speech: `I didn't understand. Please choose 1 or 2. `,
+        text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+      }));
+      conv.ask(new Suggestions(['1. Pre-Reading Overview','2. Let\'s Read \n']));
+    }
+  }
+  else if(parameters.location =='E1'){
+    conv.contexts.set('mysession', 1, parameters);
+    conv.close(`your location is ${parameters.location}`);
+
+  }
+  else if(parameters.location =='E2'){
+    conv.contexts.set('mysession', 1, parameters);
+    conv.close(`your location is ${parameters.location}`);
+  }
   
-  parameters.QN=parameters.QN*1+1;
 
 
 
-  conv.contexts.set('mysession', 1, parameters);
-  conv.close(`your location is ${parameters.location}`);
 
   
 
@@ -112,8 +140,9 @@ ap.intent('Oauth', (conv, params, signin) => {
                 'location': 'not yet location',
                 'QN': 'not yet qn',
               };
-              parameters.location='sample1';
-              parameters.QN='0';
+
+              parameters.location='first';
+              parameters.QN=0;
               
               conv.contexts.set('mysession', 1, parameters);
 
@@ -121,7 +150,7 @@ ap.intent('Oauth', (conv, params, signin) => {
                 speech: 'Welcome to Power reading! There are 2 Type exist.',
                 text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
               }));
-              conv.ask(new Suggestions(['1.Pre-Reading Overview','2. Let\'s Read \n']));
+              conv.ask(new Suggestions(['1. Pre-Reading Overview','2. Let\'s Read \n']));
 
            
           });
