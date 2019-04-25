@@ -47,15 +47,34 @@ ap.intent('Answer', (conv, input,option) => {
   if(parameters.location =='first' && parameters.QN ==0){
     if(speak.indexOf('1')!= -1 || speak.indexOf('one')!= -1 ||speak.indexOf('pre-reading overview')!= -1  ){
       console.log('E1처음');
-      parameters.QN=1;
-      parameters.Location='E1';
+      parameters.QN = 1;
+      parameters.location = 'E1';
       conv.contexts.set('mysession', 1, parameters);
-      conv.close(`your location is ${parameters.location}`);
+      conv.ask(new SimpleResponse({
+        speech: `Let's recall the story, Inchoworm's Tale. Do you remember where the story took place? Where was the story set?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Story Overview',
+        subtitle: `Inchworm's Tale`,
+        text: `Let's recall the characters and the main theme of the sotry.`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+
+        //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+        //display  X 구글홈허브
+      }));
+
     }
     else if(speak.indexOf('2')!= -1 || speak.indexOf('two')!= -1 || speak.indexOf('read')!= -1)    {
       console.log('E2처음');
       parameters.QN=1;
-      parameters.Location='E2';
+      parameters.location='E2';
       conv.contexts.set('mysession', 1, parameters);
       conv.close(`your location is ${parameters.location}`);
     }
@@ -70,13 +89,44 @@ ap.intent('Answer', (conv, input,option) => {
     }
   }
   else if(parameters.location =='E1'){
-    conv.contexts.set('mysession', 1, parameters);
-    conv.close(`your location is ${parameters.location}`);
+    if(parameters.QN=='1'){
+        if(speak.indexOf('forest')!=-1 || speak.indexOf('rock')!=-1){
 
+          parameters.QN=2;
+          conv.contexts.set('mysession', 1, parameters);
+          conv.ask(new SimpleResponse({
+            speech: `Yay, you remembered! Let's see if you remember some of the characters. What were the names of the two children?`,
+            text: 'nothing.',
+          }));
+          conv.ask(new BasicCard({
+            title: 'Story Overview',
+            subtitle: `Inchworm's Tale`,
+            text: `Let's recall the characters and the main theme of the sotry.`,
+
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
+              alt: 'Image alternate text',
+              width: 500,
+              heigh: 500,
+            }),
+    
+            //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+            //display  X 구글홈허브
+          }));
+        }
+    }
+    else if(parameters.QN=='2'){
+      conv.contexts.set('mysession', 1, parameters);
+      conv.close(` not yet your location is ${parameters.location}`);
+    }
+    else{
+      conv.contexts.set('mysession', 1, parameters);
+      conv.close(` not yet your location is ${parameters.location}`);
+    }
   }
   else if(parameters.location =='E2'){
     conv.contexts.set('mysession', 1, parameters);
-    conv.close(`your location is ${parameters.location}`);
+    conv.close(` not yet your location is ${parameters.location}`);
   }
   
 
