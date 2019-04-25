@@ -45,6 +45,7 @@ ap.intent('Answer', (conv, input, option) => {
   console.log('speak:', speak);
 
   if (parameters.location == 'first' && parameters.QN == 0) {
+    /////////////첫메뉴의 경우임
     if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading overview') != -1) {
       console.log('E1처음');
       parameters.QN = 1;
@@ -242,22 +243,66 @@ ap.intent('Answer', (conv, input, option) => {
       }
     }
     else if (parameters.QN == '5') {
-      conv.close('not yet.');
+      if (speak.indexOf('cheetah') != -1) {
+        parameters.QN = 6;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `5)Okay ! Let’s find out more about the cheetah. 
+          The cheetah is the fastest land animal in the world, 
+          reaching speeds of up to 70 miles per hour. 
+          They can accelerate from 0 to 68 miles per hour in just three seconds.
+          Cheetahs are the only big cat that can turn in mid-air while sprinting.
+          What do you think is the coolest feature of a cheetah?
+          `,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['yes', 'no']));
+        conv.ask(new BasicCard({
+          title: 'Cheetah.',
+          subtitle: `The cheetah is the fastest land animal in the world, reaching speeds
+           of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in
+            just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`,
+          text: `If you want to watch a video about the cheetah, please say: “Hey Google, play Nat Geo Wild’s Cheetahs 101 video from YouTube”`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/c4.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+          //display  X 구글홈허브
+        }));
+      }
+      else{
+        conv.close('not yet.');
+      }
+
+    }
+    else if (parameters.QN == '6') {
+      if (speak.indexOf('fast') != -1) {
+        parameters.QN = 0;
+        parameters.location ='first';
+        conv.contexts.set('mysession', 1, parameters);
+       
+        conv.ask(new SimpleResponse({
+          speech: 'I agree with you.  There are 2 Type exist.',
+          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+        }));
+        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+      }
+      else{
+        conv.close('not yet. ');
+      }
     }
     else {
       conv.close('not yet.');
     }
   }
   else if (parameters.location == 'E2') {
-    conv.close('not yet.');
+    conv.close('not yet. menu 2');
+    
   }
-
-
-
-
-
-
-
 
 });
 
