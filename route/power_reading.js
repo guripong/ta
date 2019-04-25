@@ -73,11 +73,16 @@ ap.intent('Answer', (conv, input, option) => {
       }));
     }
     else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
-      console.log('E2처음');
-      parameters.QN = 1;
-      parameters.location = 'E2';
-      conv.contexts.set('mysession', 1, parameters);
-      conv.close(`your location is ${parameters.location}`);
+        console.log('E2처음');
+        parameters.QN = 0;
+        parameters.location = 'first';
+        conv.contexts.set('mysession', 1, parameters);
+    
+        conv.ask(new SimpleResponse({
+          speech: 'number 2. not yet.',
+          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+        }));
+        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
     }
     else {
 
