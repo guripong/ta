@@ -163,7 +163,25 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else {
 
-        conv.close('not yet.');
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Try again. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
+          Let’s have a quick discussion What animal is in the picture?
+          `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Theme',
+          subtitle: `Unique talents and features.`,
+          text: `What makes this animal unique?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
       }
     }
     else if (parameters.QN == '3') {
@@ -290,7 +308,7 @@ ap.intent('Answer', (conv, input, option) => {
           //display  X 구글홈허브
         }));
       }
-      else{
+      else {
         conv.close('not yet.');
       }
 
@@ -298,16 +316,16 @@ ap.intent('Answer', (conv, input, option) => {
     else if (parameters.QN == '6') {
       if (speak.indexOf('fast') != -1) {
         parameters.QN = 0;
-        parameters.location ='first';
+        parameters.location = 'first';
         conv.contexts.set('mysession', 1, parameters);
-       
+
         conv.ask(new SimpleResponse({
           speech: 'I agree with you.  There are 2 Type exist.',
           text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
       }
-      else{
+      else {
         conv.close('not yet. ');
       }
     }
@@ -317,7 +335,7 @@ ap.intent('Answer', (conv, input, option) => {
   }
   else if (parameters.location == 'E2') {
     conv.close('not yet. menu 2');
-    
+
   }
 
 });
@@ -382,13 +400,13 @@ ap.intent('Oauth', (conv, params, signin) => {
 
         conv.contexts.set('mysession', 1, parameters);
 
-        
+
         conv.ask(new SimpleResponse({
           speech: 'Welcome to Power reading! There are 2 Type exist.',
           text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
-        
+
       });
     }
     else {
