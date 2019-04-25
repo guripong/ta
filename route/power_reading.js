@@ -366,16 +366,14 @@ ap.intent('Oauth', (conv, params, signin) => {
 
         conv.contexts.set('mysession', 1, parameters);
 
-        /*
+        
         conv.ask(new SimpleResponse({
           speech: 'Welcome to Power reading! There are 2 Type exist.',
           text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
-*/
-        conv.ask(`      Long ago, Anant and his sister, Anika, went swimming. They swam all afternoon and became very tired. They were exhausted and climbed onto a large, flat rock to rest. Soon they fell asleep.
-        A strange and mysterious thing happened as they slept. The rock beneath them grew and expanded until it reached the clouds.
-      `);
+        
+       
 
       });
     }
