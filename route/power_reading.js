@@ -35,7 +35,7 @@ router.post('/', ap);
 ap.intent('Answer', (conv, input,option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
    
-  console.log('option:',option);
+  //console.log('option:',option);
   var speak=conv.arguments.raw.input.text.rawText;
   var parameters = conv.contexts.input.mysession.parameters;
   if(speak) speak = speak.toLowerCase();
@@ -46,12 +46,14 @@ ap.intent('Answer', (conv, input,option) => {
 
   if(parameters.location =='first' && parameters.QN ==0){
     if(speak.indexOf('1')!= -1 || speak.indexOf('one')!= -1 ||speak.indexOf('pre-reading overview')!= -1  ){
+      console.log('E1처음');
       parameters.QN=1;
       parameters.Location='E1';
       conv.contexts.set('mysession', 1, parameters);
       conv.close(`your location is ${parameters.location}`);
     }
     else if(speak.indexOf('2')!= -1 || speak.indexOf('two')!= -1 || speak.indexOf('read')!= -1)    {
+      console.log('E2처음');
       parameters.QN=1;
       parameters.Location='E2';
       conv.contexts.set('mysession', 1, parameters);
