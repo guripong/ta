@@ -114,19 +114,148 @@ ap.intent('Answer', (conv, input,option) => {
             //display  X 구글홈허브
           }));
         }
+        else{
+          conv.contexts.set('mysession', 1, parameters);
+          conv.ask(new SimpleResponse({
+            speech: `not yet. `,
+            text: 'not yet. ',
+          }));
+        }
     }
     else if(parameters.QN=='2'){
-      conv.contexts.set('mysession', 1, parameters);
-      conv.close(` not yet your location is ${parameters.location}`);
+      if(speak.indexOf('forest')!=-1 || speak.indexOf('rock')!=-1){
+
+        parameters.QN=3;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Excellent job. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
+          Let’s have a quick discussion What animal is in the picture?
+          `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Theme',
+          subtitle: `Unique talents and features.`,
+          text: `What makes this animal unique?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+  
+          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+          //display  X 구글홈허브
+        }));
+      }
+      else{
+       
+        conv.close('not yet.');
+      }
     }
     else{
+        conv.contexts.set('mysession', 1, parameters);
+        conv.close(` not yet your location is ${parameters.location}`);
+    }
+  }
+  else if(parameters.QN=='3'){
+    if(speak.indexOf('giraffe')!=-1){
+      parameters.QN=4;
       conv.contexts.set('mysession', 1, parameters);
-      conv.close(` not yet your location is ${parameters.location}`);
+      conv.ask(new SimpleResponse({
+        speech: `That’s right. What makes this animal unique ?
+        `,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Theme',
+        subtitle: `Unique talents and features.`,
+        text: `What makes this animal unique?`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+
+        //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+        //display  X 구글홈허브
+      }));
+    }
+    else if(parameters.QN=='4'){
+      if(speak.indexOf('long neck')!=-1){
+
+        parameters.QN=5;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Great! Let’s move on.It’s your turn!
+          Look at the choices above. Which animal are you most interested in?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['Cheetah','Hummingbird','Giraffe']));
+        conv.ask(new Carousel({
+            items: {
+              // Add the first item to the carousel
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'synonym 1',
+                  'synonym 2',
+                  'synonym 3',
+                ],
+                title: 'Cheetah',
+                description: 'A large cat of the subfamily Felinae…',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/c1.png',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the carousel
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+              ],
+                title: 'Hummingbird',
+                description: 'Native to the Americas…',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/c2.png',
+                  alt: 'Google Home',
+                }),
+              },
+              // Add third item to the carousel
+              'SELECTION_KEY_GOOGLE_PIXEL': {
+                synonyms: [
+                  'Google Pixel XL',
+                  'Pixel',
+                  'Pixel XL',
+                ],
+                title: 'Giraffe',
+                description: 'It is the tallest living terrestrial…',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/c3.png',
+                  alt: 'Google Pixel',
+                }),
+              },
+            },
+          }));
+  
+     
+      }
+      else{
+        conv.close('not yet.');
+      }
+    }
+    else if(parameters.QN=='5'){
+      conv.close('not yet.');
+    }
+    else{
+      conv.close('not yet.');
     }
   }
   else if(parameters.location =='E2'){
-    conv.contexts.set('mysession', 1, parameters);
-    conv.close(` not yet your location is ${parameters.location}`);
+      conv.close('not yet.');
   }
   
 
