@@ -123,7 +123,7 @@ ap.intent('Answer', (conv, input,option) => {
         }
     }
     else if(parameters.QN=='2'){
-      if(speak.indexOf('forest')!=-1 || speak.indexOf('rock')!=-1){
+      if(speak.indexOf('anant and anika')!=-1 ){
 
         parameters.QN=3;
         conv.contexts.set('mysession', 1, parameters);
