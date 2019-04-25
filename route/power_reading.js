@@ -115,7 +115,23 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
-        conv.close('not yet.');
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Try again! Let's see if you remember some of the characters. What were the names of the two children?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale`,
+          text: `Let's recall the characters and the main theme of the sotry.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
       }
     }
     else if (parameters.QN == '2') {
@@ -373,8 +389,6 @@ ap.intent('Oauth', (conv, params, signin) => {
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
         
-       
-
       });
     }
     else {
