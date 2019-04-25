@@ -165,18 +165,16 @@ ap.intent('Answer', (conv, input, option) => {
 
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
-          speech: `Try again. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
-          Let’s have a quick discussion What animal is in the picture?
-          `,
+          speech: `Try again! Let's see if you remember some of the characters. What were the names of the two children?`,
           text: 'nothing.',
         }));
         conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale`,
+          text: `Let's recall the characters and the main theme of the sotry.`,
 
           image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
+            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
             alt: 'Image alternate text',
             width: 500,
             heigh: 500,
