@@ -32,6 +32,7 @@ const kind_of_suggestions = [
 ];
 
 router.post('/', ap);
+
 ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
 
@@ -208,7 +209,28 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
-        conv.close('not yet.');
+          conv.contexts.set('mysession', 1, parameters);
+          conv.ask(new SimpleResponse({
+            speech: `Try again. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
+            Let’s have a quick discussion What animal is in the picture?
+            `,
+            text: 'nothing.',
+          }));
+          conv.ask(new BasicCard({
+            title: 'Theme',
+            subtitle: `Unique talents and features.`,
+            text: `What makes this animal unique?`,
+
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
+              alt: 'Image alternate text',
+              width: 500,
+              heigh: 500,
+            }),
+
+            //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+            //display  X 구글홈허브
+          }));
       }
     }
     else if (parameters.QN == '4') {
@@ -271,7 +293,27 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else {
-        conv.close('not yet.');
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Try again. What makes this animal unique ?
+        `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Theme',
+          subtitle: `Unique talents and features.`,
+          text: `What makes this animal unique?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+
+          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+          //display  X 구글홈허브
+        }));
       }
     }
     else if (parameters.QN == '5') {
@@ -279,7 +321,7 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = 6;
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
-          speech: `5)Okay ! Let’s find out more about the cheetah. 
+          speech: `Okay ! Let’s find out more about the cheetah. 
           The cheetah is the fastest land animal in the world, 
           reaching speeds of up to 70 miles per hour. 
           They can accelerate from 0 to 68 miles per hour in just three seconds.
@@ -291,10 +333,10 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new Suggestions(['yes', 'no']));
         conv.ask(new BasicCard({
           title: 'Cheetah.',
-          subtitle: `The cheetah is the fastest land animal in the world, reaching speeds
-           of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in
-            just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`,
-          text: `If you want to watch a video about the cheetah, please say: “Hey Google, play Nat Geo Wild’s Cheetahs 101 video from YouTube”`,
+          subtitle: ``,
+          text: `The cheetah is the fastest land animal in the world, reaching speeds
+          of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in
+           just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`,
 
           image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/c4.png',
@@ -307,12 +349,64 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
-        conv.close('not yet.');
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Try again. You can say Only cheetah. It’s your turn!
+          Look at the choices above. Which animal are you most interested in?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Giraffe']));
+        conv.ask(new Carousel({
+          items: {
+            // Add the first item to the carousel
+            'SELECTION_KEY_ONE': {
+              synonyms: [
+                'synonym 1',
+                'synonym 2',
+                'synonym 3',
+              ],
+              title: 'Cheetah',
+              description: 'A large cat of the subfamily Felinae…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/c1.png',
+                alt: 'Image alternate text',
+              }),
+            },
+            // Add the second item to the carousel
+            'SELECTION_KEY_GOOGLE_HOME': {
+              synonyms: [
+                'Google Home Assistant',
+                'Assistant on the Google Home',
+              ],
+              title: 'Hummingbird',
+              description: 'Native to the Americas…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/c2.png',
+                alt: 'Google Home',
+              }),
+            },
+            // Add third item to the carousel
+            'SELECTION_KEY_GOOGLE_PIXEL': {
+              synonyms: [
+                'Google Pixel XL',
+                'Pixel',
+                'Pixel XL',
+              ],
+              title: 'Giraffe',
+              description: 'It is the tallest living terrestrial…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/c3.png',
+                alt: 'Google Pixel',
+              }),
+            },
+          },
+        }));
       }
 
     }
     else if (parameters.QN == '6') {
       if (speak.indexOf('fast') != -1) {
+
         parameters.QN = 0;
         parameters.location = 'first';
         conv.contexts.set('mysession', 1, parameters);
@@ -322,17 +416,49 @@ ap.intent('Answer', (conv, input, option) => {
           text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+
       }
       else {
-        conv.close('not yet. ');
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Try again. What about talking about speed of cheetah.`,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['yes', 'no']));
+        conv.ask(new BasicCard({
+          title: 'Cheetah.',
+          subtitle: ``,
+          text: `The cheetah is the fastest land animal in the world, reaching speeds
+          of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in
+           just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/c4.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+          //display  X 구글홈허브
+        }));
       }
     }
     else {
-      conv.close('not yet.');
+      conv.close('error.');
+
     }
   }
   else if (parameters.location == 'E2') {
-    conv.close('not yet. menu 2');
+    parameters.QN = 0;
+    parameters.location = 'first';
+    conv.contexts.set('mysession', 1, parameters);
+
+    conv.ask(new SimpleResponse({
+      speech: 'number 2. not yet.',
+      text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+    }));
+    conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+
 
   }
 
