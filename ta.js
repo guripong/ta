@@ -10,9 +10,10 @@ app.use(cookieParser());
 
 
 
-var allintentrouter = require('./route/handler');
+
 var power_reading = require('./route/power_reading')
-app.use('/allintent',allintentrouter);
+
+
 app.use('/power_reading',power_reading);
 
 

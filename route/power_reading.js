@@ -1,5 +1,7 @@
 var express = require('express');
 const request = require('request');
+const phrase = require('../resources/phrase');
+
 var router = express.Router();
 const {
   dialogflow,
@@ -39,7 +41,7 @@ ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
   console.log(conv);
 
-  
+
   //console.log('option:',option);
   var speak = conv.arguments.raw.input.text.rawText;
   var parameters = conv.contexts.input.mysession.parameters;
@@ -60,13 +62,13 @@ ap.intent('Answer', (conv, input, option) => {
 //////////////
 
       conv.ask(new SimpleResponse({
-        speech: `Let's recall the story, Inchoworm's Tale. Do you remember where the story took place? Where was the story set?`,
+        speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
         title: 'Story Overview',
         subtitle: `Inchworm's Tale`,
-        text: `Let's recall the characters and the main theme of the sotry.`,
+        text: `What is the genre of Inchworm’s Tale?`,
 
         image: new Image({
           url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
@@ -103,78 +105,67 @@ ap.intent('Answer', (conv, input, option) => {
   }////맨첫메뉴
   else if (parameters.location == 'E1') {
     if (parameters.QN == '1') {
-      if (speak.indexOf('forest') != -1 || speak.indexOf('rock') != -1) {
-
-        parameters.QN = 2;
-  
+      if (speak.indexOf('folktale') != -1 ) {
+        parameters.QN = 1.1;
         conv.contexts.set('mysession', 1, parameters);
+
         conv.ask(new SimpleResponse({
-          speech: `Yay, you remembered! Let's see if you remember some of the characters. What were the names of the two children?`,
-          text: 'nothing.',
+          speech: `Excellent! Do you want to move onto the next question?`,
+          text: `Excellent! 
+          Do you want to move onto the next question?`,
         }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale`,
-          text: `Let's recall the characters and the main theme of the sotry.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
-
+     
       }
       else {
+        parameters.QN = 2;
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Try again! Let's see if you remember some of the characters. What were the names of the two children?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale`,
-          text: `Let's recall the characters and the main theme of the sotry.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        conv.ask(new SimpleResponse(`That’s incorrect.
+        Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
+        conv.ask(new Suggestions(['Biography','Play','Folktale']));
+        conv.ask(new List({
+            title: 'What is the genre of Inchworm’s Tale?',
+            items: {
+              // Add the first item to the list
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'apple',
+                  'Apple',
+                  'I like an apple',
+                ],
+                title: 'Hint 1',
+                description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the list
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+                 ],
+                title: 'Hint 2',
+                description: 'The characters in the story have special abilities. In this case, the animals can talk.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
+                  alt: 'Google Home',
+                }),
+              },
+            },
+          }));
       }
     }
-    else if (parameters.QN == '2') {
-      if (speak.indexOf('anant and anika') != -1) {
+    else if (parameters.QN == '1.1') {
+      if (speak.indexOf('yes') != -1) {
 
         parameters.QN = 3;
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Excellent job. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
-          Let’s have a quick discussion What animal is in the picture?
-          `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
-        }));
+        conv.close('not yet.');
       }
-      else {
-
+      else if (speak.indexOf('no') != -1){
+        parameters.QN = 0;
+        parameters.location = 'first';
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Try again! Let's see if you remember some of the characters. What were the names of the two children?`,
@@ -193,266 +184,44 @@ ap.intent('Answer', (conv, input, option) => {
           }),
         }));
       }
-    }
-    else if (parameters.QN == '3') {
-      if (speak.indexOf('giraffe') != -1) {
-        parameters.QN = 4;
+      else{
+        parameters.QN = 2;
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s right. What makes this animal unique ?
-        `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
-        }));
-      }
-      else {
-
-          conv.contexts.set('mysession', 1, parameters);
-          conv.ask(new SimpleResponse({
-            speech: `Try again. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
-            Let’s have a quick discussion What animal is in the picture?
-            `,
-            text: 'nothing.',
+        conv.ask(new SimpleResponse(`That’s incorrect.
+        Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
+        conv.ask(new Suggestions(['Biography','Play','Folktale']));
+        conv.ask(new List({
+            title: 'What is the genre of Inchworm’s Tale?',
+            items: {
+              // Add the first item to the list
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'apple',
+                  'Apple',
+                  'I like an apple',
+                ],
+                title: 'Hint 1',
+                description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the list
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+                 ],
+                title: 'Hint 2',
+                description: 'The characters in the story have special abilities. In this case, the animals can talk.',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
+                  alt: 'Google Home',
+                }),
+              },
+            },
           }));
-          conv.ask(new BasicCard({
-            title: 'Theme',
-            subtitle: `Unique talents and features.`,
-            text: `What makes this animal unique?`,
-
-            image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
-              alt: 'Image alternate text',
-              width: 500,
-              heigh: 500,
-            }),
-
-            //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-            //display  X 구글홈허브
-          }));
-      }
-    }
-    else if (parameters.QN == '4') {
-      if (speak.indexOf('long neck') != -1) {
-
-        parameters.QN = 5;
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Great! Let’s move on.It’s your turn!
-          Look at the choices above. Which animal are you most interested in?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Giraffe']));
-        conv.ask(new Carousel({
-          items: {
-            // Add the first item to the carousel
-            'SELECTION_KEY_ONE': {
-              synonyms: [
-                'synonym 1',
-                'synonym 2',
-                'synonym 3',
-              ],
-              title: 'Cheetah',
-              description: 'A large cat of the subfamily Felinae…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/c1.png',
-                alt: 'Image alternate text',
-              }),
-            },
-            // Add the second item to the carousel
-            'SELECTION_KEY_GOOGLE_HOME': {
-              synonyms: [
-                'Google Home Assistant',
-                'Assistant on the Google Home',
-              ],
-              title: 'Hummingbird',
-              description: 'Native to the Americas…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/c2.png',
-                alt: 'Google Home',
-              }),
-            },
-            // Add third item to the carousel
-            'SELECTION_KEY_GOOGLE_PIXEL': {
-              synonyms: [
-                'Google Pixel XL',
-                'Pixel',
-                'Pixel XL',
-              ],
-              title: 'Giraffe',
-              description: 'It is the tallest living terrestrial…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/c3.png',
-                alt: 'Google Pixel',
-              }),
-            },
-          },
-        }));
-
-
-      }
-      else {
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Try again. What makes this animal unique ?
-        `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_2.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
-        }));
-      }
-    }
-    else if (parameters.QN == '5') {
-      if (speak.indexOf('cheetah') != -1) {
-        parameters.QN = 6;
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Okay ! Let’s find out more about the cheetah. 
-          The cheetah is the fastest land animal in the world, 
-          reaching speeds of up to 70 miles per hour. 
-          They can accelerate from 0 to 68 miles per hour in just three seconds.
-          Cheetahs are the only big cat that can turn in mid-air while sprinting.
-          What do you think is the coolest feature of a cheetah?
-          `,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['yes', 'no']));
-        conv.ask(new BasicCard({
-          title: 'Cheetah.',
-          subtitle: ``,
-          text: `The cheetah is the fastest land animal in the world, reaching speeds
-          of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in
-           just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/c4.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
-        }));
-      }
-      else {
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Try again. You can say Only cheetah. It’s your turn!
-          Look at the choices above. Which animal are you most interested in?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Giraffe']));
-        conv.ask(new Carousel({
-          items: {
-            // Add the first item to the carousel
-            'SELECTION_KEY_ONE': {
-              synonyms: [
-                'synonym 1',
-                'synonym 2',
-                'synonym 3',
-              ],
-              title: 'Cheetah',
-              description: 'A large cat of the subfamily Felinae…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/c1.png',
-                alt: 'Image alternate text',
-              }),
-            },
-            // Add the second item to the carousel
-            'SELECTION_KEY_GOOGLE_HOME': {
-              synonyms: [
-                'Google Home Assistant',
-                'Assistant on the Google Home',
-              ],
-              title: 'Hummingbird',
-              description: 'Native to the Americas…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/c2.png',
-                alt: 'Google Home',
-              }),
-            },
-            // Add third item to the carousel
-            'SELECTION_KEY_GOOGLE_PIXEL': {
-              synonyms: [
-                'Google Pixel XL',
-                'Pixel',
-                'Pixel XL',
-              ],
-              title: 'Giraffe',
-              description: 'It is the tallest living terrestrial…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/c3.png',
-                alt: 'Google Pixel',
-              }),
-            },
-          },
-        }));
-      }
-
-    }
-    else if (parameters.QN == '6') {
-      if (speak.indexOf('fast') != -1) {
-
-        parameters.QN = 0;
-        parameters.location = 'first';
-        conv.contexts.set('mysession', 1, parameters);
-
-        conv.ask(new SimpleResponse({
-          speech: 'I agree with you.  There are 2 Type exist.',
-          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
-        }));
-        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
-
-      }
-      else {
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Try again. What about talking about speed of cheetah.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['yes', 'no']));
-        conv.ask(new BasicCard({
-          title: 'Cheetah.',
-          subtitle: ``,
-          text: `The cheetah is the fastest land animal in the world, reaching speeds
-          of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in
-           just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/c4.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
-        }));
       }
     }
     else {
@@ -473,7 +242,7 @@ ap.intent('Answer', (conv, input, option) => {
 
   }
   else{
-    conv.tell(parameters.location+` does not exist.`);
+    conv.close(parameters.location+` does not exist.`);
   }
 
 });
@@ -529,9 +298,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
         conv.contexts.set('mysession', 1, parameters);
 
-      
-
-
+    
 
         conv.ask(new SimpleResponse({
           speech: 'Welcome to Power reading! There are 2 Type exist.',
