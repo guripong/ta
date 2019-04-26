@@ -178,20 +178,23 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.location = 'first';
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
-          speech: `Try again! Let's see if you remember some of the characters. What were the names of the two children?`,
+          speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
           text: 'nothing.',
         }));
         conv.ask(new BasicCard({
           title: 'Story Overview',
           subtitle: `Inchworm's Tale`,
-          text: `Let's recall the characters and the main theme of the sotry.`,
-
+          text: `What is the genre of Inchworm’s Tale?`,
+  
           image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
             alt: 'Image alternate text',
             width: 500,
             heigh: 500,
           }),
+  
+          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+          //display  X 구글홈허브
         }));
       }
       else{
