@@ -254,7 +254,7 @@ ap.intent('Answer', (conv, input, option) => {
           text: `What is the setting of the story?`,
 
           image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.jpg',
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
             alt: 'Image alternate text',
             width: 500,
             heigh: 500,
