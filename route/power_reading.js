@@ -819,9 +819,34 @@ ap.intent('Answer', (conv, input,option) => {
    
     
     else if(speak.indexOf('type 6')!==-1 || speak.indexOf('type six')!==-1){
-        conv.ask(new SimpleResponse(`you said that ${speak}. here is Suggestions example.\n
-        hahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahav `));
-       // conv.ask(new Suggestions(['apple', 'banana']));
+      
+      conv.ask(`you said that ${speak}.  here is basic card example`);
+      conv.ask(new Suggestions(kind_of_suggestions));
+      conv.ask(new BasicCard({
+          title: '',
+          subtitle: ``,
+          text: ``,
+
+          // Note the two spaces before '\n' required for a line break to be rendered in the card.    
+          buttons: new Button({
+          title: 'This is a button',
+          url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
+          }),
+
+          //buttons X 구글홈허브
+          image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
+          alt: 'Image alternate text',
+          width : 500,
+          heigh : 500,
+          }),
+          
+          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+          //display  X 구글홈허브
+      }));
+
+
+      // conv.ask(new Suggestions(['apple', 'banana']));
 
        /*
         conv.ask(new LinkOutSuggestion({
