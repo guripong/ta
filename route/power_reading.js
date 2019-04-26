@@ -848,12 +848,7 @@ ap.intent('Answer', (conv, input,option) => {
 
       // conv.ask(new Suggestions(['apple', 'banana']));
 
-       /*
-        conv.ask(new LinkOutSuggestion({
-          name: 'Suggestion Link',
-          url: 'https://www.youtube.com/watch?v=1rb1Ou_pim8',
-        }));
-       */
+   
 
     }
     else if(speak.indexOf('type 7')!==-1 || speak.indexOf('type seven')!==-1){ //터치가능
