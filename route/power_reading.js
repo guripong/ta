@@ -71,7 +71,7 @@ ap.intent('Answer', (conv, input, option) => {
         text: `What is the genre of Inchworm’s Tale?`,
 
         image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
+          url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
           alt: 'Image alternate text',
           width: 500,
           heigh: 500,
@@ -108,7 +108,7 @@ ap.intent('Answer', (conv, input, option) => {
       if (speak.indexOf('folktale') != -1 ) {
         parameters.QN = 1.1;
         conv.contexts.set('mysession', 1, parameters);
-
+        conv.ask(new Suggestions(['yes','no']));
         conv.ask(new SimpleResponse({
           speech: `Excellent! Do you want to move onto the next question?`,
           text: `Excellent! 
@@ -134,10 +134,7 @@ ap.intent('Answer', (conv, input, option) => {
                 ],
                 title: 'Hint 1',
                 description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
-                  alt: 'Image alternate text',
-                }),
+             
               },
               // Add the second item to the list
               'SELECTION_KEY_GOOGLE_HOME': {
@@ -147,10 +144,7 @@ ap.intent('Answer', (conv, input, option) => {
                  ],
                 title: 'Hint 2',
                 description: 'The characters in the story have special abilities. In this case, the animals can talk.',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
-                  alt: 'Google Home',
-                }),
+               
               },
             },
           }));
@@ -161,7 +155,23 @@ ap.intent('Answer', (conv, input, option) => {
 
         parameters.QN = 3;
         conv.contexts.set('mysession', 1, parameters);
-        conv.close('not yet.');
+        conv.ask(new SimpleResponse({
+          speech: `Let’s recall the setting of the story.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Setting`,
+          text: `What is the setting of the story?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
       }
       else if (speak.indexOf('no') != -1){
         parameters.QN = 0;
@@ -177,7 +187,7 @@ ap.intent('Answer', (conv, input, option) => {
           text: `Let's recall the characters and the main theme of the sotry.`,
 
           image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/pre-reading_1.png',
+            url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
             alt: 'Image alternate text',
             width: 500,
             heigh: 500,
@@ -202,10 +212,7 @@ ap.intent('Answer', (conv, input, option) => {
                 ],
                 title: 'Hint 1',
                 description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat1.jpg',
-                  alt: 'Image alternate text',
-                }),
+              
               },
               // Add the second item to the list
               'SELECTION_KEY_GOOGLE_HOME': {
@@ -215,14 +222,118 @@ ap.intent('Answer', (conv, input, option) => {
                  ],
                 title: 'Hint 2',
                 description: 'The characters in the story have special abilities. In this case, the animals can talk.',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/cat2.jpg',
-                  alt: 'Google Home',
-                }),
+              
               },
             },
           }));
       }
+    }
+    else if (parameters.QN == '2') {
+      if (speak.indexOf('folktale') != -1 ) {
+        parameters.QN = 2.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new Suggestions(['yes','no']));
+        conv.ask(new SimpleResponse({
+          speech: `You did it! Do you want to move onto the next question?`,
+          text: `Excellent! 
+          Do you want to move onto the next question?`,
+        }));
+      }
+      else{
+        //wrong again the answer was Folktale + 3번화면+발화
+        parameters.QN = 3;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Wrong again.The answer was Folktale. Let’s recall the setting of the story.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Setting`,
+          text: `What is the setting of the story?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+    }
+    else if (parameters.QN == '2.1') {
+      if (speak.indexOf('yes') != -1) {
+        //피드백 없이 3번으로
+        parameters.QN = 3;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Let’s recall the setting of the story.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Setting`,
+          text: `What is the setting of the story?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else if (speak.indexOf('no') != -1){
+        parameters.QN = 1;
+        //피드백 Okay, lets go back to the question.
+
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Okay, lets go back to the question. Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale`,
+          text: `What is the genre of Inchworm’s Tale?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+
+      }
+      else{
+        //피드백:Wrong again.The answer was Folktale
+
+        parameters.QN = 3;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Wrong again.The answer was Folktale. Let’s recall the setting of the story.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Setting`,
+          text: `What is the setting of the story?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+    }
+    else if (parameters.QN == '3') {
+      conv.close('not yet bye.');
     }
     else {
       conv.close('error.');
