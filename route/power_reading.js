@@ -37,7 +37,9 @@ router.post('/', ap);
 
 ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
+  console.log(conv);
 
+  
   //console.log('option:',option);
   var speak = conv.arguments.raw.input.text.rawText;
   var parameters = conv.contexts.input.mysession.parameters;
@@ -479,16 +481,6 @@ ap.intent('Answer', (conv, input, option) => {
 
 
 
-
-ap.intent('actions.intent.OPTION', (conv, params, option) => {
-  console.log(option);
-  let response = 'You did not select any item';
-  if (option && SELECTED_ITEM_RESPONSES.hasOwnProperty(option)) {
-    response = SELECTED_ITEM_RESPONSES[option];
-  }
-  conv.ask(response);
-});
-
 ap.intent('Oauth', (conv, params, signin) => {
   console.log('######################Oauth@@@@@@@@@@@@@@@@@@');
   if (signin.status === 'OK') {
@@ -536,6 +528,9 @@ ap.intent('Oauth', (conv, params, signin) => {
         parameters.QN = 0;
 
         conv.contexts.set('mysession', 1, parameters);
+
+      
+
 
 
         conv.ask(new SimpleResponse({
