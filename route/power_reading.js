@@ -34,7 +34,7 @@ const kind_of_suggestions = [
 router.post('/', ap);
 
 
-/*
+
 ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
 
@@ -475,7 +475,7 @@ ap.intent('Answer', (conv, input, option) => {
   }
 
 });
-*/
+
 
 
 
@@ -596,7 +596,7 @@ ap.intent('Stop', conv => {
 
 });
 
-
+/*
 ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
    
@@ -904,5 +904,7 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(`you said that ${speak}`);
     }
 });
+
+*/
 
 module.exports = router;
