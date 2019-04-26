@@ -33,6 +33,8 @@ const kind_of_suggestions = [
 
 router.post('/', ap);
 
+
+/*
 ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
 
@@ -49,9 +51,12 @@ ap.intent('Answer', (conv, input, option) => {
     /////////////첫메뉴의 경우임
     if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading overview') != -1) {
       console.log('E1처음');
+      ////////////////
       parameters.QN = 1;
       parameters.location = 'E1';
       conv.contexts.set('mysession', 1, parameters);
+//////////////
+
       conv.ask(new SimpleResponse({
         speech: `Let's recall the story, Inchoworm's Tale. Do you remember where the story took place? Where was the story set?`,
         text: 'nothing.',
@@ -99,6 +104,7 @@ ap.intent('Answer', (conv, input, option) => {
       if (speak.indexOf('forest') != -1 || speak.indexOf('rock') != -1) {
 
         parameters.QN = 2;
+  
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Yay, you remembered! Let's see if you remember some of the characters. What were the names of the two children?`,
@@ -115,10 +121,8 @@ ap.intent('Answer', (conv, input, option) => {
             width: 500,
             heigh: 500,
           }),
-
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
         }));
+
       }
       else {
         conv.contexts.set('mysession', 1, parameters);
@@ -214,6 +218,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
+
           conv.contexts.set('mysession', 1, parameters);
           conv.ask(new SimpleResponse({
             speech: `Try again. Let's review the theme. This story was about how everyone has their own unique talent or feature. 
@@ -450,7 +455,6 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else {
       conv.close('error.');
-
     }
   }
   else if (parameters.location == 'E2') {
@@ -466,8 +470,12 @@ ap.intent('Answer', (conv, input, option) => {
 
 
   }
+  else{
+    conv.tell(parameters.location+` does not exist.`);
+  }
 
 });
+*/
 
 
 
@@ -509,14 +517,14 @@ ap.intent('Oauth', (conv, params, signin) => {
             resolve1(body);
           }
         });
-      }).then(function (body) {
+      }).then(function (body) {//1
         console.log(`###############` + `oauth 성공` + `###############`);
         console.log(`id:`, body.user_id);
         return body;
-      }).catch(function (error) {
+      }).catch(function (error) { //1실패시
         console.log('my request oauth2.0 error:', error);
         conv.ask(`oauth2.0 request error`);
-      }).then(function (body) {
+      }).then(function (body) {//2
         console.log('do another job:', body.user_id);
 
         var parameters = { // Custom parameters to pass with context
@@ -536,7 +544,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
 
-      });
+      });//2끝
     }
     else {
       console.log('access token이 없음');
@@ -587,7 +595,8 @@ ap.intent('Stop', conv => {
   conv.close(`OK. Close 'Power reading'. Bye.`);
 
 });
-/*
+
+
 ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
    
@@ -865,5 +874,5 @@ ap.intent('Answer', (conv, input,option) => {
         conv.ask(`you said that ${speak}`);
     }
 });
-*/
+
 module.exports = router;

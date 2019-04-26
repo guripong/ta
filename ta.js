@@ -85,7 +85,7 @@ conv.ask(new Table({
 //deveduai.koreapolyschool.com/.well-known/acme-challenge/bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38
 //deveduai.icreate.kr/.well-known/acme-challenge/ufc78PaY-1BV7-mn0U82hRGF9n2_87Ta7mnl7msXiJk
 /*
-app.get('/.well-known/acme-challenge/bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38',function(req,res){
+app.get('/.well-known/acme-challenge/LJEo2kTahce_aWG6fNBIMY_MgRa2NXE_UWP-RD3ppsg',function(req,res){
 
   var origFileNm='bEc-I7J799Khbik6KOpl_BmTTGYEEKqFflgk1mrwW38';
   var file='./temp/'+origFileNm; //여기가 로칼에서 받을 파일내임
