@@ -934,7 +934,24 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = 11;
         conv.contexts.set('mysession', 1, parameters);
         //Okay then let’s move on   피드백
-        conv.close('!@#$ not yet');
+      
+        conv.ask(new SimpleResponse({
+          speech: `Okay then let’s move on. What is the name of the animal in the picture?`,
+          text: `nothing.`,
+        }));
+    
+        conv.ask(new BasicCard({
+          title: 'Theme: Practice',
+          subtitle: `Unique talents and features.`,
+          text: `Can you identify this animal?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
       }
       else{
         parameters.QN = 8.1;
@@ -1212,7 +1229,73 @@ ap.intent('Answer', (conv, input, option) => {
     else if(parameters.QN =='13'){
       //long neck  , tall , tallest, spots
       //13번에서 말하는거에 따라 나뉨
-      conv.close('good bye not yet.');
+      //if(speak.indexOf('long neck'))
+      var correct_list=['long neck','tall','tallest','spots']
+  
+      var pass = 0;
+      for (var j = 0; j < correct_list.length; j++) {
+        if (speak.indexOf(correct_list[j]) != -1) {
+          pass = 1;
+          break;
+        }
+      }
+
+      if (pass == 1) { //맞춤
+        //excelt
+        parameters.QN = 13.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Great job!Are you ready to move on?`,
+          text: `Great job!Are you ready to move on?`,
+        }));
+      }
+      else{
+        parameters.QN = 14;
+        conv.contexts.set('mysession', 1, parameters);
+        //과장님 14화면 부탁드립니다
+
+        conv.close('please connect 14th screen!');
+      }
+    
+    }
+    else if(parameters.QN=='13.1'){
+      if(speak.indexOf('yes')!=-1){
+        parameters.QN = 14;
+        conv.contexts.set('mysession', 1, parameters);
+        //과장님 14화면 부탁드립니다
+        conv.close('please connect 14th screen!');
+      }
+      else if(speak.indexOf('yes')!=-1){
+        parameters.QN = 11;
+        conv.contexts.set('mysession', 1, parameters);
+        //피드백 Okay, lets go back to the question.
+        conv.ask(new SimpleResponse({
+          speech: `Okay, lets go back to the question. What is the name of the animal in the picture?`,
+          text: `nothing.`,
+        }));
+    
+        conv.ask(new BasicCard({
+          title: 'Theme: Practice',
+          subtitle: `Unique talents and features.`,
+          text: `Can you identify this animal?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else{
+        parameters.QN = 13.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `I didn't understand. Are you ready to move on?`,
+          text: `I didn't understand. Are you ready to move on?`,
+        }));
+      }
+
     }
     else {
       conv.close('error. the '+parameters.QN+' does not exist.');
