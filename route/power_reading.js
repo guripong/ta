@@ -1,6 +1,6 @@
 var express = require('express');
 const request = require('request');
-const phrase = require('../resources/phrase');
+//const phrase = require('../resources/phrase');
 
 var router = express.Router();
 const {
@@ -33,6 +33,44 @@ const kind_of_suggestions = [
   'type 5',
 ];
 
+const avail_answers = {
+  14: [
+    'cheetah', 'hummingbird', 'panda'
+  ],
+  15: [
+    'fast', 'big', 'cat', 'very', 'sprint', 'accel' // match생각해서 자름
+    , 'speed'
+  ],
+  16:[
+    'small', '340', 'rapid', 'wing'
+  ],
+  17:[
+    'giant', 'big', 'black', 'white', 'bamboo', 'endangered'
+  ]
+};
+
+avail_answers.find_some = function (qn, str) {
+  qn = qn+"";
+  qn = qn.substring(0, qn.indexOf('.') > -1 ? qn.indexOf('.') : qn.length); // 16.1 형태일때 16으로 변환
+  let spltd = str.split(' ');
+  return avail_answers[qn].some((el) => {
+    return spltd.includes(el);
+  })
+};
+avail_answers.getIndex = function (qn, str){
+  qn = qn+"";
+  qn = qn.substring(0, qn.indexOf('.') > -1 ? qn.indexOf('.') : qn.length); // 16.1 형태일때 16으로 변환
+  let spltd = str.split(' ');
+
+  for(var i=0;i<=avail_answers[qn].length;i++){
+    if(spltd.indexOf(avail_answers[qn][i]) > -1){
+      return i+1; // array 위치보정
+    }
+  }
+  return 0;
+};
+
+
 router.post('/', ap);
 
 
@@ -56,7 +94,7 @@ ap.intent('Answer', (conv, input, option) => {
     if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading overview') != -1) {
       console.log('E1처음');
       ////////////////
-      parameters.QN = 1;
+      parameters.QN = "13";
       parameters.location = 'E1';
       conv.contexts.set('mysession', 1, parameters);
       //////////////
@@ -84,7 +122,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
       console.log('E2처음');
-      parameters.QN = 0;
+      parameters.QN = "0";
       parameters.location = 'first';
       conv.contexts.set('mysession', 1, parameters);
 
@@ -105,9 +143,14 @@ ap.intent('Answer', (conv, input, option) => {
     }
   }////맨첫메뉴
   else if (parameters.location == 'E1') {
+    if(parameters.QN == '14' && avail_answers.find_some(parameters.QN, speak)){
+      parameters.QN = ''+((parameters.QN*1) + avail_answers.getIndex(parameters.QN, speak) );
+      conv.contexts.set('mysession', 1, parameters);
+    }
+
     if (parameters.QN == '1') {
       if (speak.indexOf('folktale') != -1) {
-        parameters.QN = 1.1;
+        parameters.QN = "1.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new Suggestions(['yes', 'no']));
         conv.ask(new SimpleResponse({
@@ -118,7 +161,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else {
-        parameters.QN = 2;
+        parameters.QN = "2";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse(`That’s incorrect.
         Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
@@ -154,7 +197,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if (parameters.QN == '1.1') {
       if (speak.indexOf('yes') != -1) {
 
-        parameters.QN = 3;
+        parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Let’s recall the setting of the story.
@@ -175,7 +218,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else if (speak.indexOf('no') != -1) {
-        parameters.QN = 0;
+        parameters.QN = "0";
         parameters.location = 'first';
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
@@ -200,7 +243,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
-        parameters.QN = 2;
+        parameters.QN = "2";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse(`That’s incorrect.
         Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
@@ -235,7 +278,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (parameters.QN == '2') {
       if (speak.indexOf('folktale') != -1) {
-        parameters.QN = 2.1;
+        parameters.QN = "2.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new Suggestions(['yes', 'no']));
         conv.ask(new SimpleResponse({
@@ -246,7 +289,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else {
         //wrong again the answer was Folktale + 3번화면+발화
-        parameters.QN = 3;
+        parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Wrong again.The answer was Folktale. Let’s recall the setting of the story.
@@ -270,7 +313,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if (parameters.QN == '2.1') {
       if (speak.indexOf('yes') != -1) {
         //피드백 없이 3번으로
-        parameters.QN = 3;
+        parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Let’s recall the setting of the story.
@@ -293,7 +336,7 @@ ap.intent('Answer', (conv, input, option) => {
       else if (speak.indexOf('no') != -1) {
 
 
-        parameters.QN = 1;
+        parameters.QN = "1";
         //피드백 Okay, lets go back to the question.
 
         conv.contexts.set('mysession', 1, parameters);
@@ -319,7 +362,7 @@ ap.intent('Answer', (conv, input, option) => {
       else {
         //피드백:Wrong again.The answer was Folktale
 
-        parameters.QN = 3;
+        parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Wrong again.The answer was Folktale. Let’s recall the setting of the story.
@@ -342,7 +385,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (parameters.QN == '3') {
       if (speak.indexOf('forest') != -1 || speak.indexOf('top of a rock') != -1) {
-        parameters.QN = 3.1;
+        parameters.QN = "3.1";
         //피드백 Okay, lets go back to the question.
 
         conv.contexts.set('mysession', 1, parameters);
@@ -352,7 +395,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
-        parameters.QN = 4;
+        parameters.QN = "4";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `That’s not the correct answer,
@@ -397,7 +440,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (parameters.QN == '3.1') {
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 5;
+        parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
      
 
@@ -419,7 +462,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else if (speak.indexOf('no') != -1) {
-        parameters.QN = 3;
+        parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Okay, let's go back to the question. Let’s recall the setting of the story.
@@ -440,7 +483,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else {
-        parameters.QN = 4;
+        parameters.QN = "4";
     
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
@@ -487,7 +530,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='4'){
       if (speak.indexOf('woods') != -1 || speak.indexOf('top of a rock') != -1) {
-        parameters.QN = 4.1;
+        parameters.QN = "4.1";
         //피드백 Okay, lets go back to the question.
 
         conv.contexts.set('mysession', 1, parameters);
@@ -497,7 +540,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 5;
+        parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
         //Wrong again. The correct answer was the woods.
         conv.ask(new SimpleResponse({
@@ -520,7 +563,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='4.1'){
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 5;
+        parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Let’s recall the characters from the story.Name two animals that appear in the story.`,
@@ -541,7 +584,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else if (speak.indexOf('no') != -1) {
-        parameters.QN = 3;
+        parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Okay, let's go back to the question. Let’s recall the setting of the story.
@@ -563,7 +606,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else{
-        parameters.QN = 4.1;
+        parameters.QN = "4.1";
         //피드백 Okay, lets go back to the question.
 
         conv.contexts.set('mysession', 1, parameters);
@@ -591,7 +634,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       if(pass==1){ //맞춤
         //excelt
-        parameters.QN = 5.1;
+        parameters.QN = "5.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Excellent job! Do you want to move onto the next question?`,
@@ -600,7 +643,7 @@ ap.intent('Answer', (conv, input, option) => {
       
       }
       else{ //모름
-        parameters.QN = 6;
+        parameters.QN = "6";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `That’s not the correct answer.
@@ -624,7 +667,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='5.1'){
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 7;
+        parameters.QN = "7";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Let’s review the theme. 
@@ -648,7 +691,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else  if (speak.indexOf('no') != -1) {
-        parameters.QN = 5;
+        parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
         //Okay, lets go back to the question. 피드백
         conv.ask(new SimpleResponse({
@@ -669,7 +712,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 5.1;
+        parameters.QN = "5.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `I didn't understand. Do you want to move onto the next question?`,
@@ -694,7 +737,7 @@ ap.intent('Answer', (conv, input, option) => {
         }
       }
       if(pass==1){
-        parameters.QN = 6.1;
+        parameters.QN = "6.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `That’s correct!Do you want to move onto the next question?`,
@@ -702,7 +745,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 7;
+        parameters.QN = "7";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Wrong again. One possible answer is inchworm and bear. Let’s review the theme. 
@@ -730,7 +773,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='6.1'){
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 7;
+        parameters.QN = "7";
         conv.contexts.set('mysession', 1, parameters);
    
         conv.ask(new SimpleResponse({
@@ -755,7 +798,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else  if (speak.indexOf('no') != -1) {
-        parameters.QN = 5;
+        parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
         //Okay, lets go back to the question. 피드백
         conv.ask(new SimpleResponse({
@@ -776,7 +819,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 6.1;
+        parameters.QN = "6.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `I didn't understand. Do you want to move onto the next question?`,
@@ -787,7 +830,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if(parameters.QN =='7'){
       //yes no 에 따라서 9번 8번으로 흩어주자
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 9;
+        parameters.QN = "9";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Cool!
@@ -815,7 +858,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else  if (speak.indexOf('no') != -1) {
-        parameters.QN = 8;
+        parameters.QN = "8";
         conv.contexts.set('mysession', 1, parameters);
        
    
@@ -844,7 +887,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 7;
+        parameters.QN = "7";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `I didn't understsand. say yes or no. Let’s review the theme. 
@@ -870,7 +913,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='8'){
       if(speak.indexOf('write poetry')!=-1){
-        parameters.QN = 8.1;
+        parameters.QN = "8.1";
         conv.contexts.set('mysession', 1, parameters);
        
         conv.ask(new SimpleResponse({
@@ -879,7 +922,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 11;
+        parameters.QN = "11";
         conv.contexts.set('mysession', 1, parameters);
          
          conv.ask(new SimpleResponse({
@@ -903,7 +946,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='8.1'){
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 9;
+        parameters.QN = "9";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Cool!
@@ -931,7 +974,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else  if (speak.indexOf('no') != -1) {
-        parameters.QN = 11;
+        parameters.QN = "11";
         conv.contexts.set('mysession', 1, parameters);
         //Okay then let’s move on   피드백
       
@@ -954,7 +997,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 8.1;
+        parameters.QN = "8.1";
         conv.contexts.set('mysession', 1, parameters);
         //피드백 I didn't understand.
         conv.ask(new SimpleResponse({
@@ -965,7 +1008,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='9'){
       //
-      parameters.QN = 9.1;
+      parameters.QN = "9.1";
       conv.contexts.set('mysession', 1, parameters);
       conv.ask(new SimpleResponse({
         speech: `That’s very interesting!
@@ -976,7 +1019,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='9.1'){
       if (speak.indexOf('yes') != -1) {
-        parameters.QN = 10;
+        parameters.QN = "10";
         conv.contexts.set('mysession', 1, parameters);
         
         conv.ask(new SimpleResponse({
@@ -1002,7 +1045,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else if (speak.indexOf('no') != -1) {
-        parameters.QN = 11;
+        parameters.QN = "11";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `What is the name of the animal in the picture?`,
@@ -1023,7 +1066,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 9.1;
+        parameters.QN = "9.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `I didn't understand. Do you have any other talents?`,
@@ -1033,7 +1076,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='10'){
       if(speak.indexOf('i can also')!=-1 || speak.indexOf('my talent is')!=-1 || speak.indexOf('i have another unique talent')!=-1){
-         parameters.QN = 10.1;
+         parameters.QN = "10.1";
          conv.contexts.set('mysession', 1, parameters);
          conv.ask(new SimpleResponse({
           speech: `Great! You are very unique! Are you ready to move on to the next question?`,
@@ -1041,7 +1084,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 11;
+        parameters.QN = "11";
         conv.contexts.set('mysession', 1, parameters);
         //피드백 Sorry, I  didn’t quite get that. Let’s move on.
         conv.ask(new SimpleResponse({
@@ -1065,7 +1108,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if(parameters.QN =='10.1'){
       if (speak.indexOf('yes') != -1) {
-          parameters.QN = 11;
+          parameters.QN = "11";
           conv.contexts.set('mysession', 1, parameters);
           conv.ask(new SimpleResponse({
             speech: `What is the name of the animal in the picture?`,
@@ -1087,7 +1130,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else if(speak.indexOf('no')!= -1){
          //10으로 다시
-         parameters.QN = 10;
+         parameters.QN = "10";
          conv.contexts.set('mysession', 1, parameters);
          conv.ask(new SimpleResponse({
           speech: `Okay, lets go back to the question.
@@ -1113,7 +1156,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 10.1;
+        parameters.QN = "10.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
          speech: `I didn't understand. Are you ready to move on to the next question?`,
@@ -1124,7 +1167,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if(parameters.QN =='11'){
       if (speak.indexOf('giraffe') != -1) {
          //13번으로
-         parameters.QN = 13;
+         parameters.QN = "13";
          conv.contexts.set('mysession', 1, parameters);
          conv.ask(new SimpleResponse({
            speech: `Excellent!
@@ -1148,7 +1191,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else{
         //12번으로
-        parameters.QN = 12;
+        parameters.QN = "12";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Let me give you a hint.
@@ -1177,7 +1220,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if(parameters.QN =='12'){
       if (speak.indexOf('giraffe') != -1) {
         //13으로
-        parameters.QN = 13;
+        parameters.QN = "13";
          conv.contexts.set('mysession', 1, parameters);
          conv.ask(new SimpleResponse({
            speech: `Excellent!
@@ -1202,7 +1245,7 @@ ap.intent('Answer', (conv, input, option) => {
       else{
         //13으로
         //That’s okay. The animal in the picture is a giraffe. Let move on.
-        parameters.QN = 13;
+        parameters.QN = "13";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `That’s okay. The animal in the picture is a giraffe. Let move on.
@@ -1232,17 +1275,17 @@ ap.intent('Answer', (conv, input, option) => {
       //if(speak.indexOf('long neck'))
       var correct_list=['long neck','tall','tallest','spots']
   
-      var pass = 0;
+      var pasN = "0";
       for (var j = 0; j < correct_list.length; j++) {
         if (speak.indexOf(correct_list[j]) != -1) {
-          pass = 1;
+          pasN = "1";
           break;
         }
       }
 
       if (pass == 1) { //맞춤
         //excelt
-        parameters.QN = 13.1;
+        parameters.QN = "13.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Great job!Are you ready to move on?`,
@@ -1250,23 +1293,91 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 14;
+        parameters.QN = '14';
         conv.contexts.set('mysession', 1, parameters);
-        //과장님 14화면 부탁드립니다
 
-        conv.close('please connect 14th screen!');
+        let phrase = "";
+
+        phrase += `Look at the choices above. Which animal are you most interested in?`;
+        conv.ask(new SimpleResponse({
+          speech: phrase,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
+        conv.ask(new Carousel({
+          items: {
+            'CHEETAH': {
+              title: 'Cheetah',
+              description: 'The cheetah is the fastest land…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
+                alt: 'cheetah',
+              }),
+            },
+            'HUMMINGBIRD': {
+              title: 'Hummingbird',
+              description: 'Hummingbirds are one of the smallest…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
+                alt: 'hummingbird',
+              }),
+            },
+            'PANDA': {
+              title: 'Panda',
+              description: 'The giant panda is native china…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
+                alt: 'panda',
+              }),
+            },
+          },
+        }));
       }
     
     }
     else if(parameters.QN=='13.1'){
       if(speak.indexOf('yes')!=-1){
-        parameters.QN = 14;
+        parameters.QN = "14";
         conv.contexts.set('mysession', 1, parameters);
-        //과장님 14화면 부탁드립니다
-        conv.close('please connect 14th screen!');
+        
+        let phrase = "";
+        phrase += `Look at the choices above. Which animal are you most interested in?`;
+        conv.ask(new SimpleResponse({
+          speech: phrase,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
+        conv.ask(new Carousel({
+          items: {
+            'CHEETAH': {
+              title: 'Cheetah',
+              description: 'The cheetah is the fastest land…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
+                alt: 'cheetah',
+              }),
+            },
+            'HUMMINGBIRD': {
+              title: 'Hummingbird',
+              description: 'Hummingbirds are one of the smallest…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
+                alt: 'hummingbird',
+              }),
+            },
+            'PANDA': {
+              title: 'Panda',
+              description: 'The giant panda is native china…',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
+                alt: 'panda',
+              }),
+            },
+          },
+        }));
       }
       else if(speak.indexOf('yes')!=-1){
-        parameters.QN = 11;
+        parameters.QN = "11";
         conv.contexts.set('mysession', 1, parameters);
         //피드백 Okay, lets go back to the question.
         conv.ask(new SimpleResponse({
@@ -1288,7 +1399,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else{
-        parameters.QN = 13.1;
+        parameters.QN = "13.1";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `I didn't understand. Are you ready to move on?`,
@@ -1297,13 +1408,251 @@ ap.intent('Answer', (conv, input, option) => {
       }
 
     }
+
+    else if(parameters.QN.includes('14')){
+      conv.contexts.set('mysession', 1, parameters);
+      let phrase = "";
+      if(!avail_answers.find_some(parameters.QN, speak)){
+        phrase = "I didn't understand. "
+      }
+      phrase += `Look at the choices above. Which animal are you most interested in?`;
+      conv.ask(new SimpleResponse({
+        speech: phrase,
+        text: 'nothing.',
+      }));
+      conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
+      conv.ask(new Carousel({
+        items: {
+          'CHEETAH': {
+            title: 'Cheetah',
+            description: 'The cheetah is the fastest land…',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
+              alt: 'cheetah',
+            }),
+          },
+          'HUMMINGBIRD': {
+            title: 'Hummingbird',
+            description: 'Hummingbirds are one of the smallest…',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
+              alt: 'hummingbird',
+            }),
+          },
+          'PANDA': {
+            title: 'Panda',
+            description: 'The giant panda is native china…',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
+              alt: 'panda',
+            }),
+          },
+        },
+      }));
+    }
+    else if (parameters.QN.includes('15')) {
+      if (parameters.QN === '15') {
+        parameters.QN = '15.1';
+        // parameters.location = 'E1';
+        conv.contexts.set('mysession', 1, parameters); //set my progress
+  
+        conv.ask(new SimpleResponse({
+          speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
+          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per hour in just three seconds,
+           Cheetahs are the only big cat that can turn in mid air while sprinting.`
+            + ` What do you think is the coolest feature of a cheetah?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Cheetah',
+          subtitle: `Fun Facts`,
+          text: `The cheetah is the fastest land animal in the world, reaching speeds of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`
+            + ` What do you think is the coolest feature of a cheetah?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/15cheetah.jpg',
+            alt: 'cheetah',
+            width: 282,
+            heigh: 361,
+          }),
+        }));
+      } else if (parameters.QN == '15.1') { // todo 
+        if (avail_answers.find_some(parameters.QN, speak)) {
+          let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Close Reading?';
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+  
+        } else {
+          let phrase = "Sorry. I didn't quite get that. You can tell me next time. \n Do you want to move on to Close Reading?";
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+        }
+  
+        parameters.QN = '15.2';
+        conv.contexts.set('mysession', 1, parameters);
+      } else if (parameters.QN == '15.2') {
+        if (speak.indexOf('yes') != -1 || speak.indexOf('no') != -1
+          || speak.indexOf('go') != -1 || speak.indexOf('stop') != -1
+          || speak.indexOf('sure') != -1 || speak.indexOf('bye') != -1) {
+          //todo 현재 기획이 나오지 않음, 현재는 무조건 no로
+          let phrase = "Okay, I'll see you next time.";
+          conv.close(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+        } else {
+          let phrase = "Do you want to move on to Close Reading?";
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+        }
+      }
+    }
+    else if (parameters.QN.includes('16')) {
+      if (parameters.QN == '16') {
+        parameters.QN = '16.1';
+        conv.contexts.set('mysession', 1, parameters);
+  
+        conv.ask(new SimpleResponse({
+          speech: `Hummingbirds are one of the smallest kinds of birds in the world and can only be found in the Americas. 
+          There are more than 340 species of hummingbirds. 
+          They are named after the sound they create when they rapidly beat their wings.`
+            + ` What do you think is the coolest feature of a hummingbird?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Hummingbird',
+          subtitle: `Fun Facts`,
+          text: `Hummingbirds are one of the smallest kinds of birds in the world and can only be found in the Americas. 
+          There are more than 340 species of hummingbirds. 
+          They are named after the sound they create when they rapidly beat their wings.`
+            + ` What do you think is the coolest feature of a hummingbird?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/16hummingbird.jpg',
+            alt: 'hummingbird',
+          }),
+        }));
+      } else if (parameters.QN == '16.1') { // todo 
+        if (avail_answers.find_some(parameters.QN, speak)) {
+          let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Close Reading?';
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+  
+        } else {
+          let phrase = "Sorry. I didn't quite get that. You can tell me next time. \n Do you want to move on to Close Reading?";
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+        }
+  
+        parameters.QN = '16.2';
+        conv.contexts.set('mysession', 1, parameters);
+      } else if (parameters.QN == '17.2') {
+        if (speak.indexOf('yes') != -1 || speak.indexOf('no') != -1
+          || speak.indexOf('go') != -1 || speak.indexOf('stop') != -1
+          || speak.indexOf('sure') != -1 || speak.indexOf('bye') != -1) {
+          //todo 현재 기획이 나오지 않음, 현재는 무조건 no로
+          let phrase = "Okay, I'll see you next time.";
+          conv.close(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+        } else {
+          let phrase = "Do you want to move on to Close Reading?";
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+        }
+      }
+    }
+    else if (parameters.QN.includes('17')) {
+      if (parameters.QN == '17') {
+        parameters.QN = '17.1';
+        conv.contexts.set('mysession', 1, parameters);
+  
+        conv.ask(new SimpleResponse({
+          speech: `The giant panda is native China. It has a black and white coat that feature large black patches around its eyes. 
+          It spends 14 to 16 hours a day eating bamboo. 
+          Pandas are an endangered species.`
+            + ` What do you think is the coolest feature of a panda?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Panda',
+          subtitle: `Fun Facts`,
+          text: `The giant panda is native China. It has a black and white coat that feature large black patches around its eyes. 
+          It spends 14 to 16 hours a day eating bamboo. 
+          Pandas are an endangered species.`
+            + ` What do you think is the coolest feature of a panda?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/17panda.jpg',
+            alt: 'panda',
+          }),
+        }));
+      } else if (parameters.QN == '17.1') { // todo 
+        if (avail_answers.find_some(parameters.QN, speak)) {
+          let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Close Reading?';
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+  
+        } else {
+          let phrase = "Sorry. I didn't quite get that. You can tell me next time. \n Do you want to move on to Close Reading?";
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+        }
+  
+        parameters.QN = '17.2';
+        conv.contexts.set('mysession', 1, parameters);
+      } else if (parameters.QN == '17.2') {
+        if (speak.indexOf('yes') != -1 || speak.indexOf('no') != -1
+          || speak.indexOf('go') != -1 || speak.indexOf('stop') != -1
+          || speak.indexOf('sure') != -1 || speak.indexOf('bye') != -1) {
+          let phrase = "Okay, I'll see you next time.";
+          conv.close(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+        } else {
+          let phrase = "Do you want to move on to Close Reading?";
+          conv.ask(new SimpleResponse({
+            speech: phrase,
+            text: phrase,
+          }));
+          conv.ask(new Suggestions(['yes', 'no']));
+        }
+      }
+    }
+
     else {
       conv.close('error. the '+parameters.QN+' does not exist.');
     }
   }
 
   else if (parameters.location == 'E2') {
-    parameters.QN = 0;
+    parameters.QN = "0";
     parameters.location = 'first';
     conv.contexts.set('mysession', 1, parameters);
 
@@ -1368,7 +1717,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         };
 
         parameters.location = 'first';
-        parameters.QN = 0;
+        parameters.QN = '0';
 
         conv.contexts.set('mysession', 1, parameters);
 
