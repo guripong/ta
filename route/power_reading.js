@@ -1212,6 +1212,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if(parameters.QN =='13'){
       //long neck  , tall , tallest, spots
       //13번에서 말하는거에 따라 나뉨
+      conv.close('good bye not yet.');
     }
     else {
       conv.close('error. the '+parameters.QN+' does not exist.');
