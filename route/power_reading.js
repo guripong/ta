@@ -399,7 +399,24 @@ ap.intent('Answer', (conv, input, option) => {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = 5;
         conv.contexts.set('mysession', 1, parameters);
-        conv.close('!@#$');
+     
+
+        conv.ask(new SimpleResponse({
+          speech: `Let’s recall the characters from the story.Name two animals that appear in the story.`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Characters`,
+          text: `Name two animals that appear in the story.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = 3;
@@ -469,12 +486,313 @@ ap.intent('Answer', (conv, input, option) => {
 
     }
     else if(parameters.QN =='4'){
-        conv.close(`!@#$  qn4's answer classify need.`);
+      if (speak.indexOf('woods') != -1 || speak.indexOf('top of a rock') != -1) {
+        parameters.QN = 4.1;
+        //피드백 Okay, lets go back to the question.
+
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `That’s correct! Do you want to move onto the next question? `,
+          text: `That’s correct!Do you want to move onto the next question?`,
+        }));
+      }
+      else{
+        parameters.QN = 5;
+        conv.contexts.set('mysession', 1, parameters);
+        //Wrong again. The correct answer was the woods.
+        conv.ask(new SimpleResponse({
+          speech: `Wrong again. The correct answer was the woods. Let’s recall the characters from the story.Name two animals that appear in the story.`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Characters`,
+          text: `Name two animals that appear in the story.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+    }
+    else if(parameters.QN =='4.1'){
+      if (speak.indexOf('yes') != -1) {
+        parameters.QN = 5;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Let’s recall the characters from the story.Name two animals that appear in the story.`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Characters`,
+          text: `Name two animals that appear in the story.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+
+      }
+      else if (speak.indexOf('no') != -1) {
+        parameters.QN = 3;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Okay, let's go back to the question. Let’s recall the setting of the story.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Setting`,
+          text: `What is the setting of the story?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+
+      }
+      else{
+        parameters.QN = 4.1;
+        //피드백 Okay, lets go back to the question.
+
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `I didn't under stand.  Do you want to move onto the next question? `,
+          text: `Do you want to move onto the next question?`,
+        }));
+      }
+    }
+    else if(parameters.QN =='5'){
+      // it is Inchworm and hawk.
+      var correct_list=['inchworm','hawk','bear','mouse','lion']
+      var splitspeak = speak.split(' ');
+      var aa=0;
+      var pass=0;
+      for(var i = 0 ; i <splitspeak.length ; i++){
+        if(correct_list.includes(splitspeak[i])==true){
+          aa++;
+          if(aa==2){
+            pass=1;
+            break;
+          }  
+        }
+      }
+
+      if(pass==1){ //맞춤
+        //excelt
+        parameters.QN = 5.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Excellent job! Do you want to move onto the next question?`,
+          text: 'nothing.',
+        }));
+      
+      }
+      else{ //모름
+        parameters.QN = 6;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `That’s not the correct answer.
+          Read the hint and tell me two animals that appear in the story. 
+          `,
+          text: `nothing.`,
+        }));
+        conv.ask(new BasicCard({
+          title: 'Hint',
+          subtitle: `Inchworm's Tale:Characters`,
+          text: `Look at the pictures and tell me two animals that appear in the story`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/6etc.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+    }
+    else if(parameters.QN =='5.1'){
+      if (speak.indexOf('yes') != -1) {
+        parameters.QN = 7;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Let’s review the theme. 
+          This story was about how everyone has their own unique talent or feature. 
+          Do you have any special features or talents?
+          `,
+          text: `nothing.`,
+        }));
+        conv.ask(new Suggestions(['yes','no']));
+        conv.ask(new BasicCard({
+          title: 'Theme',
+          subtitle: `Unique talents and features.`,
+          text: `Do you have any special features or talents?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else  if (speak.indexOf('no') != -1) {
+        parameters.QN = 5;
+        conv.contexts.set('mysession', 1, parameters);
+        //Okay, lets go back to the question. 피드백
+        conv.ask(new SimpleResponse({
+          speech: `Okay, lets go back to the question. Let’s recall the characters from the story.Name two animals that appear in the story.`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Characters`,
+          text: `Name two animals that appear in the story.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else{
+        parameters.QN = 5.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `I didn't understand. Do you want to move onto the next question?`,
+          text: `I didn't understand. Do you want to move onto the next question?`,
+        }));
+    
+      }
+
+    }
+    else if(parameters.QN == '6'){
+      var correct_list=['inchworm','hawk','bear','mouse','lion']
+      var splitspeak = speak.split(' ');
+      var aa=0;
+      var pass=0;
+      for(var i = 0 ; i <splitspeak.length ; i++){
+        if(correct_list.includes(splitspeak[i])==true){
+          aa++;
+          if(aa==2){
+            pass=1;
+            break;
+          }  
+        }
+      }
+      if(pass==1){
+        parameters.QN = 6.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `That’s correct!Do you want to move onto the next question?`,
+          text: `That’s correct!Do you want to move onto the next question?`,
+        }));
+      }
+      else{
+        parameters.QN = 7;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Wrong again. One possible answer is inchworm and bear. Let’s review the theme. 
+          This story was about how everyone has their own unique talent or feature. 
+          Do you have any special features or talents?
+          `,
+          text: `nothing.`,
+        }));
+        conv.ask(new Suggestions(['yes','no']));
+        conv.ask(new BasicCard({
+          title: 'Theme',
+          subtitle: `Unique talents and features.`,
+          text: `Do you have any special features or talents?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+        //Wrong again. One possible answer is inchworm and bear.  피드백
+
+      }
+    }
+    else if(parameters.QN =='6.1'){
+      if (speak.indexOf('yes') != -1) {
+        parameters.QN = 7;
+        conv.contexts.set('mysession', 1, parameters);
+   
+        conv.ask(new SimpleResponse({
+          speech: `Let’s review the theme. 
+          This story was about how everyone has their own unique talent or feature. 
+          Do you have any special features or talents?
+          `,
+          text: `nothing.`,
+        }));
+        conv.ask(new Suggestions(['yes','no']));
+        conv.ask(new BasicCard({
+          title: 'Theme',
+          subtitle: `Unique talents and features.`,
+          text: `Do you have any special features or talents?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else  if (speak.indexOf('no') != -1) {
+        parameters.QN = 5;
+        conv.contexts.set('mysession', 1, parameters);
+        //Okay, lets go back to the question. 피드백
+        conv.ask(new SimpleResponse({
+          speech: `Okay, lets go back to the question. Let’s recall the characters from the story.Name two animals that appear in the story.`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Characters`,
+          text: `Name two animals that appear in the story.`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else{
+        parameters.QN = 6.1;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `I didn't understand. Do you want to move onto the next question?`,
+          text: `I didn't understand. Do you want to move onto the next question?`,
+        }));
+      }
+    }
+    else if(parameters.QN =='7'){
+      //yes no 에 따라서 9번 8번으로 흩어주자
+      conv.close(`!@#$ not yet`);
     }
     else {
       conv.close('error. the '+parameters.QN+' does not exist.');
     }
   }
+
   else if (parameters.location == 'E2') {
     parameters.QN = 0;
     parameters.location = 'first';
