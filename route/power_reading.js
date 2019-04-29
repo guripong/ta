@@ -595,7 +595,7 @@ ap.intent('Answer', (conv, input, option) => {
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
           speech: `Excellent job! Do you want to move onto the next question?`,
-          text: 'nothing.',
+          text: 'Excellent job! Do you want to move onto the next question?',
         }));
       
       }
