@@ -1,7 +1,7 @@
 var express = require('express');
 const request = require('request');
 //const phrase = require('../resources/phrase');
-
+console.log('aaa');
 var router = express.Router();
 const {
   dialogflow,
