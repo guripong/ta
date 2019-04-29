@@ -59,12 +59,13 @@ ap.intent('Answer', (conv, input, option) => {
       parameters.QN = 1;
       parameters.location = 'E1';
       conv.contexts.set('mysession', 1, parameters);
-//////////////
+      //////////////
 
       conv.ask(new SimpleResponse({
         speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
         text: 'nothing.',
       }));
+      conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
       conv.ask(new BasicCard({
         title: 'Story Overview',
         subtitle: `Inchworm's Tale`,
@@ -82,16 +83,16 @@ ap.intent('Answer', (conv, input, option) => {
       }));
     }
     else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
-        console.log('E2처음');
-        parameters.QN = 0;
-        parameters.location = 'first';
-        conv.contexts.set('mysession', 1, parameters);
-    
-        conv.ask(new SimpleResponse({
-          speech: 'number 2. not yet.',
-          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
-        }));
-        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+      console.log('E2처음');
+      parameters.QN = 0;
+      parameters.location = 'first';
+      conv.contexts.set('mysession', 1, parameters);
+
+      conv.ask(new SimpleResponse({
+        speech: 'number 2. not yet.',
+        text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+      }));
+      conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
     }
     else {
 
@@ -105,49 +106,49 @@ ap.intent('Answer', (conv, input, option) => {
   }////맨첫메뉴
   else if (parameters.location == 'E1') {
     if (parameters.QN == '1') {
-      if (speak.indexOf('folktale') != -1 ) {
+      if (speak.indexOf('folktale') != -1) {
         parameters.QN = 1.1;
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new Suggestions(['yes','no']));
+        conv.ask(new Suggestions(['yes', 'no']));
         conv.ask(new SimpleResponse({
           speech: `Excellent! Do you want to move onto the next question?`,
           text: `Excellent! 
           Do you want to move onto the next question?`,
         }));
-     
+
       }
       else {
         parameters.QN = 2;
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse(`That’s incorrect.
         Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
-        conv.ask(new Suggestions(['Biography','Play','Folktale']));
+        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
         conv.ask(new List({
-            title: 'What is the genre of Inchworm’s Tale?',
-            items: {
-              // Add the first item to the list
-              'SELECTION_KEY_ONE': {
-                synonyms: [
-                  'apple',
-                  'Apple',
-                  'I like an apple',
-                ],
-                title: 'Hint 1',
-                description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
-             
-              },
-              // Add the second item to the list
-              'SELECTION_KEY_GOOGLE_HOME': {
-                synonyms: [
-                  'Google Home Assistant',
-                  'Assistant on the Google Home',
-                 ],
-                title: 'Hint 2',
-                description: 'The characters in the story have special abilities. In this case, the animals can talk.',
-               
-              },
+          title: 'What is the genre of Inchworm’s Tale?',
+          items: {
+            // Add the first item to the list
+            'SELECTION_KEY_ONE': {
+              synonyms: [
+                'apple',
+                'Apple',
+                'I like an apple',
+              ],
+              title: 'Hint 1',
+              description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
+
             },
-          }));
+            // Add the second item to the list
+            'SELECTION_KEY_GOOGLE_HOME': {
+              synonyms: [
+                'Google Home Assistant',
+                'Assistant on the Google Home',
+              ],
+              title: 'Hint 2',
+              description: 'The characters in the story have special abilities. In this case, the animals can talk.',
+
+            },
+          },
+        }));
       }
     }
     else if (parameters.QN == '1.1') {
@@ -173,7 +174,7 @@ ap.intent('Answer', (conv, input, option) => {
           }),
         }));
       }
-      else if (speak.indexOf('no') != -1){
+      else if (speak.indexOf('no') != -1) {
         parameters.QN = 0;
         parameters.location = 'first';
         conv.contexts.set('mysession', 1, parameters);
@@ -181,68 +182,69 @@ ap.intent('Answer', (conv, input, option) => {
           speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
           text: 'nothing.',
         }));
+        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
         conv.ask(new BasicCard({
           title: 'Story Overview',
           subtitle: `Inchworm's Tale`,
           text: `What is the genre of Inchworm’s Tale?`,
-  
+
           image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
             alt: 'Image alternate text',
             width: 500,
             heigh: 500,
           }),
-  
+
           //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
           //display  X 구글홈허브
         }));
       }
-      else{
+      else {
         parameters.QN = 2;
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse(`That’s incorrect.
         Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
-        conv.ask(new Suggestions(['Biography','Play','Folktale']));
+        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
         conv.ask(new List({
-            title: 'What is the genre of Inchworm’s Tale?',
-            items: {
-              // Add the first item to the list
-              'SELECTION_KEY_ONE': {
-                synonyms: [
-                  'apple',
-                  'Apple',
-                  'I like an apple',
-                ],
-                title: 'Hint 1',
-                description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
-              
-              },
-              // Add the second item to the list
-              'SELECTION_KEY_GOOGLE_HOME': {
-                synonyms: [
-                  'Google Home Assistant',
-                  'Assistant on the Google Home',
-                 ],
-                title: 'Hint 2',
-                description: 'The characters in the story have special abilities. In this case, the animals can talk.',
-              
-              },
+          title: 'What is the genre of Inchworm’s Tale?',
+          items: {
+            // Add the first item to the list
+            'SELECTION_KEY_ONE': {
+              synonyms: [
+                'apple',
+                'Apple',
+                'I like an apple',
+              ],
+              title: 'Hint 1',
+              description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
+
             },
-          }));
+            // Add the second item to the list
+            'SELECTION_KEY_GOOGLE_HOME': {
+              synonyms: [
+                'Google Home Assistant',
+                'Assistant on the Google Home',
+              ],
+              title: 'Hint 2',
+              description: 'The characters in the story have special abilities. In this case, the animals can talk.',
+
+            },
+          },
+        }));
       }
     }
     else if (parameters.QN == '2') {
-      if (speak.indexOf('folktale') != -1 ) {
+      if (speak.indexOf('folktale') != -1) {
         parameters.QN = 2.1;
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new Suggestions(['yes','no']));
+        conv.ask(new Suggestions(['yes', 'no']));
         conv.ask(new SimpleResponse({
           speech: `You did it! Do you want to move onto the next question?`,
           text: `Excellent! 
           Do you want to move onto the next question?`,
         }));
       }
-      else{
+      else {
         //wrong again the answer was Folktale + 3번화면+발화
         parameters.QN = 3;
         conv.contexts.set('mysession', 1, parameters);
@@ -288,7 +290,9 @@ ap.intent('Answer', (conv, input, option) => {
           }),
         }));
       }
-      else if (speak.indexOf('no') != -1){
+      else if (speak.indexOf('no') != -1) {
+
+
         parameters.QN = 1;
         //피드백 Okay, lets go back to the question.
 
@@ -297,11 +301,12 @@ ap.intent('Answer', (conv, input, option) => {
           speech: `Okay, lets go back to the question. Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
           text: 'nothing.',
         }));
+        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
         conv.ask(new BasicCard({
           title: 'Story Overview',
           subtitle: `Inchworm's Tale`,
           text: `What is the genre of Inchworm’s Tale?`,
-  
+
           image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
             alt: 'Image alternate text',
@@ -311,7 +316,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
 
       }
-      else{
+      else {
         //피드백:Wrong again.The answer was Folktale
 
         parameters.QN = 3;
@@ -336,10 +341,138 @@ ap.intent('Answer', (conv, input, option) => {
       }
     }
     else if (parameters.QN == '3') {
-      conv.close('not yet bye.');
+      if (speak.indexOf('forest') != -1 || speak.indexOf('top of a rock') != -1) {
+        parameters.QN = 3.1;
+        //피드백 Okay, lets go back to the question.
+
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Yay, you remembered! Are you ready for the next question?`,
+          text: 'Yay, you remembered! Are you ready for the next question?',
+        }));
+      }
+      else {
+        parameters.QN = 4;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `That’s not the correct answer,
+          Read the hints and answer the question.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+     
+        conv.ask(new List({
+            title: 'What is the setting of the story?',
+            items: {
+              // Add the first item to the list
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'apple',
+                  'Apple',
+                  'I like an apple',
+                ],
+                title: 'Hint 1: You can be general',
+                description: 'The story is set in the ______________',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/4forest.png',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the list
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+              ],
+                title: 'Hint 2: You can be specific',
+                description: 'The story takes place on top of a ______________',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/4rock.png',
+                  alt: 'Google Home',
+                }),
+              },
+            },
+          }));
+      }
+    }
+    else if (parameters.QN == '3.1') {
+      if (speak.indexOf('yes') != -1) {
+        parameters.QN = 5;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.close('!@#$');
+      }
+      else if (speak.indexOf('no') != -1) {
+        parameters.QN = 3;
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Okay, let's go back to the question. Let’s recall the setting of the story.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Story Overview',
+          subtitle: `Inchworm's Tale:Setting`,
+          text: `What is the setting of the story?`,
+
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
+            alt: 'Image alternate text',
+            width: 500,
+            heigh: 500,
+          }),
+        }));
+      }
+      else {
+        parameters.QN = 4;
+    
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `That’s not the correct answer,
+          Read the hints and answer the question.
+          What is the setting of the story?`,
+          text: 'nothing.',
+        }));
+     
+        conv.ask(new List({
+            title: 'What is the setting of the story?',
+            items: {
+              // Add the first item to the list
+              'SELECTION_KEY_ONE': {
+                synonyms: [
+                  'apple',
+                  'Apple',
+                  'I like an apple',
+                ],
+                title: 'Hint 1: You can be general',
+                description: 'The story is set in the ______________',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/4forest.png',
+                  alt: 'Image alternate text',
+                }),
+              },
+              // Add the second item to the list
+              'SELECTION_KEY_GOOGLE_HOME': {
+                synonyms: [
+                  'Google Home Assistant',
+                  'Assistant on the Google Home',
+              ],
+                title: 'Hint 2: You can be specific',
+                description: 'The story takes place on top of a ______________',
+                image: new Image({
+                  url: 'https://s3.amazonaws.com/eduai/test_image/4rock.png',
+                  alt: 'Google Home',
+                }),
+              },
+            },
+          }));
+      }
+
+    }
+    else if(parameters.QN =='4'){
+        conv.close(`!@#$  qn4's answer classify need.`);
     }
     else {
-      conv.close('error.');
+      conv.close('error. the '+parameters.QN+' does not exist.');
     }
   }
   else if (parameters.location == 'E2') {
@@ -355,8 +488,8 @@ ap.intent('Answer', (conv, input, option) => {
 
 
   }
-  else{
-    conv.close(parameters.location+` does not exist.`);
+  else {
+    conv.close(parameters.location + ` does not exist.`);
   }
 
 });
@@ -412,7 +545,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
         conv.contexts.set('mysession', 1, parameters);
 
-    
+
 
         conv.ask(new SimpleResponse({
           speech: 'Welcome to Power reading! There are 2 Type exist.',
