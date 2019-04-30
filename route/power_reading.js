@@ -135,8 +135,8 @@ ap.intent('Answer', (conv, input, option) => {
       }));
       conv.ask(new Suggestions(['agree','disagree']));
       conv.ask(new BasicCard({
-        title: 'Panda',
-        subtitle: `Fun Facts`,
+        title: 'Tell me your opinion',
+        subtitle: `Do you agree or disagree?`,
         text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
 
         image: new Image({
