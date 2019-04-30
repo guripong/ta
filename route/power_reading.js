@@ -856,10 +856,10 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new BasicCard({
           title: 'Theme',
           subtitle: `Unique talents and features.`,
-          text: `What is your special feature?
-          I can…
-          My special feature is…
-          I have a unique talent. It is…
+          text: `What is your special feature?  \n
+          I can…  \n
+          My special feature is…  \n
+          I have a unique talent. It is…  \n
           `,
 
           image: new Image({
@@ -972,10 +972,10 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new BasicCard({
           title: 'Theme',
           subtitle: `Unique talents and features.`,
-          text: `What is your special feature?
-          I can…
-          My special feature is…
-          I have a unique talent. It is…
+          text: `What is your special feature?  \n
+          I can…  \n
+          My special feature is…  \n
+          I have a unique talent. It is…  \n
           `,
 
           image: new Image({
@@ -1043,10 +1043,10 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new BasicCard({
           title: 'Theme',
           subtitle: `Unique talents and features.`,
-          text: `What is your special feature?
-          I can also…
-          Another one of my talent is…
-          I have another unique talent. It is…
+          text: `What is your special feature?  \n
+          I can also…  \n
+          Another one of my talent is…  \n
+          I have another unique talent. It is…  \n
           `,
   
           image: new Image({
@@ -1216,9 +1216,9 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new BasicCard({
           title: 'HINT',
           subtitle: `Can you identify this animal?`,
-          text: `Clues:
-          - The animal can be found in the African continent
-          - Its neck cannot reach the ground
+          text: `Clues:  \n
+          - The animal can be found in the African continent  \n
+          - Its neck cannot reach the ground  \n
           - It starts with a G`,
   
           image: new Image({
