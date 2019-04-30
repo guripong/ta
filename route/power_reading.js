@@ -130,7 +130,7 @@ ap.intent('Answer', (conv, input, option) => {
       conv.contexts.set('mysession', 1, parameters);
      
       conv.ask(new SimpleResponse({
-        speech: `Let’s discuss.Do you agree or disagree with the following statement?`,
+        speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
         text: 'nothing.',
       }));
       conv.ask(new Suggestions(['agree','disagree']));
@@ -397,7 +397,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
     }
     else if (parameters.QN == '3') {
-      if (speak.indexOf('forest') != -1 || speak.indexOf('top of a rock') != -1) {
+      if (speak.indexOf('forest') != -1 || speak.indexOf('top of a rock') != -1 || speak.indexOf('wood') != -1) {
         parameters.QN = "3.1";
         //피드백 Okay, lets go back to the question.
 
@@ -1309,7 +1309,7 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = '14';
         conv.contexts.set('mysession', 1, parameters);
 
-        let phrase = "";
+        let phrase = "I didn't quite get that. Let's move on.";
 
         phrase += `Look at the choices above. Which animal are you most interested in?`;
         conv.ask(new SimpleResponse({
@@ -1716,7 +1716,7 @@ ap.intent('Answer', (conv, input, option) => {
         conv.contexts.set('mysession', 1, parameters);
        
         conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Please choose agree or disagree. Let’s discuss.Do you agree or disagree with the following statement?`,
+          speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
           text: 'nothing.',
         }));
         conv.ask(new Suggestions(['agree','disagree']));
@@ -1772,7 +1772,7 @@ ap.intent('Answer', (conv, input, option) => {
          conv.ask(new SimpleResponse({
           speech: `Hmm. Let’s try again. Here’s a hint!` +
             `Why do you think that Hawk was more helpful than Inchworm?
-          Read the context clues then use pattern above to answer the question. `,
+          Read the context clues then use the pattern above to answer the question. `,
           text: 'nothing.',
         }));
         conv.ask(new BasicCard({
