@@ -1667,13 +1667,13 @@ ap.intent('Answer', (conv, input, option) => {
   else if (parameters.location == 'E2') {
 
     if(parameters.QN == "1"){
-      if(speak.indexOf('agree')){
+      if(speak.indexOf('agree')!=-1){
         //동의하면 2번으로
         parameters.QN = "2";
         conv.contexts.set('mysession', 1, parameters);
         //2번화면으로
         conv.ask(new SimpleResponse({
-          speech: `You agree with me!`+`Why do you think that Hawk was more helpful than Inchworm?
+          speech: `You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
             Use the pattern above to answer the question. `,
           text: 'nothing.',
         }));
@@ -1685,7 +1685,7 @@ ap.intent('Answer', (conv, input, option) => {
             **I believe** that Hawk was more helpful than Inchworm because…`
         }));
       }
-      else if(speak.indexOf('disagree')){
+      else if(speak.indexOf('disagree')!=-1){
         parameters.QN = "6";
         conv.contexts.set('mysession', 1, parameters);
         //6번으로
@@ -1786,7 +1786,7 @@ ap.intent('Answer', (conv, input, option) => {
 
     }
     else if(parameters.QN == "3"){
-      if(speak.indexOf('yes')){
+      if(speak.indexOf('yes')!=-1){
         //첫화면으로
         parameters.QN = "0";
         parameters.location = "first";
@@ -1797,7 +1797,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
       }
-      else if(speak.indexOf('no')){
+      else if(speak.indexOf('no')!=-1){
         //끝
         conv.close('See you next time. Good bye.');
       }
@@ -1857,7 +1857,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
     }
     else if(parameters.QN == "5"){
-      if(speak.indexOf('yes')){
+      if(speak.indexOf('yes')!=-1){
         //첫화면으로
         parameters.QN = "0";
         parameters.location = "first";
@@ -1868,7 +1868,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
       }
-      else if(speak.indexOf('no')){
+      else if(speak.indexOf('no')!=-1){
         //끝
         conv.close('See you next time. Good bye.');
       }
