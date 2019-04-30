@@ -2034,8 +2034,8 @@ ap.intent('Oauth', (conv, params, signin) => {
           'QN': 'not yet qn',
         };
         
-        parameters.location = 'first';
-        parameters.QN = '0';
+        parameters.location = 'e1';
+        parameters.QN = '14';
         
    
 
