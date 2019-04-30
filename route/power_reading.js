@@ -124,6 +124,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
       console.log('E2처음');
+      /////////////1번화면 뿌려준다
       parameters.QN = "1";
       parameters.location = 'E2';
       conv.contexts.set('mysession', 1, parameters);
@@ -1667,7 +1668,8 @@ ap.intent('Answer', (conv, input, option) => {
 
     if(parameters.QN == "1"){
       if(speak.indexOf('agree')){
-        parameters.QN = "1";
+        //동의하면 2번으로
+        parameters.QN = "2";
         conv.contexts.set('mysession', 1, parameters);
         //2번화면으로
         conv.ask(new SimpleResponse({
@@ -1684,17 +1686,36 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       }
       else if(speak.indexOf('disagree')){
-        parameters.QN = "1";
+        parameters.QN = "6";
         conv.contexts.set('mysession', 1, parameters);
-        //6번 화면으로
+        //6번으로
+        conv.ask(new SimpleResponse({
+          speech: `I see that you disagree with my statement.
+              Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
+              Use the pattern above to answer the question. `,
+          text: 'nothing.',
+        }));
+    
+        
+         conv.ask(new BasicCard({
+          title: 'Tell me the reason',
+          subtitle: `Why do you disagree?
+              Why do you think that Inchworm was more helpful than Hawk?
+              `,
+          text: `**I disagree** that Hawk was more helpful than Inchworm because…  \n
+              **I don’t think** that Hawk was more helpful than Inchworm because…  \n
+              **I don’t believe** that Hawk was more helpful than Inchworm because…  \n
+              **I think** that Inchworm was Hawk was more helpful than Inchworm because…  \n
+              **I believe** that Inchworm was more helpful than Hawk  because…`,
+              
+         }));
       }
       else{
         parameters.QN = "1";
-       
         conv.contexts.set('mysession', 1, parameters);
        
         conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Let’s discuss.Do you agree or disagree with the following statement?`,
+          speech: `I didn't understand. Please choose agree or disagree. Let’s discuss.Do you agree or disagree with the following statement?`,
           text: 'nothing.',
         }));
         conv.ask(new Suggestions(['agree','disagree']));
@@ -1724,43 +1745,241 @@ ap.intent('Answer', (conv, input, option) => {
        if(isok==1){
          //통과
          //3번화면으로
+         parameters.QN = "3";
+         conv.contexts.set('mysession', 1, parameters);
+         conv.ask(new SimpleResponse({
+          speech: `That was great!
+          You did a wonderful job!
+          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'A job well done!',
+          subtitle: `Great work!  \nYou are done with today’s lesson.`,
+          text: ``,
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
+            alt: 'goodjob',
+          }),
+        }));
        }
        else{
          //실패
          //4번화면으로
+         parameters.QN = "4";
+         conv.contexts.set('mysession', 1, parameters);
+         conv.ask(new SimpleResponse({
+          speech: `Hmm. Let’s try again. Here’s a hint!` +
+            `Why do you think that Hawk was more helpful than Inchworm?
+          Read the context clues then use pattern above to answer the question. `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'HINT',
+          subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
+          text: `**I think** that Hawk was more helpful than Inchworm because…  
+            
+          - Hawk was unable to carry the children down the rock, so he gathered lots of food for them to eat. Then he brought large leaves to keep tem warm, Hawk wanted to make sure they were safe and unharmed. (p.184)
+          - Every day, Hawk brought food to the children. Every day he reappeared in the village with news for the villagers. (p187)`
+        }));
        }
 
     }
-    else if(parameters.QN == "4"){
-      conv.contexts.set('mysession', 1, parameters);
-      conv.ask(new SimpleResponse({
-        speech: `I see that you disagree with my statement.
-            Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
-            Use the pattern above to answer the question. `,
-        text: 'nothing.',
-      }));
-  
-      
-      conv.ask(new BasicCard({
-        title: 'Tell me the reason',
-        subtitle: `Why do you disagree?
-            Why do you think that Inchworm was more helpful than Hawk?
-            `,
-        text: `**I disagree** that Hawk was more helpful than Inchworm because…  \n
-            **I don’t think** that Hawk was more helpful than Inchworm because…  \n
-            **I don’t believe** that Hawk was more helpful than Inchworm because…  \n
-            **I think** that Inchworm was Hawk was more helpful than Inchworm because…  \n
-            **I believe** that Inchworm was more helpful than Hawk  because…`,
-            
+    else if(parameters.QN == "3"){
+      if(speak.indexOf('yes')){
+        //첫화면으로
+        parameters.QN = "0";
+        parameters.location = "first";
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `I didn't understand. Please choose 1 or 2. `,
+          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
         }));
-    }
-    else if(parameters.QN == "5"){
-    }
-    else if(parameters.QN == "5"){
-    }
-      
-        
+        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+      }
+      else if(speak.indexOf('no')){
+        //끝
+        conv.close('See you next time. Good bye.');
+      }
+      else{
+        conv.close('See you next time. Good bye.');
+      }
 
+    }
+    else if(parameters.QN == "4"){
+      var cl =['gather','food','eat','brought','bring','large leaves','leaves','warm','safe','unharmed','delivered','news','carry','carried'];
+      var isok=0;
+      for(var i = 0 ; i <cl.length; i++){
+        if(speak.indexOf(cl[i])!=-1){
+          isok=1;
+          break;
+        }
+      }
+
+      if(isok==1){
+        //정답 3번으로
+        parameters.QN = "3";
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `That was great!
+          You did a wonderful job!
+          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'A job well done!',
+          subtitle: `Great work!  \nYou are done with today’s lesson.`,
+          text: ``,
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
+            alt: 'goodjob',
+          }),
+        }));
+      }
+      else{
+        //5번으로
+        parameters.QN = "5";
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Nice try! We can practice some more later.
+          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Better luck next time…',
+          subtitle: `Good effort! \nYou are done with today’s lesson.`,
+          text: ``,
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/22goodjob.jpg',
+            alt: 'goodjob',
+          }),
+        }));
+      }
+    }
+    else if(parameters.QN == "5"){
+      if(speak.indexOf('yes')){
+        //첫화면으로
+        parameters.QN = "0";
+        parameters.location = "first";
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `I didn't understand. Please choose 1 or 2. `,
+          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+        }));
+        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+      }
+      else if(speak.indexOf('no')){
+        //끝
+        conv.close('See you next time. Good bye.');
+      }
+      else{
+        conv.close('See you next time. Good bye.');
+      }
+    }
+    else if(parameters.QN == "6"){
+      var cl =['hawk was unable','climb','down','led','lead','rock','mountain','hero','bottom','safe','inch','brave','slope','skillful'];
+      var isok=0;
+      for(var i = 0 ; i <cl.length; i++){
+        if(speak.indexOf(cl[i])!=-1){
+          isok=1;
+          break;
+        }
+      }
+
+      if(isok==1){
+         //정답이면 3번으로
+         parameters.QN = "3";
+         conv.contexts.set('mysession', 1, parameters);
+         conv.ask(new SimpleResponse({
+          speech: `That was great!
+          You did a wonderful job!
+          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'A job well done!',
+          subtitle: `Great work!  \nYou are done with today’s lesson.`,
+          text: ``,
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
+            alt: 'goodjob',
+          }),
+        }));
+      }
+      else{
+        //7번으로
+        parameters.QN = "7";
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Hmm. Let’s try again. Here’s a hint!` +
+            `Why do you think that Hawk was more helpful than Inchworm?
+          Read the context clues then use pattern above to answer the question. `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'HINT',
+          subtitle: `Why do you disagree?  Why do you think that Inchworm was more helpful than Hawk?`,
+          text: `**I don’t** think that Hawk was more helpful than Inchworm because…  
+          **I think** that Inchworm was more helpful than Hawk because…  
+          - Inchworm showed them all how skillful she was at climbing. (p.186)  
+          - It took almost a week for the three to climb down to the village. Inch by inch, Inchworm led the children carefully down the rocky slope. […]  Finally, Inchworm, Anant, and Anika reached the bottom of the rock. Everyone cheered and called Inchworm a hero. (p187)`
+        }));
+      }
+    }
+    else if(parameters.QN =="7"){
+      var cl =['hawk was unable','climb','down','led','lead','rock','mountain','hero','bottom','safe','inch','brave','slope','skillful'];
+      var isok=0;
+      for(var i = 0 ; i <cl.length; i++){
+        if(speak.indexOf(cl[i])!=-1){
+          isok=1;
+          break;
+        }
+      }
+
+      if(isok==1){
+         //정답이면 3번으로
+         parameters.QN = "3";
+         conv.contexts.set('mysession', 1, parameters);
+         conv.ask(new SimpleResponse({
+          speech: `That was great!
+          You did a wonderful job!
+          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'A job well done!',
+          subtitle: `Great work!  \nYou are done with today’s lesson.`,
+          text: ``,
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
+            alt: 'goodjob',
+          }),
+        }));
+      }
+      else{
+        //5번으로
+        parameters.QN = "5";
+        conv.contexts.set('mysession', 1, parameters);
+        conv.ask(new SimpleResponse({
+          speech: `Nice try! We can practice some more later.
+          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Better luck next time…',
+          subtitle: `Good effort! \nYou are done with today’s lesson.`,
+          text: ``,
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/22goodjob.jpg',
+            alt: 'goodjob',
+          }),
+        }));
+      }
+    }
+    else {
+      conv.close('error. the '+parameters.QN+' does not exist.');
+    }
+    
   }
   else {
     conv.close(parameters.location + ` does not exist.`);
