@@ -96,7 +96,7 @@ ap.intent('Answer', (conv, input, option) => {
     if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading overview') != -1) {
       console.log('E1처음');
       ////////////////
-      parameters.QN = "13";
+      parameters.QN = "1";
       parameters.location = 'E1';
       conv.contexts.set('mysession', 1, parameters);
       //////////////
@@ -124,15 +124,25 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
       console.log('E2처음');
-      parameters.QN = "0";
-      parameters.location = 'first';
+      parameters.QN = "1";
+      parameters.location = 'E2';
       conv.contexts.set('mysession', 1, parameters);
-
+     
       conv.ask(new SimpleResponse({
-        speech: 'number 2. not yet.',
-        text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+        speech: `Let’s discuss.Do you agree or disagree with the following statement?`,
+        text: 'nothing.',
       }));
-      conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+      conv.ask(new Suggestions(['agree','disagree']));
+      conv.ask(new BasicCard({
+        title: 'Panda',
+        subtitle: `Fun Facts`,
+        text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
+          alt: 'panda',
+        }),
+      }));
     }
     else {
 
@@ -1654,31 +1664,101 @@ ap.intent('Answer', (conv, input, option) => {
   }
 
   else if (parameters.location == 'E2') {
-    parameters.QN = "4";
-    parameters.location = 'E2';
 
-    conv.contexts.set('mysession', 1, parameters);
+    if(parameters.QN == "1"){
+      if(speak.indexOf('agree')){
+        parameters.QN = "1";
+        conv.contexts.set('mysession', 1, parameters);
+        //2번화면으로
+        conv.ask(new SimpleResponse({
+          speech: `You agree with me!`+`Why do you think that Hawk was more helpful than Inchworm?
+            Use the pattern above to answer the question. `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Tell me the reason',
+          subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
+          text: `**I agree** that Hawk was more helpful than Inchworm because…  
+            **I think** that Hawk was more helpful than Inchworm because…  
+            **I believe** that Hawk was more helpful than Inchworm because…`
+        }));
+      }
+      else if(speak.indexOf('disagree')){
+        parameters.QN = "1";
+        conv.contexts.set('mysession', 1, parameters);
+        //6번 화면으로
+      }
+      else{
+        parameters.QN = "1";
+       
+        conv.contexts.set('mysession', 1, parameters);
+       
+        conv.ask(new SimpleResponse({
+          speech: `I didn't understand. Let’s discuss.Do you agree or disagree with the following statement?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new Suggestions(['agree','disagree']));
+        conv.ask(new BasicCard({
+          title: 'Panda',
+          subtitle: `Fun Facts`,
+          text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
+            alt: 'panda',
+          }),
+        }));
+      }
+     
+    }
+    else if(parameters.QN == "2"){
+       var cl =['gather','food','eat','brought','bring','large leaves','leaves','warm','safe','unharmed','delivered','news','carry','carried'];
+       var isok=0;
+       for(var i = 0 ; i <cl.length; i++){
+         if(speak.indexOf(cl[i])!=-1){
+           isok=1;
+           break;
+         }
+       }
 
-    
-    conv.ask(new SimpleResponse({
-      speech: `I see that you disagree with my statement.
-          Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
-          Use the pattern above to answer the question. `,
-      text: 'nothing.',
-    }));
-    
-    conv.ask(new BasicCard({
-      title: 'Tell me the reason',
-      subtitle: `Why do you disagree?
-          Why do you think that Inchworm was more helpful than Hawk?
-          `,
-      text: `**I disagree** that Hawk was more helpful than Inchworm because…  \n
-          **I don’t think** that Hawk was more helpful than Inchworm because…  \n
-          **I don’t believe** that Hawk was more helpful than Inchworm because…  \n
-          **I think** that Inchworm was Hawk was more helpful than Inchworm because…  \n
-          **I believe** that Inchworm was more helpful than Hawk  because…`,
-          
+       if(isok==1){
+         //통과
+         //3번화면으로
+       }
+       else{
+         //실패
+         //4번화면으로
+       }
+
+    }
+    else if(parameters.QN == "4"){
+      conv.contexts.set('mysession', 1, parameters);
+      conv.ask(new SimpleResponse({
+        speech: `I see that you disagree with my statement.
+            Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
+            Use the pattern above to answer the question. `,
+        text: 'nothing.',
       }));
+  
+      
+      conv.ask(new BasicCard({
+        title: 'Tell me the reason',
+        subtitle: `Why do you disagree?
+            Why do you think that Inchworm was more helpful than Hawk?
+            `,
+        text: `**I disagree** that Hawk was more helpful than Inchworm because…  \n
+            **I don’t think** that Hawk was more helpful than Inchworm because…  \n
+            **I don’t believe** that Hawk was more helpful than Inchworm because…  \n
+            **I think** that Inchworm was Hawk was more helpful than Inchworm because…  \n
+            **I believe** that Inchworm was more helpful than Hawk  because…`,
+            
+        }));
+    }
+    else if(parameters.QN == "5"){
+    }
+    else if(parameters.QN == "5"){
+    }
+      
         
 
   }
@@ -1733,12 +1813,11 @@ ap.intent('Oauth', (conv, params, signin) => {
           'location': 'not yet location',
           'QN': 'not yet qn',
         };
-        /*
+        
         parameters.location = 'first';
         parameters.QN = '0';
-        */
-       parameters.location = 'E2';
-       parameters.QN = '4';
+        
+   
 
         conv.contexts.set('mysession', 1, parameters);
 
