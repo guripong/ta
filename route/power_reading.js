@@ -57,6 +57,7 @@ avail_answers.find_some = function (qn, str) {
     return spltd.includes(el);
   })
 };
+
 avail_answers.getIndex = function (qn, str){
   qn = qn+"";
   qn = qn.substring(0, qn.indexOf('.') > -1 ? qn.indexOf('.') : qn.length); // 16.1 형태일때 16으로 변환
@@ -72,7 +73,6 @@ avail_answers.getIndex = function (qn, str){
 
 
 router.post('/', ap);
-
 
 
 ap.intent('Answer', (conv, input, option) => {
@@ -1725,7 +1725,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
         conv.ask(new SimpleResponse({
           speech: 'Welcome to Power reading! There are 2 Type exist.',
-          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+          text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
 
