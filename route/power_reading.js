@@ -1667,25 +1667,8 @@ ap.intent('Answer', (conv, input, option) => {
   else if (parameters.location == 'E2') {
 
     if(parameters.QN == "1"){
-      if(speak.indexOf('agree')!=-1){
-        //동의하면 2번으로
-        parameters.QN = "2";
-        conv.contexts.set('mysession', 1, parameters);
-        //2번화면으로
-        conv.ask(new SimpleResponse({
-          speech: `You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
-            Use the pattern above to answer the question. `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Tell me the reason',
-          subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
-          text: `**I agree** that Hawk was more helpful than Inchworm because…  
-            **I think** that Hawk was more helpful than Inchworm because…  
-            **I believe** that Hawk was more helpful than Inchworm because…`
-        }));
-      }
-      else if(speak.indexOf('disagree')!=-1){
+      
+      if(speak.indexOf('disagree')!=-1){
         parameters.QN = "6";
         conv.contexts.set('mysession', 1, parameters);
         //6번으로
@@ -1709,6 +1692,24 @@ ap.intent('Answer', (conv, input, option) => {
               **I believe** that Inchworm was more helpful than Hawk  because…`,
               
          }));
+      }
+      else if(speak.indexOf('agree')!=-1){
+        //동의하면 2번으로
+        parameters.QN = "2";
+        conv.contexts.set('mysession', 1, parameters);
+        //2번화면으로
+        conv.ask(new SimpleResponse({
+          speech: `You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
+            Use the pattern above to answer the question. `,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Tell me the reason',
+          subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
+          text: `**I agree** that Hawk was more helpful than Inchworm because…  
+            **I think** that Hawk was more helpful than Inchworm because…  
+            **I believe** that Hawk was more helpful than Inchworm because…`
+        }));
       }
       else{
         parameters.QN = "1";
