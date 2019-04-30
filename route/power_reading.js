@@ -2,6 +2,8 @@ var express = require('express');
 const request = require('request');
 //const phrase = require('../resources/phrase');
 console.log('aaaa');
+//🐼🐆🐦
+
 var router = express.Router();
 const {
   dialogflow,
@@ -1652,16 +1654,32 @@ ap.intent('Answer', (conv, input, option) => {
   }
 
   else if (parameters.location == 'E2') {
-    parameters.QN = "0";
-    parameters.location = 'first';
+    parameters.QN = "4";
+    parameters.location = 'E2';
+
     conv.contexts.set('mysession', 1, parameters);
 
+    
     conv.ask(new SimpleResponse({
-      speech: 'number 2. not yet.',
-      text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
+      speech: `I see that you disagree with my statement.
+          Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
+          Use the pattern above to answer the question. `,
+      text: 'nothing.',
     }));
-    conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
-
+    
+    conv.ask(new BasicCard({
+      title: 'Tell me the reason',
+      subtitle: `Why do you disagree?\n
+          Why do you think that Inchworm was more helpful than Hawk?
+          `,
+      text: `**I disagree** that Hawk was more helpful than Inchworm because…\n
+          **I don’t think** that Hawk was more helpful than Inchworm because…\n
+          **I don’t believe** that Hawk was more helpful than Inchworm because…\n
+          **I think** that Inchworm was Hawk was more helpful than Inchworm because…\n
+          **I believe** that Inchworm was more helpful than Hawk  because…`,
+          
+      }));
+        
 
   }
   else {
@@ -1715,9 +1733,12 @@ ap.intent('Oauth', (conv, params, signin) => {
           'location': 'not yet location',
           'QN': 'not yet qn',
         };
-
+        /*
         parameters.location = 'first';
         parameters.QN = '0';
+        */
+       parameters.location = 'E2';
+       parameters.QN = '4';
 
         conv.contexts.set('mysession', 1, parameters);
 
