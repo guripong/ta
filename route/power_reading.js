@@ -1672,10 +1672,10 @@ ap.intent('Answer', (conv, input, option) => {
       subtitle: `Why do you disagree?
           Why do you think that Inchworm was more helpful than Hawk?
           `,
-      text: `**I disagree** that Hawk was more helpful than Inchworm because…\n
-          **I don’t think** that Hawk was more helpful than Inchworm because…\n
-          **I don’t believe** that Hawk was more helpful than Inchworm because…\n
-          **I think** that Inchworm was Hawk was more helpful than Inchworm because…\n
+      text: `**I disagree** that Hawk was more helpful than Inchworm because… \n
+          **I don’t think** that Hawk was more helpful than Inchworm because… \n
+          **I don’t believe** that Hawk was more helpful than Inchworm because… \n
+          **I think** that Inchworm was Hawk was more helpful than Inchworm because… \n
           **I believe** that Inchworm was more helpful than Hawk  because…`,
           
       }));
