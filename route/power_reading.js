@@ -886,9 +886,9 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new BasicCard({
           title: 'Hint',
           subtitle: `Unique talents and features.`,
-          text: `What is your special feature or talent?
-          Example 1) I can sing very well.
-          Example 2) My special talent is that I can write poetry.
+          text: `What is your special feature or talent?  \n
+          Example 1) I can sing very well.  \n
+          Example 2) My special talent is that I can write poetry.  \n
           `,
 
           image: new Image({
