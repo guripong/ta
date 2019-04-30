@@ -1669,7 +1669,7 @@ ap.intent('Answer', (conv, input, option) => {
     
     conv.ask(new BasicCard({
       title: 'Tell me the reason',
-      subtitle: `Why do you disagree?\n
+      subtitle: `Why do you disagree?
           Why do you think that Inchworm was more helpful than Hawk?
           `,
       text: `**I disagree** that Hawk was more helpful than Inchworm because…\n
