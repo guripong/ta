@@ -1792,7 +1792,7 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.location = "first";
         conv.contexts.set('mysession', 1, parameters);
         conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Please choose 1 or 2. `,
+          speech: `Okay. Let's go back to the menu. Please choose 1 or 2. `,
           text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
         }));
         conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
