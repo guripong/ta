@@ -108,7 +108,7 @@ function makeconv(conv, parameters, feedback) {
             title: 'Unit 4',
             description: '',
             image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/book2.jpg',
+              url: 'https://s3.amazonaws.com/eduai/test_image/book3.jpg',
               alt: 'Google Home',
             }),
           },
