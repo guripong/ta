@@ -74,6 +74,21 @@ avail_answers.getIndex = function (qn, str){
 };
 
 
+function makeconv(conv,parameters,feedback){
+  if(parameters.QN =='0' && parameters.location=='first'){
+    conv.contexts.set('mysession', 1, parameters);
+
+    conv.ask(new SimpleResponse({
+      speech: feedback+'Welcome to Power reading! There are 2 Type exist.',
+      text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
+    }));
+    conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+  }
+
+
+}
+
+
 router.post('/', ap);
 
 
@@ -2039,11 +2054,9 @@ ap.intent('Oauth', (conv, params, signin) => {
         
    
 
-        return new Promise (function (resolve1){
+        return new Promise (function (){
           makeconv(conv,parameters,"haha. ");
-          resolve1('1끝');
-        }).then(function(resolve1){
-          console.log('resolve1:',resolve1);
+    
         });
      
       });//2끝
@@ -2065,17 +2078,8 @@ ap.intent('Oauth', (conv, params, signin) => {
   }
 });
 
-function makeconv(conv,parameters,feedback){
-  console.log('갸갸');
-  conv.contexts.set('mysession', 1, parameters);
 
-  conv.ask(new SimpleResponse({
-    speech: feedback+'Welcome to Power reading! There are 2 Type exist.',
-    text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
-  }));
-  conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
 
-}
 ap.intent('Default Welcome Intent', conv => {
   //console.log('conv:',conv);
 
