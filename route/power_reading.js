@@ -2039,16 +2039,13 @@ ap.intent('Oauth', (conv, params, signin) => {
         
    
 
-        conv.contexts.set('mysession', 1, parameters);
-
-
-
-        conv.ask(new SimpleResponse({
-          speech: 'Welcome to Power reading! There are 2 Type exist.',
-          text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
-        }));
-        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
-
+        return new Promise (function (resolve1){
+          makeconv(conv,parameters,"haha. ");
+          resolve1('1끝');
+        }).then(function(resolve1){
+          console.log('resolve1:',resolve1);
+        });
+     
       });//2끝
     }
     else {
@@ -2068,6 +2065,17 @@ ap.intent('Oauth', (conv, params, signin) => {
   }
 });
 
+function makeconv(conv,parameters,feedback){
+  console.log('갸갸');
+  conv.contexts.set('mysession', 1, parameters);
+
+  conv.ask(new SimpleResponse({
+    speech: feedback+'Welcome to Power reading! There are 2 Type exist.',
+    text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
+  }));
+  conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+
+}
 ap.intent('Default Welcome Intent', conv => {
   //console.log('conv:',conv);
 
