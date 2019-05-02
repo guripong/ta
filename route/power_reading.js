@@ -188,8 +188,7 @@ function makeconv(conv, parameters, feedback) {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
         speech: feedback + `Do you want to move onto the next question?`,
-        text: `Excellent! 
-        Do you want to move onto the next question?`,
+        text: feedback + `Do you want to move onto the next question?`,
       }));
     }
     else if (parameters.QN == '2') {
@@ -213,8 +212,14 @@ function makeconv(conv, parameters, feedback) {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
         speech: feedback + `Do you want to move onto the next question?`,
-        text: `Excellent! 
-        Do you want to move onto the next question?`,
+        text: feedback + `Do you want to move onto the next question?`,
+      }));
+    }
+    else if (parameters.QN == '2.2'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        text: feedback + `Do you want to move on to the next question?`,
       }));
     }
     else if (parameters.QN == '3') {
@@ -291,6 +296,13 @@ function makeconv(conv, parameters, feedback) {
         speech: feedback + `Do you want to move onto the next question? `,
       }));
     }
+    else if (parameters.QN == '4.2'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        text: feedback + `Do you want to move on to the next question?`,
+      }));
+    }
     else if (parameters.QN == '5') {
       conv.ask(new SimpleResponse({
         speech: feedback + `Let’s recall the characters from the story.Name two animals that appear in the story.`,
@@ -338,6 +350,13 @@ function makeconv(conv, parameters, feedback) {
       conv.ask(new SimpleResponse({
         speech: feedback + `Do you want to move onto the next question?`,
         text: feedback + `Do you want to move onto the next question?`,
+      }));
+    }
+    else if (parameters.QN == '6.2'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        text: feedback + `Do you want to move on to the next question?`,
       }));
     }
     else if (parameters.QN == '7') {
@@ -500,6 +519,13 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
+    else if (parameters.QN == '12.1'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move onto the next question? ${sound.s5}`),
+        text: feedback + `Do you want to move onto the next question?`,
+      }));
+    }
     else if(parameters.QN == '13'){
       conv.ask(new SimpleResponse({
         speech: `Excellent!
@@ -525,6 +551,13 @@ function makeconv(conv, parameters, feedback) {
       conv.ask(new SimpleResponse({
         speech: feedback+`Are you ready to move on?`,
         text: feedback+`Are you ready to move on?`,
+      }));
+    }
+    else if (parameters.QN == '13.2'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        text: feedback + `Do you want to move on to the next question?`,
       }));
     }
     else if(parameters.QN == '14'){
@@ -835,11 +868,11 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else {
         //wrong again the answer was Folktale + 3번화면+발화
-        parameters.QN = "3";
+        parameters.QN = "2.2";
         conv.contexts.set('mysession', 1, parameters);
         //Wrong again.The answer was Folktale. 
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, "Wrong again.The answer was Folktale.  ");
+          makeconv(conv, parameters, "Wrong again.The answer was Folktale.");
           resolve('conv emit 끝!');
         });
 
@@ -876,6 +909,23 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
       }
+    }
+    else if(parameters.QN == '2.2'){
+      if(speak.indexOf('yes')!=-1){
+        parameters.QN = "3";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay! let's go to the next.  ");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "2";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Try again. ");
+          resolve('conv emit 끝!');
+        });
+      }
+      
     }
     else if (parameters.QN == '3') {
       if (speak.indexOf('forest') != -1 || speak.indexOf('top of a rock') != -1 || speak.indexOf('wood') != -1) {
@@ -941,7 +991,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else {
-        parameters.QN = "5";
+        parameters.QN = "4.2";
         conv.contexts.set('mysession', 1, parameters);
         //Wrong again. The correct answer was the woods.
         return new Promise(function (resolve) {
@@ -977,6 +1027,22 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
 
+      }
+    }
+    else if(parameters.QN == '4.2'){
+      if(speak.indexOf('yes')!=-1){
+        parameters.QN = "5";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay! let's go to the next.  ");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "4";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Try again. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '5') {
@@ -1069,7 +1135,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else {
-        parameters.QN = "7";
+        parameters.QN = "6.2";
 
         //Wrong again. One possible answer is inchworm and bear.
         return new Promise(function (resolve) {
@@ -1101,6 +1167,22 @@ ap.intent('Answer', (conv, input, option) => {
         //I didn't understand.
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "I didn't understand. ");
+          resolve('conv emit 끝!');
+        });
+      }
+    }
+    else if(parameters.QN == '6.2'){
+      if(speak.indexOf('yes')!=-1){
+        parameters.QN = "7";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay! let's go to the next.  ");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "6";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Try again. ");
           resolve('conv emit 끝!');
         });
       }
@@ -1303,13 +1385,29 @@ ap.intent('Answer', (conv, input, option) => {
       else {
         //13으로
         //That’s okay. The animal in the picture is a giraffe. Let move on.
-        parameters.QN = "13";
+        parameters.QN = "12.1";
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
+          makeconv(conv, parameters, "That’s okay.The animal in the picture is a giraffe. ");
           resolve('conv emit 끝!');
         });
         
 
+      }
+    }
+    else if(parameters.QN == '12.1'){
+      if(speak.indexOf('yes')!=-1){
+        parameters.QN = "13";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay! let's go to the next.  ");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "12";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Try again. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '13') {
@@ -1337,10 +1435,10 @@ ap.intent('Answer', (conv, input, option) => {
         
       }
       else {
-        parameters.QN = '14';
+        parameters.QN = '13.2';
         conv.contexts.set('mysession', 1, parameters);
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, "I didn't quite get that. Let's move on. ");
+          makeconv(conv, parameters, " I didn’t quite get that.The You are out of chances. Do you want to move on?");
           resolve('conv emit 끝!');
         });
    
@@ -1348,6 +1446,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
 
     }
+    
     else if (parameters.QN == '13.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "14";
@@ -1376,6 +1475,23 @@ ap.intent('Answer', (conv, input, option) => {
         });
       }
 
+    }
+
+    else if(parameters.QN == '13.2'){
+      if(speak.indexOf('yes')!=-1){
+        parameters.QN = "14";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay! let's go to the next.  ");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "13";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Try again. ");
+          resolve('conv emit 끝!');
+        });
+      }
     }
 
     else if (parameters.QN.includes('14')) {
