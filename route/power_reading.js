@@ -1780,7 +1780,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if (parameters.QN == "3") {
       if (speak.indexOf('yes') != -1) {
         //첫화면으로
-        parameters.QN = "0";
+        parameters.QN = "3";
         parameters.location = "first";
 
         //Okay. Let's go back to the menu. 
@@ -1830,7 +1830,7 @@ ap.intent('Answer', (conv, input, option) => {
     else if (parameters.QN == "5") {
       if (speak.indexOf('yes') != -1) {
         //첫화면으로
-        parameters.QN = "0";
+        parameters.QN = "3";
         parameters.location = "first";
         //I didn't understand.
         return new Promise(function (resolve) {
