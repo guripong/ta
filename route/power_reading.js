@@ -1496,7 +1496,7 @@ ap.intent('Answer', (conv, input, option) => {
       else {
         parameters.QN = "1";
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
+          makeconv(conv, parameters, "Say agree or disagree please. ");
           resolve('conv emit 끝!');
         });
         //1로
