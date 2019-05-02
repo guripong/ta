@@ -626,7 +626,7 @@ ap.intent('Answer', (conv, input, option) => {
 
   if (parameters.location == 'first' && parameters.QN == 0) {
     /////////////첫메뉴의 경우임
-    if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading overview') != -1) {
+    if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading') != -1 ||  speak.indexOf('overview') != -1) {
       console.log('E1처음');
       ////////////////
       parameters.QN = "1";
