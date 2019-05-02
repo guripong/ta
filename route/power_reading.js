@@ -614,7 +614,7 @@ ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
   console.log(conv);
 
-
+  
   //console.log('option:',option);
   var speak = conv.arguments.raw.input.text.rawText;
   var parameters = conv.contexts.input.mysession.parameters;
