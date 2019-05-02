@@ -111,9 +111,17 @@ function makeconv(conv,parameters,feedback){
         //display  X 구글홈허브
       }));
     }
+    else if(parameters.QN=='1.1'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Do you want to move onto the next question?`,
+        text: `Excellent! 
+        Do you want to move onto the next question?`,
+      }));
+    }
     else if(parameters.QN=='2'){
       conv.ask(new SimpleResponse({
-        speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
+        speech: feedback+`Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
         text: 'nothing.',
       }));
       conv.ask(new Suggestions(['agree','disagree']));
@@ -127,9 +135,155 @@ function makeconv(conv,parameters,feedback){
           alt: 'panda',
         }),
       }));
+      
     }
+    else if(parameters.QN=='2.1'){
+      conv.ask(new Suggestions(['yes', 'no']));
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Do you want to move onto the next question?`,
+        text: `Excellent! 
+        Do you want to move onto the next question?`,
+      }));
+    }
+    else if(parameters.QN=='3'){
+      
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Let’s recall the setting of the story.
+        What is the setting of the story?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Story Overview',
+        subtitle: `Inchworm's Tale:Setting`,
+        text: `What is the setting of the story?`,
 
-  }
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN=='3.1'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Yay, you remembered! Are you ready for the next question?`,
+        text: 'Yay, you remembered! Are you ready for the next question?',
+      }));
+    }
+    else if(parameters.QN=='4'){
+    {
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Read the hints and answer the question.
+        What is the setting of the story?`,
+        text: 'nothing.',
+      }));
+   
+      conv.ask(new List({
+          title: 'What is the setting of the story?',
+          items: {
+            // Add the first item to the list
+            'SELECTION_KEY_ONE': {
+              synonyms: [
+                'apple',
+                'Apple',
+                'I like an apple',
+              ],
+              title: 'Hint 1: You can be general',
+              description: 'The story is set in the ______________',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/4forest.png',
+                alt: 'Image alternate text',
+              }),
+            },
+            // Add the second item to the list
+            'SELECTION_KEY_GOOGLE_HOME': {
+              synonyms: [
+                'Google Home Assistant',
+                'Assistant on the Google Home',
+            ],
+              title: 'Hint 2: You can be specific',
+              description: 'The story takes place on top of a ______________',
+              image: new Image({
+                url: 'https://s3.amazonaws.com/eduai/test_image/4rock.png',
+                alt: 'Google Home',
+              }),
+            },
+          },
+        }));
+    }
+    }
+    else if(parameters.QN=='4.1'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Do you want to move onto the next question? `,
+        text: `That’s correct!Do you want to move onto the next question?`,
+      }));
+    }
+    else if(parameters.QN=='5'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Let’s recall the characters from the story.Name two animals that appear in the story.`,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Story Overview',
+        subtitle: `Inchworm's Tale:Characters`,
+        text: `Name two animals that appear in the story.`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN=='6'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Read the hint and tell me two animals that appear in the story. 
+        `,
+        text: `nothing.`,
+      }));
+      conv.ask(new BasicCard({
+        title: 'Hint',
+        subtitle: `Inchworm's Tale:Characters`,
+        text: `Look at the pictures and tell me two animals that appear in the story`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/6etc.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN=='6.1'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Do you want to move onto the next question?`,
+        text: feedback+`Do you want to move onto the next question?`,
+      }));
+    }
+    else if(parameters.QN=='7'){
+      conv.ask(new SimpleResponse({
+        speech: `Let’s review the theme. 
+        This story was about how everyone has their own unique talent or feature. 
+        Do you have any special features or talents?
+        `,
+        text: `nothing.`,
+      }));
+      conv.ask(new Suggestions(['yes','no']));
+      conv.ask(new BasicCard({
+        title: 'Theme',
+        subtitle: `Unique talents and features.`,
+        text: `Do you have any special features or talents?`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
 
 }
 
@@ -177,11 +331,12 @@ ap.intent('Answer', (conv, input, option) => {
     else {
 
       return new Promise (function (resolve){
-        makeconv(conv,parameters,"I didn't undertand. Yo!");
+        makeconv(conv,parameters,"I didn't understand.");
         resolve('conv emit 끝!');
       });
      
     }
+
   }////맨첫메뉴
   else if (parameters.location == 'E1') {
     if(parameters.QN == '14' && avail_answers.find_some(parameters.QN, speak)){
@@ -192,212 +347,86 @@ ap.intent('Answer', (conv, input, option) => {
     if (parameters.QN == '1') {
       if (speak.indexOf('folktale') != -1) {
         parameters.QN = "1.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new Suggestions(['yes', 'no']));
-        conv.ask(new SimpleResponse({
-          speech: `Excellent! Do you want to move onto the next question?`,
-          text: `Excellent! 
-          Do you want to move onto the next question?`,
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Excellent! ");
+          resolve('conv emit 끝!');
+        });
 
       }
       else {
         parameters.QN = "2";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse(`That’s incorrect.
-        Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
-        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
-        conv.ask(new List({
-          title: 'What is the genre of Inchworm’s Tale?',
-          items: {
-            // Add the first item to the list
-            'SELECTION_KEY_ONE': {
-              synonyms: [
-                'apple',
-                'Apple',
-                'I like an apple',
-              ],
-              title: 'Hint 1',
-              description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
-
-            },
-            // Add the second item to the list
-            'SELECTION_KEY_GOOGLE_HOME': {
-              synonyms: [
-                'Google Home Assistant',
-                'Assistant on the Google Home',
-              ],
-              title: 'Hint 2',
-              description: 'The characters in the story have special abilities. In this case, the animals can talk.',
-
-            },
-          },
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That's Incorrect. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '1.1') {
       if (speak.indexOf('yes') != -1) {
 
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Let’s recall the setting of the story.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Setting`,
-          text: `What is the setting of the story?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That's Incorrect. ");
+          resolve('conv emit 끝!');
+        });
+     
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "0";
         parameters.location = 'first';
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale`,
-          text: `What is the genre of Inchworm’s Tale?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-
-          //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-          //display  X 구글홈허브
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Then let's go back to the menu.");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         parameters.QN = "2";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse(`That’s incorrect.
-        Read the hints and answer the question. What is the genre of Inchworm’s Tale?`));
-        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
-        conv.ask(new List({
-          title: 'What is the genre of Inchworm’s Tale?',
-          items: {
-            // Add the first item to the list
-            'SELECTION_KEY_ONE': {
-              synonyms: [
-                'apple',
-                'Apple',
-                'I like an apple',
-              ],
-              title: 'Hint 1',
-              description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
-
-            },
-            // Add the second item to the list
-            'SELECTION_KEY_GOOGLE_HOME': {
-              synonyms: [
-                'Google Home Assistant',
-                'Assistant on the Google Home',
-              ],
-              title: 'Hint 2',
-              description: 'The characters in the story have special abilities. In this case, the animals can talk.',
-
-            },
-          },
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That's Incorrect. ");
+          resolve('conv emit 끝!');
+        });
+       
       }
     }
     else if (parameters.QN == '2') {
       if (speak.indexOf('folktale') != -1) {
         parameters.QN = "2.1";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new Suggestions(['yes', 'no']));
-        conv.ask(new SimpleResponse({
-          speech: `You did it! Do you want to move onto the next question?`,
-          text: `Excellent! 
-          Do you want to move onto the next question?`,
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"You did it! ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         //wrong again the answer was Folktale + 3번화면+발화
         parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Wrong again.The answer was Folktale. Let’s recall the setting of the story.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Setting`,
-          text: `What is the setting of the story?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //Wrong again.The answer was Folktale. 
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Wrong again.The answer was Folktale.  ");
+          resolve('conv emit 끝!');
+        });
+     
       }
     }
     else if (parameters.QN == '2.1') {
       if (speak.indexOf('yes') != -1) {
         //피드백 없이 3번으로
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Let’s recall the setting of the story.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Setting`,
-          text: `What is the setting of the story?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Okay! let's go to the next.  ");
+          resolve('conv emit 끝!');
+        });
       }
       else if (speak.indexOf('no') != -1) {
-
-
         parameters.QN = "1";
         //피드백 Okay, lets go back to the question.
-
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Okay, lets go back to the question. Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale`,
-          text: `What is the genre of Inchworm’s Tale?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //Okay, lets go back to the question. 
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Okay, lets go back to the question.   ");
+          resolve('conv emit 끝!');
+        });
+       
 
       }
       else {
@@ -405,23 +434,11 @@ ap.intent('Answer', (conv, input, option) => {
 
         parameters.QN = "3";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Wrong again.The answer was Folktale. Let’s recall the setting of the story.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Setting`,
-          text: `What is the setting of the story?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //Wrong again.The answer was Folktale.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Wrong again.The answer was Folktale.   ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '3') {
@@ -429,232 +446,101 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = "3.1";
         //피드백 Okay, lets go back to the question.
 
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Yay, you remembered! Are you ready for the next question?`,
-          text: 'Yay, you remembered! Are you ready for the next question?',
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters," ");
+          resolve('conv emit 끝!');
+        });
+       
       }
       else {
         parameters.QN = "4";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s not the correct answer,
-          Read the hints and answer the question.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-     
-        conv.ask(new List({
-            title: 'What is the setting of the story?',
-            items: {
-              // Add the first item to the list
-              'SELECTION_KEY_ONE': {
-                synonyms: [
-                  'apple',
-                  'Apple',
-                  'I like an apple',
-                ],
-                title: 'Hint 1: You can be general',
-                description: 'The story is set in the ______________',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/4forest.png',
-                  alt: 'Image alternate text',
-                }),
-              },
-              // Add the second item to the list
-              'SELECTION_KEY_GOOGLE_HOME': {
-                synonyms: [
-                  'Google Home Assistant',
-                  'Assistant on the Google Home',
-              ],
-                title: 'Hint 2: You can be specific',
-                description: 'The story takes place on top of a ______________',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/4rock.png',
-                  alt: 'Google Home',
-                }),
-              },
-            },
-          }));
+      
+        //That’s not the correct answer,
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That’s not the correct answer, ");
+          resolve('conv emit 끝!');
+        });
+        
       }
     }
     else if (parameters.QN == '3.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "5";
-        conv.contexts.set('mysession', 1, parameters);
-     
+        
+        return new Promise (function (resolve){
+          makeconv(conv,parameters," ");
+          resolve('conv emit 끝!');
+        });
 
-        conv.ask(new SimpleResponse({
-          speech: `Let’s recall the characters from the story.Name two animals that appear in the story.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Characters`,
-          text: `Name two animals that appear in the story.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+      
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Okay, let's go back to the question. Let’s recall the setting of the story.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Setting`,
-          text: `What is the setting of the story?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //Okay, let's go back to the question.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Okay, let's go back to the question. ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         parameters.QN = "4";
-    
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s not the correct answer,
-          Read the hints and answer the question.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-     
-        conv.ask(new List({
-            title: 'What is the setting of the story?',
-            items: {
-              // Add the first item to the list
-              'SELECTION_KEY_ONE': {
-                synonyms: [
-                  'apple',
-                  'Apple',
-                  'I like an apple',
-                ],
-                title: 'Hint 1: You can be general',
-                description: 'The story is set in the ______________',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/4forest.png',
-                  alt: 'Image alternate text',
-                }),
-              },
-              // Add the second item to the list
-              'SELECTION_KEY_GOOGLE_HOME': {
-                synonyms: [
-                  'Google Home Assistant',
-                  'Assistant on the Google Home',
-              ],
-                title: 'Hint 2: You can be specific',
-                description: 'The story takes place on top of a ______________',
-                image: new Image({
-                  url: 'https://s3.amazonaws.com/eduai/test_image/4rock.png',
-                  alt: 'Google Home',
-                }),
-              },
-            },
-          }));
+        //That’s not the correct answer,
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That’s not the correct answer, ");
+          resolve('conv emit 끝!');
+        });
       }
 
     }
     else if(parameters.QN =='4'){
       if (speak.indexOf('woods') != -1 || speak.indexOf('top of a rock') != -1) {
         parameters.QN = "4.1";
-        //피드백 Okay, lets go back to the question.
-
+        
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s correct! Do you want to move onto the next question? `,
-          text: `That’s correct!Do you want to move onto the next question?`,
-        }));
+        //That’s correct!
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That’s correct! ");
+          resolve('conv emit 끝!');
+        });
+      
       }
       else{
         parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
         //Wrong again. The correct answer was the woods.
-        conv.ask(new SimpleResponse({
-          speech: `Wrong again. The correct answer was the woods. Let’s recall the characters from the story.Name two animals that appear in the story.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Characters`,
-          text: `Name two animals that appear in the story.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Wrong again. The correct answer was the woods. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if(parameters.QN =='4.1'){
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "5";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Let’s recall the characters from the story.Name two animals that appear in the story.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Characters`,
-          text: `Name two animals that appear in the story.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters," ");
+          resolve('conv emit 끝!');
+        });
 
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Okay, let's go back to the question. Let’s recall the setting of the story.
-          What is the setting of the story?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Setting`,
-          text: `What is the setting of the story?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/3forest.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //Okay, let's go back to the question.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Okay, let's go back to the question. ");
+          resolve('conv emit 끝!');
+        });
 
       }
       else{
         parameters.QN = "4.1";
-        //피드백 Okay, lets go back to the question.
-
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't under stand.  Do you want to move onto the next question? `,
-          text: `Do you want to move onto the next question?`,
-        }));
+        
+        //I didn't under stand. 
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"I didn't under stand.  ");
+          resolve('conv emit 끝!');
+        });
+     
       }
     }
     else if(parameters.QN =='5'){
@@ -676,90 +562,49 @@ ap.intent('Answer', (conv, input, option) => {
       if(pass==1){ //맞춤
         //excelt
         parameters.QN = "5.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Excellent job! Do you want to move onto the next question?`,
-          text: 'Excellent job! Do you want to move onto the next question?',
-        }));
+        //Excellent job! 
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Excellent job!  ");
+          resolve('conv emit 끝!');
+        });
       
       }
       else{ //모름
         parameters.QN = "6";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s not the correct answer.
-          Read the hint and tell me two animals that appear in the story. 
-          `,
-          text: `nothing.`,
-        }));
-        conv.ask(new BasicCard({
-          title: 'Hint',
-          subtitle: `Inchworm's Tale:Characters`,
-          text: `Look at the pictures and tell me two animals that appear in the story`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/6etc.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //That’s not the correct answer.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That’s not the correct answer. ");
+          resolve('conv emit 끝!');
+        });
+     
       }
     }
     else if(parameters.QN =='5.1'){
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "7";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Let’s review the theme. 
-          This story was about how everyone has their own unique talent or feature. 
-          Do you have any special features or talents?
-          `,
-          text: `nothing.`,
-        }));
-        conv.ask(new Suggestions(['yes','no']));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `Do you have any special features or talents?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+       
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"  ");
+          resolve('conv emit 끝!');
+        });
       }
       else  if (speak.indexOf('no') != -1) {
         parameters.QN = "5";
-        conv.contexts.set('mysession', 1, parameters);
-        //Okay, lets go back to the question. 피드백
-        conv.ask(new SimpleResponse({
-          speech: `Okay, lets go back to the question. Let’s recall the characters from the story.Name two animals that appear in the story.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Characters`,
-          text: `Name two animals that appear in the story.`,
 
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //Okay, lets go back to the question. 피드백
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Okay, lets go back to the question.  ");
+          resolve('conv emit 끝!');
+        });
+      
       }
       else{
         parameters.QN = "5.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Do you want to move onto the next question?`,
-          text: `I didn't understand. Do you want to move onto the next question?`,
-        }));
-    
+        //I didn't understand.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"I didn't understand. ");
+          resolve('conv emit 끝!');
+        });
       }
 
     }
@@ -779,93 +624,49 @@ ap.intent('Answer', (conv, input, option) => {
       }
       if(pass==1){
         parameters.QN = "6.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s correct!Do you want to move onto the next question?`,
-          text: `That’s correct!Do you want to move onto the next question?`,
-        }));
+        //That’s correct!
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"That’s correct! ");
+          resolve('conv emit 끝!');
+        });
+        
+      
       }
       else{
         parameters.QN = "7";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Wrong again. One possible answer is inchworm and bear. Let’s review the theme. 
-          This story was about how everyone has their own unique talent or feature. 
-          Do you have any special features or talents?
-          `,
-          text: `nothing.`,
-        }));
-        conv.ask(new Suggestions(['yes','no']));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `Do you have any special features or talents?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
-        //Wrong again. One possible answer is inchworm and bear.  피드백
+      
+        //Wrong again. One possible answer is inchworm and bear.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Wrong again. One possible answer is inchworm and bear. ");
+          resolve('conv emit 끝!');
+        });
 
       }
     }
     else if(parameters.QN =='6.1'){
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "7";
-        conv.contexts.set('mysession', 1, parameters);
-   
-        conv.ask(new SimpleResponse({
-          speech: `Let’s review the theme. 
-          This story was about how everyone has their own unique talent or feature. 
-          Do you have any special features or talents?
-          `,
-          text: `nothing.`,
-        }));
-        conv.ask(new Suggestions(['yes','no']));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `Do you have any special features or talents?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters," ");
+          resolve('conv emit 끝!');
+        });
       }
       else  if (speak.indexOf('no') != -1) {
         parameters.QN = "5";
         conv.contexts.set('mysession', 1, parameters);
         //Okay, lets go back to the question. 피드백
-        conv.ask(new SimpleResponse({
-          speech: `Okay, lets go back to the question. Let’s recall the characters from the story.Name two animals that appear in the story.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Story Overview',
-          subtitle: `Inchworm's Tale:Characters`,
-          text: `Name two animals that appear in the story.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"Okay, lets go back to the question. ");
+          resolve('conv emit 끝!');
+        });
       }
       else{
         parameters.QN = "6.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Do you want to move onto the next question?`,
-          text: `I didn't understand. Do you want to move onto the next question?`,
-        }));
+        //I didn't understand.
+        return new Promise (function (resolve){
+          makeconv(conv,parameters,"I didn't understand. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if(parameters.QN =='7'){
