@@ -366,7 +366,7 @@ ap.intent('Answer', (conv, input, option) => {
 
         parameters.QN = "3";
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, "That's Incorrect. ");
+          makeconv(conv, parameters, "Let's go to the next question. ");
           resolve('conv emit 끝!');
         });
 
