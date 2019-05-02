@@ -77,7 +77,52 @@ avail_answers.getIndex = function (qn, str) {
 function makeconv(conv, parameters, feedback) {
   conv.contexts.set('mysession', 1, parameters);
 
-  if (parameters.QN == '0' && parameters.location == 'first') {
+  if(parameters.QN == '3' && parameters.location == 'first'){
+    //https://s3.amazonaws.com/eduai/test_image/book1.jpg
+    conv.ask(new SimpleResponse(`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson?`));
+    conv.ask(new Suggestions(['Unit 3','Unit 4']));
+    //@ Carousel 은 items 에 2개이상 없으면 동작 안함
+    conv.ask(new Carousel({
+        items: {
+          // Add the first item to the carousel
+          'SELECTION_KEY_ONE': {
+            synonyms: [
+              'synonym 1',
+              'synonym 2',
+              'synonym 3',
+            ],
+            title: 'Unit 3',
+            description: '',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/book1.jpg',
+              alt: 'Image alternate text',
+            }),
+     
+          },
+          // Add the second item to the carousel
+          'SELECTION_KEY_GOOGLE_HOME': {
+            synonyms: [
+              'Google Home Assistant',
+              'Assistant on the Google Home',
+          ],
+            title: 'Unit 4',
+            description: '',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/book2.jpg',
+              alt: 'Google Home',
+            }),
+          },
+        },
+      }));
+  }
+  else if(parameters.QN == '2' && parameters.location == 'first'){
+    conv.ask(new Suggestions(['Unit 3','Menu']));
+    conv.ask(new SimpleResponse({
+      speech: 'Oops! You did not finish Unit 3 yet! Would you like to start Unit 3?',
+      text: 'Oops!  \nYou did not finish Unit 3 yet!',
+    }));
+  }
+  else if (parameters.QN == '1' && parameters.location == 'first') {
 
 
     conv.ask(new SimpleResponse({
@@ -614,7 +659,7 @@ ap.intent('Answer', (conv, input, option) => {
   console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
   console.log(conv);
 
-  
+
   //console.log('option:',option);
   var speak = conv.arguments.raw.input.text.rawText;
   var parameters = conv.contexts.input.mysession.parameters;
@@ -624,39 +669,77 @@ ap.intent('Answer', (conv, input, option) => {
   }
   console.log('speak:', speak);
 
-  if (parameters.location == 'first' && parameters.QN == 0) {
-    /////////////첫메뉴의 경우임
-    if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading') != -1 ||  speak.indexOf('overview') != -1) {
-      console.log('E1처음');
-      ////////////////
-      parameters.QN = "1";
-      parameters.location = 'E1';
-      return new Promise(function (resolve) {
-        makeconv(conv, parameters, "");
-        resolve('conv emit 끝!');
-      });
+  if(parameters.location == 'first'){
+   
+    if(parameters.QN == '3'){
+      if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading') != -1 ||  speak.indexOf('overview') != -1) {
+        console.log('E1처음');
+        ////////////////
+        parameters.QN = "1";
+        parameters.location = 'E1';
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "");
+          resolve('conv emit 끝!');
+        });
+  
+      }
+      else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
+        console.log('E2처음');
+        /////////////1번화면 뿌려준다
+        parameters.QN = "1";
+        parameters.location = 'E2';
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "");
+          resolve('conv emit 끝!');
+        });
+      }
+      else {
+  
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understand. Please choose 1 or 2.");
+          resolve('conv emit 끝!');
+        });
+  
+      }
+    }
+    else if(parameters.QN == '2'){
+      if(speak.indexOf('3')!=-1 || speak.indexOf('three')!=-1 ||  speak.indexOf('yes')!=-1){
+        parameters.QN = "3";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "1";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "");
+          resolve('conv emit 끝!');
+        });
+      }
 
     }
-    else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
-      console.log('E2처음');
-      /////////////1번화면 뿌려준다
-      parameters.QN = "1";
-      parameters.location = 'E2';
-      return new Promise(function (resolve) {
-        makeconv(conv, parameters, "");
-        resolve('conv emit 끝!');
-      });
+    else if(parameters.QN == '1'){
+      if(speak.indexOf('3')!=-1 || speak.indexOf('three')!=-1 ||speak.indexOf('yes')!=-1 )
+      {
+        parameters.QN = "3";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "");
+          resolve('conv emit 끝!');
+        });
+      }
+      else{
+        parameters.QN = "2";
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "");
+          resolve('conv emit 끝!');
+        });
+
+      }
     }
-    else {
+  
 
-      return new Promise(function (resolve) {
-        makeconv(conv, parameters, "I didn't understand. Please choose 1 or 2.");
-        resolve('conv emit 끝!');
-      });
-
-    }
-
-  }////맨첫메뉴
+  }
   else if (parameters.location == 'E1') {
     if (parameters.QN == '14' && avail_answers.find_some(parameters.QN, speak)) {
       parameters.QN = '' + ((parameters.QN * 1) + avail_answers.getIndex(parameters.QN, speak));
@@ -1719,7 +1802,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         };
 
         parameters.location = 'first';
-        parameters.QN = '0';
+        parameters.QN = '-1';
 
 
 
