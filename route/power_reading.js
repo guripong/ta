@@ -192,20 +192,36 @@ function makeconv(conv, parameters, feedback) {
       }));
     }
     else if (parameters.QN == '2') {
-
-      conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback + `Why do you think that Hawk was more helpful than Inchworm?
-        Use the pattern above to answer the question. ${sound.s5} `),
-        text: 'nothing.',
-      }));
-   
-      conv.ask(new BasicCard({
-        title: 'Tell me the reason',
-        subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
-        text: `__I agree__ that Hawk was more helpful than Inchworm because…  \n
-        __I think__ that Hawk was more helpful than Inchworm because…  \n
-        __I believe__ that Hawk was more helpful than Inchworm because…`,
-      }));
+      //^^^^^
+      conv.ask(new SimpleResponse(add_speak_tag(`${sound.s7}`+`Read the hints and answer the question.What is the genre of Inchworm’s Tale?`+`${sound.s5}`)));
+      conv.ask(new Suggestions(['Biography','Play','Folktale']));
+      conv.ask(new List({
+          title: 'What is the genre of Inchworm’s Tale?',
+          items: {
+            // Add the first item to the list
+            'SELECTION_KEY_ONE': {
+              synonyms: [
+                'apple',
+                'Apple',
+                'I like an apple',
+              ],
+              title: 'Hint 1',
+              description: 'It tries to explain the origin of something. In this case, the name of a big rock.',
+             
+            },
+            // Add the second item to the list
+            'SELECTION_KEY_GOOGLE_HOME': {
+              synonyms: [
+                'Google Home Assistant',
+                'Assistant on the Google Home',
+            ],
+              title: 'Hint 2',
+              description: 'The characters in the story have special abilities. In this case, the animals can talk.',
+           
+            },
+            
+          },
+        }));
 
     }
     else if (parameters.QN == '2.1') {
