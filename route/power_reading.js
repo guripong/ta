@@ -650,7 +650,7 @@ ap.intent('Answer', (conv, input, option) => {
     else {
 
       return new Promise(function (resolve) {
-        makeconv(conv, parameters, "I didn't understand.");
+        makeconv(conv, parameters, "I didn't understand. Please choose 1 or 2.");
         resolve('conv emit 끝!');
       });
 
@@ -1724,7 +1724,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
 
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, "haha. ");
+          makeconv(conv, parameters, "Welcome to power reading. ");
           resolve('conv emit 끝!');
         });
 
