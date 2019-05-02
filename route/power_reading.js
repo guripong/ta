@@ -1926,7 +1926,10 @@ ap.intent('Stop', conv => {
   conv.close(`OK. Close 'Power reading'. Bye.`);
 
 });
-module.exports = router;
+
+//module.exports = router;
+
+
 /*
 ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
@@ -2232,4 +2235,3 @@ ap.intent('Answer', (conv, input,option) => {
 });
 
 */
-
