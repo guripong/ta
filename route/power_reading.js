@@ -84,6 +84,10 @@ avail_answers.getIndex = function (qn, str) {
   return 0;
 };
 
+function add_speak_tag(speech){
+
+  return `<speak>`+speech+`</speak>`;
+}
 
 function makeconv(conv, parameters, feedback) {
   conv.contexts.set('mysession', 1, parameters);
@@ -139,7 +143,7 @@ function makeconv(conv, parameters, feedback) {
   else if (parameters.QN == '3' && parameters.location == 'first') {
 
     conv.ask(new SimpleResponse({
-      speech: `<speak>`+feedback +`We have two sections for this unit.Choose an activity .`,
+      speech: add_speak_tag(feedback +`We have two sections for this unit.Choose an activity .`),
       text: 'nothing.',
     }));
     conv.ask(new Suggestions(['1', '2']));
@@ -189,20 +193,19 @@ function makeconv(conv, parameters, feedback) {
       }));
     }
     else if (parameters.QN == '2') {
+
       conv.ask(new SimpleResponse({
-        speech: feedback + `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
+        speech: add_speak_tag(feedback + `Why do you think that Hawk was more helpful than Inchworm?
+        Use the pattern above to answer the question. ${sound.s5} `),
         text: 'nothing.',
       }));
-      conv.ask(new Suggestions(['agree', 'disagree']));
+   
       conv.ask(new BasicCard({
-        title: 'Tell me your opinion',
-        subtitle: `Do you agree or disagree?`,
-        text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
-
-        image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
-          alt: 'panda',
-        }),
+        title: 'Tell me the reason',
+        subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
+        text: `__I agree__ that Hawk was more helpful than Inchworm because…
+        __I think__ that Hawk was more helpful than Inchworm because…
+        __I believe__ that Hawk was more helpful than Inchworm because…`,
       }));
 
     }
