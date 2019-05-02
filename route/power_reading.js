@@ -77,7 +77,7 @@ avail_answers.getIndex = function (qn, str) {
 function makeconv(conv, parameters, feedback) {
   conv.contexts.set('mysession', 1, parameters);
 
-  if(parameters.QN == '3' && parameters.location == 'first'){
+  if(parameters.QN == '1' && parameters.location == 'first'){
     //https://s3.amazonaws.com/eduai/test_image/book1.jpg
     conv.ask(new SimpleResponse(`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson?`));
     conv.ask(new Suggestions(['Unit 3','Unit 4']));
@@ -122,7 +122,7 @@ function makeconv(conv, parameters, feedback) {
       text: 'Oops!  \nYou did not finish Unit 3 yet!',
     }));
   }
-  else if (parameters.QN == '1' && parameters.location == 'first') {
+  else if (parameters.QN == '3' && parameters.location == 'first') {
 
 
     conv.ask(new SimpleResponse({
