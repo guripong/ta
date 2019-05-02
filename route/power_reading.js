@@ -132,14 +132,14 @@ function makeconv(conv, parameters, feedback) {
   else if(parameters.QN == '2' && parameters.location == 'first'){
     conv.ask(new Suggestions(['Unit 3','Menu']));
     conv.ask(new SimpleResponse({
-      speech: 'Oops! You did not finish Unit 3 yet! Would you like to start Unit 3?',
+      speech: `<speak>Oops! You did not finish Unit 3 yet! Would you like to start Unit 3?${sound.s5}</speak>`,
       text: 'Oops!  \nYou did not finish Unit 3 yet!',
     }));
   }
   else if (parameters.QN == '3' && parameters.location == 'first') {
 
     conv.ask(new SimpleResponse({
-      speech: feedback +`We have two sections for this unit.Choose an activity .`,
+      speech: `<speak>`+feedback +`We have two sections for this unit.Choose an activity .`,
       text: 'nothing.',
     }));
     conv.ask(new Suggestions(['1', '2']));
@@ -805,7 +805,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
       else if (speak.indexOf('no') != -1) {
-        parameters.QN = "0";
+        parameters.QN = "3";
         parameters.location = 'first';
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Then let's go back to the menu.");
