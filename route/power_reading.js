@@ -203,8 +203,8 @@ function makeconv(conv, parameters, feedback) {
       conv.ask(new BasicCard({
         title: 'Tell me the reason',
         subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
-        text: `__I agree__ that Hawk was more helpful than Inchworm because…
-        __I think__ that Hawk was more helpful than Inchworm because…
+        text: `__I agree__ that Hawk was more helpful than Inchworm because…  \n
+        __I think__ that Hawk was more helpful than Inchworm because…  \n
         __I believe__ that Hawk was more helpful than Inchworm because…`,
       }));
 
