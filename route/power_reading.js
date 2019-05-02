@@ -1802,7 +1802,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         };
 
         parameters.location = 'first';
-        parameters.QN = '-1';
+        parameters.QN = '1';
 
 
 
