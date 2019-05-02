@@ -143,7 +143,7 @@ function makeconv(conv, parameters, feedback) {
   else if (parameters.QN == '3' && parameters.location == 'first') {
 
     conv.ask(new SimpleResponse({
-      speech: add_speak_tag(feedback +`We have two sections for this unit.Choose an activity .`),
+      speech: add_speak_tag(feedback +`We have two sections for this unit.Choose an activity. ${sound.s5}`),
       text: 'nothing.',
     }));
     conv.ask(new Suggestions(['1', '2']));
