@@ -124,12 +124,23 @@ function makeconv(conv, parameters, feedback) {
   }
   else if (parameters.QN == '3' && parameters.location == 'first') {
 
-
     conv.ask(new SimpleResponse({
-      speech: feedback + ' There are 2 Type exist.',
-      text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
+      speech: feedback +`We have two sections for this unit.Choose an activity .`,
+      text: 'nothing.',
     }));
-    conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+    conv.ask(new Suggestions(['1', '2']));
+    conv.ask(new BasicCard({
+      title: `1. Pre-Reading  \n2. Let's Read`,
+      subtitle: ``,
+      text: ``,
+
+      image: new Image({
+        url: 'https://s3.amazonaws.com/eduai/test_image/large_carmel.jpg',
+        alt: 'Image alternate text',
+        width: 500,
+        heigh: 500,
+      }),
+    }));
   }
   else if (parameters.location == 'E1') {
     if (parameters.QN == '1') {
