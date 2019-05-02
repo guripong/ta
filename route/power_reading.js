@@ -90,7 +90,10 @@ function makeconv(conv, parameters, feedback) {
 
   if(parameters.QN == '1' && parameters.location == 'first'){
     //https://s3.amazonaws.com/eduai/test_image/book1.jpg
-    conv.ask(new SimpleResponse(`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson? ${sound.s5}`));
+    conv.ask(new SimpleResponse( {
+      speech:`<speak>Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson? ${sound.s5}</speak>`,
+      text:`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson?`
+    }));
     conv.ask(new Suggestions(['Unit 3','Unit 4']));
     //@ Carousel 은 items 에 2개이상 없으면 동작 안함
     conv.ask(new Carousel({
