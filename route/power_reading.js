@@ -260,7 +260,7 @@ function makeconv(conv, parameters, feedback) {
     else if (parameters.QN == '4.1') {
       conv.ask(new SimpleResponse({
         speech: feedback + `Do you want to move onto the next question? `,
-        text: `That’s correct!Do you want to move onto the next question?`,
+        speech: feedback + `Do you want to move onto the next question? `,
       }));
     }
     else if (parameters.QN == '5') {
@@ -279,6 +279,12 @@ function makeconv(conv, parameters, feedback) {
           width: 500,
           heigh: 500,
         }),
+      }));
+    }
+    else if(parameters.QN == '5.1'){
+      conv.ask(new SimpleResponse({
+        speech: feedback + `Do you want to move onto the next question? `,
+        text: feedback + `Do you want to move onto the next question?`,
       }));
     }
     else if (parameters.QN == '6') {
@@ -1801,10 +1807,12 @@ ap.intent('Oauth', (conv, params, signin) => {
           'QN': 'not yet qn',
         };
 
+        /*
         parameters.location = 'first';
         parameters.QN = '1';
-
-
+*/
+        parameters.location = 'E1';
+        parameters.QN = '14';
 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Welcome to power reading. ");
