@@ -81,7 +81,7 @@ function makeconv(conv, parameters, feedback) {
 
 
     conv.ask(new SimpleResponse({
-      speech: feedback + 'Welcome to Power reading! There are 2 Type exist.',
+      speech: feedback + ' There are 2 Type exist.',
       text: '1. 😍Pre-Reading Overview \n 2. 😍Let\'s Read \n',
     }));
     conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
@@ -483,28 +483,126 @@ function makeconv(conv, parameters, feedback) {
         },
       }));
     }
-    else if(parameters.QN == '15.1'){
+   
+  }
+  else if (parameters.location == 'E2'){
+    if(parameters.QN == '1'){
       conv.ask(new SimpleResponse({
-        speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
-        reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
-         Cheetahs are the only big cat that can turn in mid air while sprinting.`
-          + ` What do you think is the coolest feature of a cheetah?`,
+        speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
         text: 'nothing.',
       }));
+      conv.ask(new Suggestions(['agree', 'disagree']));
       conv.ask(new BasicCard({
-        title: 'Cheetah',
-        subtitle: `Fun Facts`,
-        text: `The cheetah is the fastest land animal in the world, reaching speeds of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`
-          + ` What do you think is the coolest feature of a cheetah?`,
+        title: 'Tell me your opinion',
+        subtitle: `Do you agree or disagree?`,
+        text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
 
         image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/15cheetah.jpg',
-          alt: 'cheetah',
-          width: 282,
-          heigh: 361,
+          url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
+          alt: 'panda',
         }),
       }));
     }
+    else if(parameters.QN == '2'){
+      conv.ask(new SimpleResponse({
+        speech: `You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
+          Use the pattern above to answer the question. `,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Tell me the reason',
+        subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
+        text: `**I agree** that Hawk was more helpful than Inchworm because…  
+          **I think** that Hawk was more helpful than Inchworm because…  
+          **I believe** that Hawk was more helpful than Inchworm because…`
+      }));
+    }
+    else if(parameters.QN == '3'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'A job well done!',
+        subtitle: `Great work!  \nYou are done with today’s lesson.`,
+        text: ``,
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
+          alt: 'goodjob',
+        }),
+      }));
+    }
+    else if(parameters.QN == '4'){
+      conv.ask(new SimpleResponse({
+        speech: `Hmm. Let’s try again. Here’s a hint!` +
+          `Why do you think that Hawk was more helpful than Inchworm?
+        Read the context clues then use the pattern above to answer the question. `,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'HINT',
+        subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
+        text: `**I think** that Hawk was more helpful than Inchworm because…  
+          
+        - Hawk was unable to carry the children down the rock, so he gathered lots of food for them to eat. Then he brought large leaves to keep tem warm, Hawk wanted to make sure they were safe and unharmed. (p.184)
+        - Every day, Hawk brought food to the children. Every day he reappeared in the village with news for the villagers. (p187)`
+      }));
+    }
+    else if(parameters.QN == '5'){
+      conv.ask(new SimpleResponse({
+        speech: `Nice try! We can practice some more later.
+        You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Better luck next time…',
+        subtitle: `Good effort! \nYou are done with today’s lesson.`,
+        text: ``,
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/22goodjob.jpg',
+          alt: 'goodjob',
+        }),
+      }));
+    }
+    else if(parameters.QN == '6'){
+      conv.ask(new SimpleResponse({
+        speech: `I see that you disagree with my statement.
+            Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
+            Use the pattern above to answer the question. `,
+        text: 'nothing.',
+      }));
+
+
+      conv.ask(new BasicCard({
+        title: 'Tell me the reason',
+        subtitle: `Why do you disagree?
+            Why do you think that Inchworm was more helpful than Hawk?
+            `,
+        text: `**I disagree** that Hawk was more helpful than Inchworm because…  \n
+            **I don’t think** that Hawk was more helpful than Inchworm because…  \n
+            **I don’t believe** that Hawk was more helpful than Inchworm because…  \n
+            **I think** that Inchworm was Hawk was more helpful than Inchworm because…  \n
+            **I believe** that Inchworm was more helpful than Hawk  because…`,
+
+      }));
+    }
+    else if(parameters.QN == '7'){
+      conv.ask(new SimpleResponse({
+        speech: `Hmm. Let’s try again. Here’s a hint!` +
+          `Why do you think that Hawk was more helpful than Inchworm?
+        Read the context clues then use pattern above to answer the question. `,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'HINT',
+        subtitle: `Why do you disagree?  Why do you think that Inchworm was more helpful than Hawk?`,
+        text: `**I don’t** think that Hawk was more helpful than Inchworm because…  
+        **I think** that Inchworm was more helpful than Hawk because…  
+        - Inchworm showed them all how skillful she was at climbing. (p.186)  
+        - It took almost a week for the three to climb down to the village. Inch by inch, Inchworm led the children carefully down the rocky slope. […]  Finally, Inchworm, Anant, and Anika reached the bottom of the rock. Everyone cheered and called Inchworm a hero. (p187)`
+      }));
+    }
+
   }
 }
 
@@ -1142,7 +1240,7 @@ ap.intent('Answer', (conv, input, option) => {
         });
       
       }
-      else if (speak.indexOf('yes') != -1) {
+      else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
    
         //피드백 
@@ -1180,12 +1278,28 @@ ap.intent('Answer', (conv, input, option) => {
       if (parameters.QN === '15') {
         parameters.QN = '15.1';
         // parameters.location = 'E1';
-        return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
-          resolve('conv emit 끝!');
-        });
+        conv.ask(new SimpleResponse({
+          speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
+          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
+           Cheetahs are the only big cat that can turn in mid air while sprinting.`
+            + ` What do you think is the coolest feature of a cheetah?`,
+          text: 'nothing.',
+        }));
+        conv.ask(new BasicCard({
+          title: 'Cheetah',
+          subtitle: `Fun Facts`,
+          text: `The cheetah is the fastest land animal in the world, reaching speeds of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`
+            + ` What do you think is the coolest feature of a cheetah?`,
+  
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/15cheetah.jpg',
+            alt: 'cheetah',
+            width: 282,
+            heigh: 361,
+          }),
+        }));
+
       
-       
       } else if (parameters.QN == '15.1') { // todo 
         if (avail_answers.find_some(parameters.QN, speak)) {
           let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
@@ -1362,67 +1476,31 @@ ap.intent('Answer', (conv, input, option) => {
 
       if (speak.indexOf('disagree') != -1) {
         parameters.QN = "6";
-        conv.contexts.set('mysession', 1, parameters);
         //6번으로
-    
-        conv.ask(new SimpleResponse({
-          speech: `I see that you disagree with my statement.
-              Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
-              Use the pattern above to answer the question. `,
-          text: 'nothing.',
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
 
-
-        conv.ask(new BasicCard({
-          title: 'Tell me the reason',
-          subtitle: `Why do you disagree?
-              Why do you think that Inchworm was more helpful than Hawk?
-              `,
-          text: `**I disagree** that Hawk was more helpful than Inchworm because…  \n
-              **I don’t think** that Hawk was more helpful than Inchworm because…  \n
-              **I don’t believe** that Hawk was more helpful than Inchworm because…  \n
-              **I think** that Inchworm was Hawk was more helpful than Inchworm because…  \n
-              **I believe** that Inchworm was more helpful than Hawk  because…`,
-
-        }));
+       
       }
       else if (speak.indexOf('agree') != -1) {
         //동의하면 2번으로
         parameters.QN = "2";
-        conv.contexts.set('mysession', 1, parameters);
-        //2번화면으로
-        conv.ask(new SimpleResponse({
-          speech: `You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
-            Use the pattern above to answer the question. `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Tell me the reason',
-          subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
-          text: `**I agree** that Hawk was more helpful than Inchworm because…  
-            **I think** that Hawk was more helpful than Inchworm because…  
-            **I believe** that Hawk was more helpful than Inchworm because…`
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+      
       }
       else {
         parameters.QN = "1";
-        conv.contexts.set('mysession', 1, parameters);
-
-        conv.ask(new SimpleResponse({
-          speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['agree', 'disagree']));
-        conv.ask(new BasicCard({
-          title: 'Tell me your opinion',
-          subtitle: `Do you agree or disagree?`,
-          text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
-            alt: 'panda',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+        //1로
+     
       }
 
     }
@@ -1440,42 +1518,21 @@ ap.intent('Answer', (conv, input, option) => {
         //통과
         //3번화면으로
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That was great!
-          You did a wonderful job!
-          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'A job well done!',
-          subtitle: `Great work!  \nYou are done with today’s lesson.`,
-          text: ``,
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
-            alt: 'goodjob',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "That was great! You did a wonderful job! ");
+          resolve('conv emit 끝!');
+        });
+      
       }
       else {
         //실패
         //4번화면으로
         parameters.QN = "4";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Hmm. Let’s try again. Here’s a hint!` +
-            `Why do you think that Hawk was more helpful than Inchworm?
-          Read the context clues then use the pattern above to answer the question. `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'HINT',
-          subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
-          text: `**I think** that Hawk was more helpful than Inchworm because…  
-            
-          - Hawk was unable to carry the children down the rock, so he gathered lots of food for them to eat. Then he brought large leaves to keep tem warm, Hawk wanted to make sure they were safe and unharmed. (p.184)
-          - Every day, Hawk brought food to the children. Every day he reappeared in the village with news for the villagers. (p187)`
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+       
       }
 
     }
@@ -1484,12 +1541,14 @@ ap.intent('Answer', (conv, input, option) => {
         //첫화면으로
         parameters.QN = "0";
         parameters.location = "first";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Okay. Let's go back to the menu. Please choose 1 or 2. `,
-          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
-        }));
-        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+     
+        //Okay. Let's go back to the menu. 
+      
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay. Let's go back to the menu. ");
+          resolve('conv emit 끝!');
+        });
+
       }
       else if (speak.indexOf('no') != -1) {
         //끝
@@ -1513,41 +1572,18 @@ ap.intent('Answer', (conv, input, option) => {
       if (isok == 1) {
         //정답 3번으로
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That was great!
-          You did a wonderful job!
-          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'A job well done!',
-          subtitle: `Great work!  \nYou are done with today’s lesson.`,
-          text: ``,
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
-            alt: 'goodjob',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "That was great! You did a wonderful job! ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         //5번으로
         parameters.QN = "5";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Nice try! We can practice some more later.
-          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Better luck next time…',
-          subtitle: `Good effort! \nYou are done with today’s lesson.`,
-          text: ``,
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/22goodjob.jpg',
-            alt: 'goodjob',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == "5") {
@@ -1555,12 +1591,12 @@ ap.intent('Answer', (conv, input, option) => {
         //첫화면으로
         parameters.QN = "0";
         parameters.location = "first";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Please choose 1 or 2. `,
-          text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
-        }));
-        conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+        //I didn't understand.
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understand. ");
+          resolve('conv emit 끝!');
+        });
+
       }
       else if (speak.indexOf('no') != -1) {
         //끝
@@ -1583,41 +1619,19 @@ ap.intent('Answer', (conv, input, option) => {
       if (isok == 1) {
         //정답이면 3번으로
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That was great!
-          You did a wonderful job!
-          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'A job well done!',
-          subtitle: `Great work!  \nYou are done with today’s lesson.`,
-          text: ``,
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
-            alt: 'goodjob',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "That was great! You did a wonderful job! ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         //7번으로
         parameters.QN = "7";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Hmm. Let’s try again. Here’s a hint!` +
-            `Why do you think that Hawk was more helpful than Inchworm?
-          Read the context clues then use pattern above to answer the question. `,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'HINT',
-          subtitle: `Why do you disagree?  Why do you think that Inchworm was more helpful than Hawk?`,
-          text: `**I don’t** think that Hawk was more helpful than Inchworm because…  
-          **I think** that Inchworm was more helpful than Hawk because…  
-          - Inchworm showed them all how skillful she was at climbing. (p.186)  
-          - It took almost a week for the three to climb down to the village. Inch by inch, Inchworm led the children carefully down the rocky slope. […]  Finally, Inchworm, Anant, and Anika reached the bottom of the rock. Everyone cheered and called Inchworm a hero. (p187)`
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+      
       }
     }
     else if (parameters.QN == "7") {
@@ -1633,41 +1647,18 @@ ap.intent('Answer', (conv, input, option) => {
       if (isok == 1) {
         //정답이면 3번으로
         parameters.QN = "3";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That was great!
-          You did a wonderful job!
-          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'A job well done!',
-          subtitle: `Great work!  \nYou are done with today’s lesson.`,
-          text: ``,
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/20congra.jpg',
-            alt: 'goodjob',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "That was great! You did a wonderful job! ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         //5번으로
         parameters.QN = "5";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Nice try! We can practice some more later.
-          You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Better luck next time…',
-          subtitle: `Good effort! \nYou are done with today’s lesson.`,
-          text: ``,
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/22goodjob.jpg',
-            alt: 'goodjob',
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "  ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else {
