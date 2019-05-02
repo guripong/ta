@@ -75,8 +75,10 @@ avail_answers.getIndex = function (qn, str){
 
 
 function makeconv(conv,parameters,feedback){
+  conv.contexts.set('mysession', 1, parameters);
+
   if(parameters.QN =='0' && parameters.location=='first'){
-    conv.contexts.set('mysession', 1, parameters);
+   
 
     conv.ask(new SimpleResponse({
       speech: feedback+'Welcome to Power reading! There are 2 Type exist.',
@@ -84,7 +86,50 @@ function makeconv(conv,parameters,feedback){
     }));
     conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
   }
+  else if(parameters.location =='E1')
+  {
+    if(parameters.QN=='1'){
+      
+      conv.ask(new SimpleResponse({
+        speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
+      conv.ask(new BasicCard({
+        title: 'Story Overview',
+        subtitle: `Inchworm's Tale`,
+        text: `What is the genre of Inchworm’s Tale?`,
 
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+
+        //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
+        //display  X 구글홈허브
+      }));
+    }
+    else if(parameters.QN=='2'){
+      conv.ask(new SimpleResponse({
+        speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
+        text: 'nothing.',
+      }));
+      conv.ask(new Suggestions(['agree','disagree']));
+      conv.ask(new BasicCard({
+        title: 'Tell me your opinion',
+        subtitle: `Do you agree or disagree?`,
+        text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
+          alt: 'panda',
+        }),
+      }));
+    }
+
+  }
 
 }
 
@@ -113,61 +158,29 @@ ap.intent('Answer', (conv, input, option) => {
       ////////////////
       parameters.QN = "1";
       parameters.location = 'E1';
-      conv.contexts.set('mysession', 1, parameters);
-      //////////////
-
-      conv.ask(new SimpleResponse({
-        speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
-        text: 'nothing.',
-      }));
-      conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
-      conv.ask(new BasicCard({
-        title: 'Story Overview',
-        subtitle: `Inchworm's Tale`,
-        text: `What is the genre of Inchworm’s Tale?`,
-
-        image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
-          alt: 'Image alternate text',
-          width: 500,
-          heigh: 500,
-        }),
-
-        //display: 'WHITE', //WHITE(white bar) , CROPPED, DEFAULT(gray bar) //https://developers.google.com/actions/reference/rest/Shared.Types/ImageDisplayOptions
-        //display  X 구글홈허브
-      }));
+      return new Promise (function (resolve){
+        makeconv(conv,parameters,"");
+        resolve('conv emit 끝!');
+      });
+   
     }
     else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
       console.log('E2처음');
       /////////////1번화면 뿌려준다
       parameters.QN = "1";
       parameters.location = 'E2';
-      conv.contexts.set('mysession', 1, parameters);
-     
-      conv.ask(new SimpleResponse({
-        speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
-        text: 'nothing.',
-      }));
-      conv.ask(new Suggestions(['agree','disagree']));
-      conv.ask(new BasicCard({
-        title: 'Tell me your opinion',
-        subtitle: `Do you agree or disagree?`,
-        text: `I think Hawk was more helpful than Inchworm in the story, __Inchworm’s Tale__.`,
-
-        image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/e2_1.png',
-          alt: 'panda',
-        }),
-      }));
+      return new Promise (function (resolve){
+        makeconv(conv,parameters,"");
+        resolve('conv emit 끝!');
+      });
     }
     else {
 
-      conv.contexts.set('mysession', 1, parameters);
-      conv.ask(new SimpleResponse({
-        speech: `I didn't understand. Please choose 1 or 2. `,
-        text: '1. Pre-Reading Overview \n 2. Let\'s Read \n',
-      }));
-      conv.ask(new Suggestions(['1. Pre-Reading Overview', '2. Let\'s Read \n']));
+      return new Promise (function (resolve){
+        makeconv(conv,parameters,"I didn't undertand. Yo!");
+        resolve('conv emit 끝!');
+      });
+     
     }
   }////맨첫메뉴
   else if (parameters.location == 'E1') {
@@ -2056,7 +2069,7 @@ ap.intent('Oauth', (conv, params, signin) => {
 
         return new Promise (function (resolve){
           makeconv(conv,parameters,"haha. ");
-          resolve('ha');
+          resolve('conv emit 끝!');
         });
      
       });//2끝
