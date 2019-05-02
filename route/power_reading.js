@@ -3,6 +3,17 @@ const request = require('request');
 //const phrase = require('../resources/phrase');
 console.log('aaaa');
 
+const sound={
+  s1:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s1.mp3"/>`,
+  s2:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s2.mp3"/>`,
+  s3:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s3.mp3"/>`,
+  s4:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s4.mp3"/>`,
+  s5:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s5.mp3"/>`,
+  s6:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s6.mp3"/>`,
+  s7:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s7.mp3"/>`,
+  s8:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s8.mp3"/>`,
+  s9:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s9.mp3"/>`,
+}
 
 var router = express.Router();
 const {
@@ -79,7 +90,7 @@ function makeconv(conv, parameters, feedback) {
 
   if(parameters.QN == '1' && parameters.location == 'first'){
     //https://s3.amazonaws.com/eduai/test_image/book1.jpg
-    conv.ask(new SimpleResponse(`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson?`));
+    conv.ask(new SimpleResponse(`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson? ${sound.s5}`));
     conv.ask(new Suggestions(['Unit 3','Unit 4']));
     //@ Carousel 은 items 에 2개이상 없으면 동작 안함
     conv.ask(new Carousel({
