@@ -929,7 +929,7 @@ ap.intent('Answer', (conv, input, option) => {
 
     }
     else if (parameters.QN == '4') {
-      if (speak.indexOf('woods') != -1 || speak.indexOf('top of a rock') != -1) {
+      if (speak.indexOf('forest') != -1|| speak.indexOf('wood') != -1 || speak.indexOf('top of a rock') != -1) {
         parameters.QN = "4.1";
 
         conv.contexts.set('mysession', 1, parameters);
