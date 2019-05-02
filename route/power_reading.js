@@ -283,7 +283,228 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
+    else if(parameters.QN == '8') {
+      conv.ask(new SimpleResponse({
+        speech: `Hmm, maybe you need an example.
+        My special talent is that I can sing very well.
+        Read Example 2.          
+        `,
+        text: `nothing.`,
+      }));
 
+      conv.ask(new BasicCard({
+        title: 'Hint',
+        subtitle: `Unique talents and features.`,
+        text: `What is your special feature or talent?  \n
+        Example 1) I can sing very well.  \n
+        Example 2) My special talent is that I can write poetry.  \n
+        `,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/8people.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN == '8.1') {
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Now can you think of your own talent or unique feature?`,
+        text: feedback+`Now can you think of your own talent or unique feature?`,
+      }));
+    }
+    else if(parameters.QN == '9'){
+      conv.ask(new SimpleResponse({
+        speech: `Cool!
+        Use one of the patterns above to answer the question.
+        What is your special feature?  Tell me one.
+        `,
+        text: `nothing.`,
+      }));
+
+      conv.ask(new BasicCard({
+        title: 'Theme',
+        subtitle: `Unique talents and features.`,
+        text: `What is your special feature?  \n
+        I can…  \n
+        My special feature is…  \n
+        I have a unique talent. It is…  \n
+        `,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN == '9.1'){
+      conv.ask(new SimpleResponse({
+        speech: `That’s very interesting!
+        Do you have any other talents`,
+        text: `That’s very interesting!
+        Do you have any other talents`,
+      }));
+    }
+    else if(parameters.QN == '10'){
+      conv.ask(new SimpleResponse({
+        speech: `Wow, you are very talented, aren’t you?What is your special feature?  Tell me one more.`,
+        text: `nothing.`,
+      }));
+
+      conv.ask(new BasicCard({
+        title: 'Theme',
+        subtitle: `Unique talents and features.`,
+        text: `What is your special feature?  \n
+        I can also…  \n
+        Another one of my talent is…  \n
+        I have another unique talent. It is…  \n
+        `,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/10people.png',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN == '10.1'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Are you ready to move on to the next question?`,
+        text: feedback+`Are you ready to move on to the next question?`,
+      }));
+     
+    }
+    else if(parameters.QN == '11'){
+      conv.ask(new SimpleResponse({
+        speech: `What is the name of the animal in the picture?`,
+        text: `nothing.`,
+      }));
+
+      conv.ask(new BasicCard({
+        title: 'Theme: Practice',
+        subtitle: `Unique talents and features.`,
+        text: `Can you identify this animal?`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN == '12'){
+      conv.ask(new SimpleResponse({
+        speech: `Let me give you a hint.
+        Read the clues to guess what the animal in the picture is.
+        What is the animal?`,
+        text: `nothing.`,
+      }));
+
+      conv.ask(new BasicCard({
+        title: 'HINT',
+        subtitle: `Can you identify this animal?`,
+        text: `Clues:  \n
+        - The animal can be found in the African continent  \n
+        - Its neck cannot reach the ground  \n
+        - It starts with a G`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN == '13'){
+      conv.ask(new SimpleResponse({
+        speech: `Excellent!
+         What makes a giraffe unique?
+         Tell me one feature of the giraffe.`,
+        text: `nothing.`,
+      }));
+
+      conv.ask(new BasicCard({
+        title: 'Theme: Practice',
+        subtitle: `Unique talents and features.`,
+        text: `What makes this animal unique?`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
+          alt: 'Image alternate text',
+          width: 500,
+          heigh: 500,
+        }),
+      }));
+    }
+    else if(parameters.QN == '13.1'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Are you ready to move on?`,
+        text: feedback+`Are you ready to move on?`,
+      }));
+    }
+    else if(parameters.QN == '14'){
+      conv.ask(new SimpleResponse({
+        speech: feedback+`Look at the choices above. Which animal are you most interested in?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
+      conv.ask(new Carousel({
+        items: {
+          'CHEETAH': {
+            title: 'Cheetah',
+            description: 'The cheetah is the fastest land…',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
+              alt: 'cheetah',
+            }),
+          },
+          'HUMMINGBIRD': {
+            title: 'Hummingbird',
+            description: 'Hummingbirds are one of the smallest…',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
+              alt: 'hummingbird',
+            }),
+          },
+          'PANDA': {
+            title: 'Panda',
+            description: 'The giant panda is native china…',
+            image: new Image({
+              url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
+              alt: 'panda',
+            }),
+          },
+        },
+      }));
+    }
+    else if(parameters.QN == '15.1'){
+      conv.ask(new SimpleResponse({
+        speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
+        reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
+         Cheetahs are the only big cat that can turn in mid air while sprinting.`
+          + ` What do you think is the coolest feature of a cheetah?`,
+        text: 'nothing.',
+      }));
+      conv.ask(new BasicCard({
+        title: 'Cheetah',
+        subtitle: `Fun Facts`,
+        text: `The cheetah is the fastest land animal in the world, reaching speeds of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`
+          + ` What do you think is the coolest feature of a cheetah?`,
+
+        image: new Image({
+          url: 'https://s3.amazonaws.com/eduai/test_image/15cheetah.jpg',
+          alt: 'cheetah',
+          width: 282,
+          heigh: 361,
+        }),
+      }));
+    }
   }
 }
 
@@ -674,440 +895,205 @@ ap.intent('Answer', (conv, input, option) => {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "9";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Cool!
-          Use one of the patterns above to answer the question.
-          What is your special feature?  Tell me one.
-          `,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What is your special feature?  \n
-          I can…  \n
-          My special feature is…  \n
-          I have a unique talent. It is…  \n
-          `,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "  ");
+          resolve('conv emit 끝!');
+        });
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "8";
         conv.contexts.set('mysession', 1, parameters);
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "  ");
+          resolve('conv emit 끝!');
+        });
 
-
-        conv.ask(new SimpleResponse({
-          speech: `Hmm, maybe you need an example.
-          My special talent is that I can sing very well.
-          Read Example 2.          
-          `,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Hint',
-          subtitle: `Unique talents and features.`,
-          text: `What is your special feature or talent?  \n
-          Example 1) I can sing very well.  \n
-          Example 2) My special talent is that I can write poetry.  \n
-          `,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/8people.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+       
       }
       else {
         parameters.QN = "7";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understsand. say yes or no. Let’s review the theme. 
-          This story was about how everyone has their own unique talent or feature. 
-          Do you have any special features or talents?
-          `,
-          text: `nothing.`,
-        }));
-        conv.ask(new Suggestions(['yes', 'no']));
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `Do you have any special features or talents?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //I didn't understsand. say yes or no.
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understsand. say yes or no.  ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '8') {
       if (speak.indexOf('write poetry') != -1) {
         parameters.QN = "8.1";
-        conv.contexts.set('mysession', 1, parameters);
+        //
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
 
-        conv.ask(new SimpleResponse({
-          speech: `Now can you think of your own talent or unique feature?`,
-          text: `Now can you think of your own talent or unique feature?`,
-        }));
+       
       }
       else {
         parameters.QN = "11";
-        conv.contexts.set('mysession', 1, parameters);
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
 
-        conv.ask(new SimpleResponse({
-          speech: `What is the name of the animal in the picture?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `Can you identify this animal?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+       
       }
     }
     else if (parameters.QN == '8.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "9";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Cool!
-          Use one of the patterns above to answer the question.
-          What is your special feature?  Tell me one.
-          `,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What is your special feature?  \n
-          I can…  \n
-          My special feature is…  \n
-          I have a unique talent. It is…  \n
-          `,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/7children.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+       
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
         conv.contexts.set('mysession', 1, parameters);
         //Okay then let’s move on   피드백
-
-        conv.ask(new SimpleResponse({
-          speech: `Okay then let’s move on. What is the name of the animal in the picture?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `Can you identify this animal?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay then let’s move on ");
+          resolve('conv emit 끝!');
+        });
+      
       }
       else {
         parameters.QN = "8.1";
         conv.contexts.set('mysession', 1, parameters);
         //피드백 I didn't understand.
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Now can you think of your own talent or unique feature?`,
-          text: `I didn't understand. Now can you think of your own talent or unique feature?`,
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understand. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '9') {
       //
       parameters.QN = "9.1";
-      conv.contexts.set('mysession', 1, parameters);
-      conv.ask(new SimpleResponse({
-        speech: `That’s very interesting!
-        Do you have any other talents`,
-        text: `That’s very interesting!
-        Do you have any other talents`,
-      }));
+      return new Promise(function (resolve) {
+        makeconv(conv, parameters, " ");
+        resolve('conv emit 끝!');
+      });
+     
+
     }
     else if (parameters.QN == '9.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "10";
-        conv.contexts.set('mysession', 1, parameters);
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+       
 
-        conv.ask(new SimpleResponse({
-          speech: `Wow, you are very talented, aren’t you?What is your special feature?  Tell me one more.`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What is your special feature?  \n
-          I can also…  \n
-          Another one of my talent is…  \n
-          I have another unique talent. It is…  \n
-          `,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/10people.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+       
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `What is the name of the animal in the picture?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `Can you identify this animal?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+       
+       
       }
       else {
         parameters.QN = "9.1";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Do you have any other talents?`,
-          text: `I didn't understand. Do you have any other talents?`,
-        }));
+        //I didn't understand.
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understand. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '10') {
       if (speak.indexOf('i can also') != -1 || speak.indexOf('my talent is') != -1 || speak.indexOf('i have another unique talent') != -1) {
         parameters.QN = "10.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Great! You are very unique! Are you ready to move on to the next question?`,
-          text: `Great! You are very unique! Are you ready to move on to the next question?`,
-        }));
+         //Great! You are very unique! 
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Great! You are very unique!  ");
+          resolve('conv emit 끝!');
+        });
+       
       }
       else {
         parameters.QN = "11";
-        conv.contexts.set('mysession', 1, parameters);
         //피드백 Sorry, I  didn’t quite get that. Let’s move on.
-        conv.ask(new SimpleResponse({
-          speech: `Sorry, I  didn’t quite get that. Let’s move on. What is the name of the animal in the picture?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `Can you identify this animal?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Sorry, I  didn’t quite get that. Let’s move on. ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '10.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "11";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `What is the name of the animal in the picture?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `Can you identify this animal?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+       
       }
       else if (speak.indexOf('no') != -1) {
         //10으로 다시
         parameters.QN = "10";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Okay, lets go back to the question.
-          Wow, you are very talented, aren’t you?What is your special feature?  Tell me one more.`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme',
-          subtitle: `Unique talents and features.`,
-          text: `What is your special feature?
-          I can also…
-          Another one of my talent is…
-          I have another unique talent. It is…
-          `,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/10people.png',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay, lets go back to the question. ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         parameters.QN = "10.1";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Are you ready to move on to the next question?`,
-          text: `I didn't understand. Are you ready to move on to the next question?`,
-        }));
+        //I didn't understand. 
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understand.  ");
+          resolve('conv emit 끝!');
+        });
       }
     }
     else if (parameters.QN == '11') {
       if (speak.indexOf('giraffe') != -1) {
         //13번으로
         parameters.QN = "13";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Excellent!
-           What makes a giraffe unique?
-           Tell me one feature of the giraffe.`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         //12번으로
         parameters.QN = "12";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Let me give you a hint.
-          Read the clues to guess what the animal in the picture is.
-          What is the animal?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'HINT',
-          subtitle: `Can you identify this animal?`,
-          text: `Clues:  \n
-          - The animal can be found in the African continent  \n
-          - Its neck cannot reach the ground  \n
-          - It starts with a G`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        //12
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+        
       }
     }
     else if (parameters.QN == '12') {
       if (speak.indexOf('giraffe') != -1) {
         //13으로
         parameters.QN = "13";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Excellent!
-           What makes a giraffe unique?
-           Tell me one feature of the giraffe.`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+        
       }
       else {
         //13으로
         //That’s okay. The animal in the picture is a giraffe. Let move on.
         parameters.QN = "13";
-        conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `That’s okay. The animal in the picture is a giraffe. Let move on.
-          What makes a giraffe unique?
-          Tell me one feature of the giraffe.`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `What makes this animal unique?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+        
 
       }
     }
@@ -1117,10 +1103,10 @@ ap.intent('Answer', (conv, input, option) => {
       //if(speak.indexOf('long neck'))
       var correct_list = ['long neck', 'tall', 'tallest', 'spots']
 
-      var pasN = "0";
+      var pass = "0";
       for (var j = 0; j < correct_list.length; j++) {
         if (speak.indexOf(correct_list[j]) != -1) {
-          pasN = "1";
+          pass = "1";
           break;
         }
       }
@@ -1129,124 +1115,50 @@ ap.intent('Answer', (conv, input, option) => {
         //excelt
         parameters.QN = "13.1";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `Great job!Are you ready to move on?`,
-          text: `Great job!Are you ready to move on?`,
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Great job! ");
+          resolve('conv emit 끝!');
+        });
+        
       }
       else {
         parameters.QN = '14';
         conv.contexts.set('mysession', 1, parameters);
-
-        let phrase = "I didn't quite get that. Let's move on.";
-
-        phrase += `Look at the choices above. Which animal are you most interested in?`;
-        conv.ask(new SimpleResponse({
-          speech: phrase,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
-        conv.ask(new Carousel({
-          items: {
-            'CHEETAH': {
-              title: 'Cheetah',
-              description: 'The cheetah is the fastest land…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
-                alt: 'cheetah',
-              }),
-            },
-            'HUMMINGBIRD': {
-              title: 'Hummingbird',
-              description: 'Hummingbirds are one of the smallest…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
-                alt: 'hummingbird',
-              }),
-            },
-            'PANDA': {
-              title: 'Panda',
-              description: 'The giant panda is native china…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
-                alt: 'panda',
-              }),
-            },
-          },
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't quite get that. Let's move on. ");
+          resolve('conv emit 끝!');
+        });
+   
+        
       }
 
     }
     else if (parameters.QN == '13.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "14";
-        conv.contexts.set('mysession', 1, parameters);
-
-        let phrase = "";
-        phrase += `Look at the choices above. Which animal are you most interested in?`;
-        conv.ask(new SimpleResponse({
-          speech: phrase,
-          text: 'nothing.',
-        }));
-        conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
-        conv.ask(new Carousel({
-          items: {
-            'CHEETAH': {
-              title: 'Cheetah',
-              description: 'The cheetah is the fastest land…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
-                alt: 'cheetah',
-              }),
-            },
-            'HUMMINGBIRD': {
-              title: 'Hummingbird',
-              description: 'Hummingbirds are one of the smallest…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
-                alt: 'hummingbird',
-              }),
-            },
-            'PANDA': {
-              title: 'Panda',
-              description: 'The giant panda is native china…',
-              image: new Image({
-                url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
-                alt: 'panda',
-              }),
-            },
-          },
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+      
       }
       else if (speak.indexOf('yes') != -1) {
         parameters.QN = "11";
-        conv.contexts.set('mysession', 1, parameters);
-        //피드백 Okay, lets go back to the question.
-        conv.ask(new SimpleResponse({
-          speech: `Okay, lets go back to the question. What is the name of the animal in the picture?`,
-          text: `nothing.`,
-        }));
-
-        conv.ask(new BasicCard({
-          title: 'Theme: Practice',
-          subtitle: `Unique talents and features.`,
-          text: `Can you identify this animal?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/11giraffe.jpg',
-            alt: 'Image alternate text',
-            width: 500,
-            heigh: 500,
-          }),
-        }));
+   
+        //피드백 
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "Okay, lets go back to the question. ");
+          resolve('conv emit 끝!');
+        });
       }
       else {
         parameters.QN = "13.1";
         conv.contexts.set('mysession', 1, parameters);
-        conv.ask(new SimpleResponse({
-          speech: `I didn't understand. Are you ready to move on?`,
-          text: `I didn't understand. Are you ready to move on?`,
-        }));
+        //I didn't understand. 
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, "I didn't understand.  ");
+          resolve('conv emit 끝!');
+        });
       }
 
     }
@@ -1257,67 +1169,23 @@ ap.intent('Answer', (conv, input, option) => {
       if (!avail_answers.find_some(parameters.QN, speak)) {
         phrase = "I didn't understand. "
       }
-      phrase += `Look at the choices above. Which animal are you most interested in?`;
-      conv.ask(new SimpleResponse({
-        speech: phrase,
-        text: 'nothing.',
-      }));
-      conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
-      conv.ask(new Carousel({
-        items: {
-          'CHEETAH': {
-            title: 'Cheetah',
-            description: 'The cheetah is the fastest land…',
-            image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/14cheetah.jpg',
-              alt: 'cheetah',
-            }),
-          },
-          'HUMMINGBIRD': {
-            title: 'Hummingbird',
-            description: 'Hummingbirds are one of the smallest…',
-            image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/14hummingbird.jpg',
-              alt: 'hummingbird',
-            }),
-          },
-          'PANDA': {
-            title: 'Panda',
-            description: 'The giant panda is native china…',
-            image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/14panda.jpg',
-              alt: 'panda',
-            }),
-          },
-        },
-      }));
+      return new Promise(function (resolve) {
+        makeconv(conv, parameters, phrase);
+        resolve('conv emit 끝!');
+      });
+     
+      
     }
     else if (parameters.QN.includes('15')) {
       if (parameters.QN === '15') {
         parameters.QN = '15.1';
         // parameters.location = 'E1';
-        conv.contexts.set('mysession', 1, parameters); //set my progress
-
-        conv.ask(new SimpleResponse({
-          speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
-          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
-           Cheetahs are the only big cat that can turn in mid air while sprinting.`
-            + ` What do you think is the coolest feature of a cheetah?`,
-          text: 'nothing.',
-        }));
-        conv.ask(new BasicCard({
-          title: 'Cheetah',
-          subtitle: `Fun Facts`,
-          text: `The cheetah is the fastest land animal in the world, reaching speeds of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`
-            + ` What do you think is the coolest feature of a cheetah?`,
-
-          image: new Image({
-            url: 'https://s3.amazonaws.com/eduai/test_image/15cheetah.jpg',
-            alt: 'cheetah',
-            width: 282,
-            heigh: 361,
-          }),
-        }));
+        return new Promise(function (resolve) {
+          makeconv(conv, parameters, " ");
+          resolve('conv emit 끝!');
+        });
+      
+       
       } else if (parameters.QN == '15.1') { // todo 
         if (avail_answers.find_some(parameters.QN, speak)) {
           let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
@@ -1351,6 +1219,13 @@ ap.intent('Answer', (conv, input, option) => {
           parameters.location = 'E2';
           conv.contexts.set('mysession', 1, parameters);
           conv.followup('redirect_answer');
+          //!!@@
+          parameters.QN = "1";
+          parameters.location = 'E1';
+          return new Promise(function (resolve) {
+            makeconv(conv, parameters, "");
+            resolve('conv emit 끝!');
+          });
         }
       }
     }
@@ -1489,6 +1364,7 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = "6";
         conv.contexts.set('mysession', 1, parameters);
         //6번으로
+    
         conv.ask(new SimpleResponse({
           speech: `I see that you disagree with my statement.
               Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
