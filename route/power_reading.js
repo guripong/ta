@@ -2054,9 +2054,9 @@ ap.intent('Oauth', (conv, params, signin) => {
         
    
 
-        return new Promise (function (){
+        return new Promise (function (resolve){
           makeconv(conv,parameters,"haha. ");
-    
+          resolve('ha');
         });
      
       });//2끝
