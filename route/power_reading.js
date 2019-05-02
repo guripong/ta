@@ -2,7 +2,7 @@ var express = require('express');
 const request = require('request');
 //const phrase = require('../resources/phrase');
 console.log('aaaa');
-//🐼🐆🐦
+
 
 var router = express.Router();
 const {
@@ -1926,7 +1926,7 @@ ap.intent('Stop', conv => {
   conv.close(`OK. Close 'Power reading'. Bye.`);
 
 });
-
+module.exports = router;
 /*
 ap.intent('Answer', (conv, input,option) => {
     console.log('@@@@@@@@@@@@Answer@@@@@@@@@@@@@');
@@ -2233,4 +2233,3 @@ ap.intent('Answer', (conv, input,option) => {
 
 */
 
-module.exports = router;
