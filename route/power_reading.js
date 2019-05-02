@@ -3,16 +3,16 @@ const request = require('request');
 //const phrase = require('../resources/phrase');
 console.log('aaaa');
 
-const sound={
-  s1:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s1.mp3"/>`,
-  s2:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s2.mp3"/>`,
-  s3:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s3.mp3"/>`,
-  s4:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s4.mp3"/>`,
-  s5:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s5.mp3"/>`,
-  s6:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s6.mp3"/>`,
-  s7:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s7.mp3"/>`,
-  s8:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s8.mp3"/>`,
-  s9:`<audio src="https://s3.amazonaws.com/eduai/test_sound/s9.mp3"/>`,
+const sound = {
+  s1: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s1.mp3"/>`,
+  s2: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s2.mp3"/>`,
+  s3: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s3.mp3"/>`,
+  s4: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s4.mp3"/>`,
+  s5: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s5.mp3"/>`,
+  s6: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s6.mp3"/>`,
+  s7: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s7.mp3"/>`,
+  s8: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s8.mp3"/>`,
+  s9: `<audio src="https://s3.amazonaws.com/eduai/test_sound/s9.mp3"/>`,
 }
 
 var router = express.Router();
@@ -84,57 +84,57 @@ avail_answers.getIndex = function (qn, str) {
   return 0;
 };
 
-function add_speak_tag(speech){
+function add_speak_tag(speech) {
 
-  return `<speak>`+speech+`</speak>`;
+  return `<speak>` + speech + `</speak>`;
 }
 
 function makeconv(conv, parameters, feedback) {
   conv.contexts.set('mysession', 1, parameters);
 
-  if(parameters.QN == '1' && parameters.location == 'first'){
+  if (parameters.QN == '1' && parameters.location == 'first') {
     //https://s3.amazonaws.com/eduai/test_image/book1.jpg
-    conv.ask(new SimpleResponse( {
-      speech:`<speak>Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson? ${sound.s5}</speak>`,
-      text:`Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson?`
+    conv.ask(new SimpleResponse({
+      speech: `<speak>Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson? ${sound.s5}</speak>`,
+      text: `Here are the books you have read or need to be read. Today, you will be starting Unit 3. Would you like to open the book and check the lesson?`
     }));
-    conv.ask(new Suggestions(['Unit 3','Unit 4']));
+    conv.ask(new Suggestions(['Unit 3', 'Unit 4']));
     //@ Carousel 은 items 에 2개이상 없으면 동작 안함
     conv.ask(new Carousel({
-        items: {
-          // Add the first item to the carousel
-          'SELECTION_KEY_ONE': {
-            synonyms: [
-              'synonym 1',
-              'synonym 2',
-              'synonym 3',
-            ],
-            title: `　　　　　Unit 3`,
-            description: '',
-            image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/book1.jpg',
-              alt: 'Image alternate text',
-            }),
-     
-          },
-          // Add the second item to the carousel
-          'SELECTION_KEY_GOOGLE_HOME': {
-            synonyms: [
-              'Google Home Assistant',
-              'Assistant on the Google Home',
+      items: {
+        // Add the first item to the carousel
+        'SELECTION_KEY_ONE': {
+          synonyms: [
+            'synonym 1',
+            'synonym 2',
+            'synonym 3',
           ],
-            title: `　　　　　Unit 4`,
-            description: '',
-            image: new Image({
-              url: 'https://s3.amazonaws.com/eduai/test_image/book3.jpg',
-              alt: 'Google Home',
-            }),
-          },
+          title: `　　　　　Unit 3`,
+          description: '',
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/book1.jpg',
+            alt: 'Image alternate text',
+          }),
+
         },
-      }));
+        // Add the second item to the carousel
+        'SELECTION_KEY_GOOGLE_HOME': {
+          synonyms: [
+            'Google Home Assistant',
+            'Assistant on the Google Home',
+          ],
+          title: `　　　　　Unit 4`,
+          description: '',
+          image: new Image({
+            url: 'https://s3.amazonaws.com/eduai/test_image/book3.jpg',
+            alt: 'Google Home',
+          }),
+        },
+      },
+    }));
   }
-  else if(parameters.QN == '2' && parameters.location == 'first'){
-    conv.ask(new Suggestions(['Unit 3','Menu']));
+  else if (parameters.QN == '2' && parameters.location == 'first') {
+    conv.ask(new Suggestions(['Unit 3', 'Menu']));
     conv.ask(new SimpleResponse({
       speech: `<speak>Oops! You did not finish Unit 3 yet! Would you like to start Unit 3?${sound.s5}</speak>`,
       text: 'Oops!  \nYou did not finish Unit 3 yet!',
@@ -143,7 +143,7 @@ function makeconv(conv, parameters, feedback) {
   else if (parameters.QN == '3' && parameters.location == 'first') {
 
     conv.ask(new SimpleResponse({
-      speech: add_speak_tag(feedback +`We have two sections for this unit.Choose an activity. ${sound.s5}`),
+      speech: add_speak_tag(feedback + `We have two sections for this unit.Choose an activity. ${sound.s5}`),
       text: 'nothing.',
     }));
     conv.ask(new Suggestions(['1', '2']));
@@ -164,7 +164,7 @@ function makeconv(conv, parameters, feedback) {
     if (parameters.QN == '1') {
 
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s1}`+feedback+`Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`+`${sound.s5}`),
+        speech: `Let's recall the story, Inchoworm's Tale. What is the genre of Inchworm’s Tale?`,
         text: 'nothing.',
       }));
       conv.ask(new Suggestions(['Biography', 'Play', 'Folktale']));
@@ -187,18 +187,18 @@ function makeconv(conv, parameters, feedback) {
     else if (parameters.QN == '1.1') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}`+feedback + `Do you want to move onto the next question?`+`${sound.s5}`),
+        speech: feedback + `Do you want to move onto the next question?`,
         text: feedback + `Do you want to move onto the next question?`,
       }));
     }
     else if (parameters.QN == '2') {
 
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback + `Why do you think that Hawk was more helpful than Inchworm?
+        speech: add_speak_tag(feedback + `Why do you think that Hawk was more helpful than Inchworm?
         Use the pattern above to answer the question. ${sound.s5} `),
         text: 'nothing.',
       }));
-   
+
       conv.ask(new BasicCard({
         title: 'Tell me the reason',
         subtitle: `Why do you think that Hawk was more helpful than Inchworm?`,
@@ -211,22 +211,22 @@ function makeconv(conv, parameters, feedback) {
     else if (parameters.QN == '2.1') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback + `Do you want to move onto the next question?`+`${sound.s5}`),
+        speech: feedback + `Do you want to move onto the next question?`,
         text: feedback + `Do you want to move onto the next question?`,
       }));
     }
-    else if (parameters.QN == '2.2'){
+    else if (parameters.QN == '2.2') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        speech: add_speak_tag(`${sound.s7}` + feedback + `Do you want to move on to the next question? ${sound.s5}`),
         text: feedback + `Do you want to move on to the next question?`,
       }));
     }
     else if (parameters.QN == '3') {
 
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(feedback + `Let’s recall the setting of the story.
-        What is the setting of the story?`+`${sound.s5}`),
+        speech: feedback + `Let’s recall the setting of the story.
+        What is the setting of the story?`,
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -244,15 +244,15 @@ function makeconv(conv, parameters, feedback) {
     }
     else if (parameters.QN == '3.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}`+feedback + `Yay, you remembered! Are you ready for the next question?`+`${sound.s5}`),
-        text: feedback+'Yay, you remembered! Are you ready for the next question?',
+        speech: feedback + `Yay, you remembered! Are you ready for the next question?`,
+        text: 'Yay, you remembered! Are you ready for the next question?',
       }));
     }
     else if (parameters.QN == '4') {
       {
         conv.ask(new SimpleResponse({
-          speech: add_speak_tag(`${sound.s7}`+feedback + `Read the hints and answer the question.
-        What is the setting of the story?`+`${sound.s5}`),
+          speech: feedback + `Read the hints and answer the question.
+        What is the setting of the story?`,
           text: 'nothing.',
         }));
 
@@ -292,20 +292,20 @@ function makeconv(conv, parameters, feedback) {
     }
     else if (parameters.QN == '4.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback + `Do you want to move onto the next question? `+`${sound.s5}`),
+        speech: feedback + `Do you want to move onto the next question? `,
         speech: feedback + `Do you want to move onto the next question? `,
       }));
     }
-    else if (parameters.QN == '4.2'){
+    else if (parameters.QN == '4.2') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        speech: add_speak_tag(`${sound.s7}` + feedback + `Do you want to move on to the next question? ${sound.s5}`),
         text: feedback + `Do you want to move on to the next question?`,
       }));
     }
     else if (parameters.QN == '5') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(feedback + `Let’s recall the characters from the story.Name two animals that appear in the story.`+`${sound.s5}`),
+        speech: feedback + `Let’s recall the characters from the story.Name two animals that appear in the story.`,
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -321,15 +321,16 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '5.1'){
+    else if (parameters.QN == '5.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}`+feedback + `Do you want to move onto the next question? `+`${sound.s5}`),
+        speech: feedback + `Do you want to move onto the next question? `,
         text: feedback + `Do you want to move onto the next question?`,
       }));
     }
     else if (parameters.QN == '6') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s7}`+feedback + `Read the hint and tell me two animals that appear in the story. `+`${sound.s5}`),
+        speech: feedback + `Read the hint and tell me two animals that appear in the story. 
+        `,
         text: `nothing.`,
       }));
       conv.ask(new BasicCard({
@@ -347,22 +348,23 @@ function makeconv(conv, parameters, feedback) {
     }
     else if (parameters.QN == '6.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback + `Do you want to move onto the next question?`+`${sound.s5}`),
+        speech: feedback + `Do you want to move onto the next question?`,
         text: feedback + `Do you want to move onto the next question?`,
       }));
     }
-    else if (parameters.QN == '6.2'){
+    else if (parameters.QN == '6.2') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        speech: add_speak_tag(`${sound.s7}` + feedback + `Do you want to move on to the next question? ${sound.s5}`),
         text: feedback + `Do you want to move on to the next question?`,
       }));
     }
     else if (parameters.QN == '7') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`Let’s review the theme. 
+        speech: `Let’s review the theme. 
         This story was about how everyone has their own unique talent or feature. 
-        Do you have any special features or talents?`+`${sound.s5}`),
+        Do you have any special features or talents?
+        `,
         text: `nothing.`,
       }));
       conv.ask(new Suggestions(['yes', 'no']));
@@ -379,11 +381,12 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '8') {
+    else if (parameters.QN == '8') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`Hmm, maybe you need an example.
+        speech: `Hmm, maybe you need an example.
         My special talent is that I can sing very well.
-        Read Example 2.`+`${sound.s5}`),
+        Read Example 2.          
+        `,
         text: `nothing.`,
       }));
 
@@ -403,16 +406,18 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '8.1') {
+    else if (parameters.QN == '8.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}`+feedback+`Now can you think of your own talent or unique feature?`+`${sound.s5}`),
-        text: feedback+`Now can you think of your own talent or unique feature?`,
+        speech: feedback + `Now can you think of your own talent or unique feature?`,
+        text: feedback + `Now can you think of your own talent or unique feature?`,
       }));
     }
-    else if(parameters.QN == '9'){
+    else if (parameters.QN == '9') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`Cool! Use one of the patterns above to answer the question.
-        What is your special feature?  Tell me one.`+`${sound.s5}`),
+        speech: `Cool!
+        Use one of the patterns above to answer the question.
+        What is your special feature?  Tell me one.
+        `,
         text: `nothing.`,
       }));
 
@@ -433,17 +438,17 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '9.1'){
+    else if (parameters.QN == '9.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}`+`That’s very interesting!
-        Do you have any other talents`+`${sound.s5}`),
+        speech: `That’s very interesting!
+        Do you have any other talents`,
         text: `That’s very interesting!
         Do you have any other talents`,
       }));
     }
-    else if(parameters.QN == '10'){
+    else if (parameters.QN == '10') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`Wow, you are very talented, aren’t you?What is your special feature?  Tell me one more.`+`${sound.s5}`),
+        speech: `Wow, you are very talented, aren’t you?What is your special feature?  Tell me one more.`,
         text: `nothing.`,
       }));
 
@@ -464,16 +469,16 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '10.1'){
+    else if (parameters.QN == '10.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback+`Are you ready to move on to the next question?`+`${sound.s5}`),
-        text: feedback+`Are you ready to move on to the next question?`,
+        speech: feedback + `Are you ready to move on to the next question?`,
+        text: feedback + `Are you ready to move on to the next question?`,
       }));
-     
+
     }
-    else if(parameters.QN == '11'){
+    else if (parameters.QN == '11') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(feedback+`What is the name of the animal in the picture?`+`${sound.s5}`),
+        speech: `What is the name of the animal in the picture?`,
         text: `nothing.`,
       }));
 
@@ -490,11 +495,11 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '12'){
+    else if (parameters.QN == '12') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+`Let me give you a hint.
+        speech: `Let me give you a hint.
         Read the clues to guess what the animal in the picture is.
-        What is the animal?`+`${sound.s5}`),
+        What is the animal?`,
         text: `nothing.`,
       }));
 
@@ -514,16 +519,18 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if (parameters.QN == '12.1'){
+    else if (parameters.QN == '12.1') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move onto the next question? ${sound.s5}`),
+        speech: add_speak_tag(`${sound.s7}` + feedback + `Do you want to move onto the next question? ${sound.s5}`),
         text: feedback + `Do you want to move onto the next question?`,
       }));
     }
-    else if(parameters.QN == '13'){
+    else if (parameters.QN == '13') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}`+`Excellent! What makes a giraffe unique? Tell me one feature of the giraffe.`+`${sound.s5}`),
+        speech: `Excellent!
+         What makes a giraffe unique?
+         Tell me one feature of the giraffe.`,
         text: `nothing.`,
       }));
 
@@ -540,22 +547,22 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '13.1'){
+    else if (parameters.QN == '13.1') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}`+feedback+`Are you ready to move on?`+`${sound.s5}`),
-        text: feedback+`Are you ready to move on?`,
+        speech: feedback + `Are you ready to move on?`,
+        text: feedback + `Are you ready to move on?`,
       }));
     }
-    else if (parameters.QN == '13.2'){
+    else if (parameters.QN == '13.2') {
       conv.ask(new Suggestions(['yes', 'no']));
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s7}`+feedback + `Do you want to move on to the next question? ${sound.s5}`),
+        speech: add_speak_tag(`${sound.s7}` + feedback + `Do you want to move on to the next question? ${sound.s5}`),
         text: feedback + `Do you want to move on to the next question?`,
       }));
     }
-    else if(parameters.QN == '14'){
+    else if (parameters.QN == '14') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(feedback+`Look at the choices above. Which animal are you most interested in?`+`${sound.s5}`),
+        speech: feedback + `Look at the choices above. Which animal are you most interested in?`,
         text: 'nothing.',
       }));
       conv.ask(new Suggestions(['Cheetah', 'Hummingbird', 'Panda']));
@@ -588,12 +595,12 @@ function makeconv(conv, parameters, feedback) {
         },
       }));
     }
-   
+
   }
-  else if (parameters.location == 'E2'){
-    if(parameters.QN == '1'){
+  else if (parameters.location == 'E2') {
+    if (parameters.QN == '1') {
       conv.ask(new SimpleResponse({
-        speech: `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale.`,
+        speech: add_speak_tag(`${sound.s6}` + `Let’s discuss.Do you agree or disagree with the following statement? I think Hawk was more helpful than Inchworm in the story, Inchworm’s Tale. ${sound.s5}`),
         text: 'nothing.',
       }));
       conv.ask(new Suggestions(['agree', 'disagree']));
@@ -608,10 +615,10 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '2'){
+    else if (parameters.QN == '2') {
       conv.ask(new SimpleResponse({
-        speech: `You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
-          Use the pattern above to answer the question. `,
+        speech: add_speak_tag(`You agree with me!` + `Why do you think that Hawk was more helpful than Inchworm?
+          Use the pattern above to answer the question. ${sound.s5}`),
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -622,9 +629,9 @@ function makeconv(conv, parameters, feedback) {
           **I believe** that Hawk was more helpful than Inchworm because…`
       }));
     }
-    else if(parameters.QN == '3'){
+    else if (parameters.QN == '3') {
       conv.ask(new SimpleResponse({
-        speech: feedback+`You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+        speech: add_speak_tag(`${sound.s9}` + feedback + `You are finished with the lesson. ` + `Would you like to  go back to the menu?${sound.s5}`),
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -637,11 +644,11 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '4'){
+    else if (parameters.QN == '4') {
       conv.ask(new SimpleResponse({
-        speech: `Hmm. Let’s try again. Here’s a hint!` +
+        speech: add_speak_tag(`${sound.s7}Hmm. Let’s try again. Here’s a hint!` +
           `Why do you think that Hawk was more helpful than Inchworm?
-        Read the context clues then use the pattern above to answer the question. `,
+        Read the context clues then use the pattern above to answer the question. ${sound.s5}`),
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -653,10 +660,10 @@ function makeconv(conv, parameters, feedback) {
         - Every day, Hawk brought food to the children. Every day he reappeared in the village with news for the villagers. (p187)`
       }));
     }
-    else if(parameters.QN == '5'){
+    else if (parameters.QN == '5') {
       conv.ask(new SimpleResponse({
-        speech: `Nice try! We can practice some more later.
-        You are finished with the lesson. `+ `Would you like to  go back to the menu?`,
+        speech: add_speak_tag(`Nice try! We can practice some more later.
+        You are finished with the lesson. `+ `Would you like to  go back to the menu?${sound.s5}`),
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -669,11 +676,11 @@ function makeconv(conv, parameters, feedback) {
         }),
       }));
     }
-    else if(parameters.QN == '6'){
+    else if (parameters.QN == '6') {
       conv.ask(new SimpleResponse({
-        speech: `I see that you disagree with my statement.
+        speech: add_speak_tag(`I see that you disagree with my statement.
             Tell me your thoughts. Why do you think that Inchworm was more helpful than Hawk?
-            Use the pattern above to answer the question. `,
+            Use the pattern above to answer the question. ${sound.s5}`),
         text: 'nothing.',
       }));
 
@@ -691,11 +698,11 @@ function makeconv(conv, parameters, feedback) {
 
       }));
     }
-    else if(parameters.QN == '7'){
+    else if (parameters.QN == '7') {
       conv.ask(new SimpleResponse({
-        speech: `Hmm. Let’s try again. Here’s a hint!` +
+        speech: add_speak_tag(`${sound.s7}Hmm. Let’s try again. Here’s a hint!` +
           `Why do you think that Hawk was more helpful than Inchworm?
-        Read the context clues then use pattern above to answer the question. `,
+        Read the context clues then use pattern above to answer the question. ${sound.s5}`),
         text: 'nothing.',
       }));
       conv.ask(new BasicCard({
@@ -707,7 +714,6 @@ function makeconv(conv, parameters, feedback) {
         - It took almost a week for the three to climb down to the village. Inch by inch, Inchworm led the children carefully down the rocky slope. […]  Finally, Inchworm, Anant, and Anika reached the bottom of the rock. Everyone cheered and called Inchworm a hero. (p187)`
       }));
     }
-
   }
 }
 
@@ -729,10 +735,10 @@ ap.intent('Answer', (conv, input, option) => {
   }
   console.log('speak:', speak);
 
-  if(parameters.location == 'first'){
-   
-    if(parameters.QN == '3'){
-      if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading') != -1 ||  speak.indexOf('overview') != -1) {
+  if (parameters.location == 'first') {
+
+    if (parameters.QN == '3') {
+      if (speak.indexOf('1') != -1 || speak.indexOf('one') != -1 || speak.indexOf('pre-reading') != -1 || speak.indexOf('overview') != -1) {
         console.log('E1처음');
         ////////////////
         parameters.QN = "1";
@@ -741,7 +747,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, "");
           resolve('conv emit 끝!');
         });
-  
+
       }
       else if (speak.indexOf('2') != -1 || speak.indexOf('two') != -1 || speak.indexOf('read') != -1) {
         console.log('E2처음');
@@ -754,23 +760,23 @@ ap.intent('Answer', (conv, input, option) => {
         });
       }
       else {
-  
+
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "I didn't understand. Please choose 1 or 2.");
           resolve('conv emit 끝!');
         });
-  
+
       }
     }
-    else if(parameters.QN == '2'){
-      if(speak.indexOf('3')!=-1 || speak.indexOf('three')!=-1 ||  speak.indexOf('yes')!=-1){
+    else if (parameters.QN == '2') {
+      if (speak.indexOf('3') != -1 || speak.indexOf('three') != -1 || speak.indexOf('yes') != -1) {
         parameters.QN = "3";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "1";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "");
@@ -779,16 +785,15 @@ ap.intent('Answer', (conv, input, option) => {
       }
 
     }
-    else if(parameters.QN == '1'){
-      if(speak.indexOf('3')!=-1 || speak.indexOf('three')!=-1 ||speak.indexOf('yes')!=-1 )
-      {
+    else if (parameters.QN == '1') {
+      if (speak.indexOf('3') != -1 || speak.indexOf('three') != -1 || speak.indexOf('yes') != -1) {
         parameters.QN = "3";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "2";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "");
@@ -797,7 +802,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
     }
-  
+
 
   }
   else if (parameters.location == 'E1') {
@@ -903,22 +908,22 @@ ap.intent('Answer', (conv, input, option) => {
         });
       }
     }
-    else if(parameters.QN == '2.2'){
-      if(speak.indexOf('yes')!=-1){
+    else if (parameters.QN == '2.2') {
+      if (speak.indexOf('yes') != -1) {
         parameters.QN = "3";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay! let's go to the next.  ");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "2";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Try again. ");
           resolve('conv emit 끝!');
         });
       }
-      
+
     }
     else if (parameters.QN == '3') {
       if (speak.indexOf('forest') != -1 || speak.indexOf('top of a rock') != -1 || speak.indexOf('wood') != -1) {
@@ -972,7 +977,7 @@ ap.intent('Answer', (conv, input, option) => {
 
     }
     else if (parameters.QN == '4') {
-      if (speak.indexOf('forest') != -1|| speak.indexOf('wood') != -1 || speak.indexOf('top of a rock') != -1) {
+      if (speak.indexOf('forest') != -1 || speak.indexOf('wood') != -1 || speak.indexOf('top of a rock') != -1) {
         parameters.QN = "4.1";
 
         conv.contexts.set('mysession', 1, parameters);
@@ -1022,15 +1027,15 @@ ap.intent('Answer', (conv, input, option) => {
 
       }
     }
-    else if(parameters.QN == '4.2'){
-      if(speak.indexOf('yes')!=-1){
+    else if (parameters.QN == '4.2') {
+      if (speak.indexOf('yes') != -1) {
         parameters.QN = "5";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay! let's go to the next.  ");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "4";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Try again. ");
@@ -1164,15 +1169,15 @@ ap.intent('Answer', (conv, input, option) => {
         });
       }
     }
-    else if(parameters.QN == '6.2'){
-      if(speak.indexOf('yes')!=-1){
+    else if (parameters.QN == '6.2') {
+      if (speak.indexOf('yes') != -1) {
         parameters.QN = "7";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay! let's go to the next.  ");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "6";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Try again. ");
@@ -1198,7 +1203,7 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
 
-       
+
       }
       else {
         parameters.QN = "7";
@@ -1218,7 +1223,7 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
 
-       
+
       }
       else {
         parameters.QN = "11";
@@ -1227,7 +1232,7 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
 
-       
+
       }
     }
     else if (parameters.QN == '8.1') {
@@ -1237,7 +1242,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-       
+
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
@@ -1247,7 +1252,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, "Okay then let’s move on ");
           resolve('conv emit 끝!');
         });
-      
+
       }
       else {
         parameters.QN = "8.1";
@@ -1266,7 +1271,7 @@ ap.intent('Answer', (conv, input, option) => {
         makeconv(conv, parameters, " ");
         resolve('conv emit 끝!');
       });
-     
+
 
     }
     else if (parameters.QN == '9.1') {
@@ -1276,9 +1281,9 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-       
 
-       
+
+
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
@@ -1286,8 +1291,8 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-       
-       
+
+
       }
       else {
         parameters.QN = "9.1";
@@ -1302,12 +1307,12 @@ ap.intent('Answer', (conv, input, option) => {
     else if (parameters.QN == '10') {
       if (speak.indexOf('i can also') != -1 || speak.indexOf('my talent is') != -1 || speak.indexOf('i have another unique talent') != -1) {
         parameters.QN = "10.1";
-         //Great! You are very unique! 
+        //Great! You are very unique! 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Great! You are very unique!  ");
           resolve('conv emit 끝!');
         });
-       
+
       }
       else {
         parameters.QN = "11";
@@ -1325,12 +1330,12 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-       
+
       }
       else if (speak.indexOf('no') != -1) {
         //10으로 다시
         parameters.QN = "10";
-        
+
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay, lets go back to the question. ");
           resolve('conv emit 끝!');
@@ -1362,7 +1367,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-        
+
       }
     }
     else if (parameters.QN == '12') {
@@ -1373,7 +1378,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-        
+
       }
       else {
         //13으로
@@ -1383,19 +1388,19 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, "That’s okay.The animal in the picture is a giraffe. ");
           resolve('conv emit 끝!');
         });
-        
+
 
       }
     }
-    else if(parameters.QN == '12.1'){
-      if(speak.indexOf('yes')!=-1){
+    else if (parameters.QN == '12.1') {
+      if (speak.indexOf('yes') != -1) {
         parameters.QN = "13";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay! let's go to the next.  ");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "12";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Try again. ");
@@ -1425,7 +1430,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, "Great job! ");
           resolve('conv emit 끝!');
         });
-        
+
       }
       else {
         parameters.QN = '13.2';
@@ -1434,12 +1439,12 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " I didn’t quite get that.The You are out of chances. Do you want to move on?");
           resolve('conv emit 끝!');
         });
-   
-        
+
+
       }
 
     }
-    
+
     else if (parameters.QN == '13.1') {
       if (speak.indexOf('yes') != -1) {
         parameters.QN = "14";
@@ -1447,11 +1452,11 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-      
+
       }
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
-   
+
         //피드백 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay, lets go back to the question. ");
@@ -1470,15 +1475,15 @@ ap.intent('Answer', (conv, input, option) => {
 
     }
 
-    else if(parameters.QN == '13.2'){
-      if(speak.indexOf('yes')!=-1){
+    else if (parameters.QN == '13.2') {
+      if (speak.indexOf('yes') != -1) {
         parameters.QN = "14";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay! let's go to the next.  ");
           resolve('conv emit 끝!');
         });
       }
-      else{
+      else {
         parameters.QN = "13";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Try again. ");
@@ -1497,18 +1502,18 @@ ap.intent('Answer', (conv, input, option) => {
         makeconv(conv, parameters, phrase);
         resolve('conv emit 끝!');
       });
-     
-      
+
+
     }
     else if (parameters.QN.includes('15')) {
       if (parameters.QN === '15') {
         parameters.QN = '15.1';
         // parameters.location = 'E1';
         conv.ask(new SimpleResponse({
-          speech: add_speak_tag(`Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
+          speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
           reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
            Cheetahs are the only big cat that can turn in mid air while sprinting.`
-            + ` What do you think is the coolest feature of a cheetah?`+`${sound.s5}`),
+            + ` What do you think is the coolest feature of a cheetah?`,
           text: 'nothing.',
         }));
         conv.ask(new BasicCard({
@@ -1516,7 +1521,7 @@ ap.intent('Answer', (conv, input, option) => {
           subtitle: `Fun Facts`,
           text: `The cheetah is the fastest land animal in the world, reaching speeds of up to 70 miles per hour. They can accelerate from 0 to 68 miles per hour in just three seconds. Cheetahs are the only big cat that can turn in mid-air while sprinting.`
             + ` What do you think is the coolest feature of a cheetah?`,
-  
+
           image: new Image({
             url: 'https://s3.amazonaws.com/eduai/test_image/15cheetah.jpg',
             alt: 'cheetah',
@@ -1525,12 +1530,12 @@ ap.intent('Answer', (conv, input, option) => {
           }),
         }));
 
-      
+
       } else if (parameters.QN == '15.1') { // todo 
         if (avail_answers.find_some(parameters.QN, speak)) {
           let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
           conv.ask(new SimpleResponse({
-            speech: add_speak_tag(`${sound.s2}`+phrase+`${sound.s5}`),
+            speech: phrase,
             text: phrase,
           }));
           conv.ask(new Suggestions(['yes', 'no']));
@@ -1538,7 +1543,7 @@ ap.intent('Answer', (conv, input, option) => {
         } else {
           let phrase = "Sorry. I didn't quite get that. You can tell me next time. \n Do you want to move on to Let`s Discuss?";
           conv.ask(new SimpleResponse({
-            speech: add_speak_tag(`${sound.s7}`+phrase+`${sound.s5}`),
+            speech: phrase,
             text: phrase,
           }));
           conv.ask(new Suggestions(['yes', 'no']));
@@ -1551,7 +1556,7 @@ ap.intent('Answer', (conv, input, option) => {
           //todo 현재 기획이 나오지 않음, 현재는 무조건 no로
           let phrase = "Okay, I'll see you next time.";
           conv.close(new SimpleResponse({
-            speech: add_speak_tag(phrase+`${sound.s8}`),
+            speech: phrase,
             text: phrase,
           }));
         } else {
@@ -1575,10 +1580,10 @@ ap.intent('Answer', (conv, input, option) => {
         conv.contexts.set('mysession', 1, parameters);
 
         conv.ask(new SimpleResponse({
-          speech: add_speak_tag(`Hummingbirds are one of the smallest kinds of birds in the world and can only be found in the Americas. 
+          speech: `Hummingbirds are one of the smallest kinds of birds in the world and can only be found in the Americas. 
           There are more than 340 species of hummingbirds. 
           They are named after the sound they create when they rapidly beat their wings.`
-            + ` What do you think is the coolest feature of a hummingbird?`+`${sound.s5}`),
+            + ` What do you think is the coolest feature of a hummingbird?`,
           text: 'nothing.',
         }));
         conv.ask(new BasicCard({
@@ -1598,7 +1603,7 @@ ap.intent('Answer', (conv, input, option) => {
         if (avail_answers.find_some(parameters.QN, speak)) {
           let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
           conv.ask(new SimpleResponse({
-            speech: add_speak_tag(`${sound.s2}`+phrase+`${sound.s5}`),
+            speech: phrase,
             text: phrase,
           }));
           conv.ask(new Suggestions(['yes', 'no']));
@@ -1606,7 +1611,7 @@ ap.intent('Answer', (conv, input, option) => {
         } else {
           let phrase = "Sorry. I didn't quite get that. You can tell me next time. \n Do you want to move on to Let`s Discuss?";
           conv.ask(new SimpleResponse({
-            speech: add_speak_tag(`${sound.s7}`+phrase+`${sound.s5}`),
+            speech: phrase,
             text: phrase,
           }));
           conv.ask(new Suggestions(['yes', 'no']));
@@ -1619,7 +1624,7 @@ ap.intent('Answer', (conv, input, option) => {
           //todo 현재 기획이 나오지 않음, 현재는 무조건 no로
           let phrase = "Okay, I'll see you next time.";
           conv.close(new SimpleResponse({
-            speech: add_speak_tag(phrase+`${sound.s8}`),
+            speech: phrase,
             text: phrase,
           }));
         } else {
@@ -1636,10 +1641,10 @@ ap.intent('Answer', (conv, input, option) => {
         conv.contexts.set('mysession', 1, parameters);
 
         conv.ask(new SimpleResponse({
-          speech: add_speak_tag(`The giant panda is native to China. It has a black and white coat that feature large black patches around its eyes. 
+          speech: `The giant panda is native to China. It has a black and white coat that feature large black patches around its eyes. 
           It spends 14 to 16 hours a day eating bamboo. 
           Pandas are an endangered species.`
-            + ` What do you think is the coolest feature of a panda?`+`${sound.s5}`),
+            + ` What do you think is the coolest feature of a panda?`,
           text: 'nothing.',
         }));
         conv.ask(new BasicCard({
@@ -1659,7 +1664,7 @@ ap.intent('Answer', (conv, input, option) => {
         if (avail_answers.find_some(parameters.QN, speak)) {
           let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
           conv.ask(new SimpleResponse({
-            speech: add_speak_tag(`${sound.s2}`+phrase+`${sound.s5}`),
+            speech: phrase,
             text: phrase,
           }));
           conv.ask(new Suggestions(['yes', 'no']));
@@ -1667,7 +1672,7 @@ ap.intent('Answer', (conv, input, option) => {
         } else {
           let phrase = "Sorry. I didn't quite get that. You can tell me next time. \n Do you want to move on to Let`s Discuss?";
           conv.ask(new SimpleResponse({
-            speech: add_speak_tag(`${sound.s7}`+phrase+`${sound.s5}`),
+            speech: phrase,
             text: phrase,
           }));
           conv.ask(new Suggestions(['yes', 'no']));
@@ -1679,7 +1684,7 @@ ap.intent('Answer', (conv, input, option) => {
         if (speak.indexOf('no') != -1 || speak.indexOf('stop') != -1 || speak.indexOf('bye') != -1) {
           let phrase = "Okay, I'll see you next time.";
           conv.close(new SimpleResponse({
-            speech: add_speak_tag(phrase+`${sound.s8}`),
+            speech: phrase,
             text: phrase,
           }));
         } else {
@@ -1708,7 +1713,7 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
 
-       
+
       }
       else if (speak.indexOf('agree') != -1) {
         //동의하면 2번으로
@@ -1717,7 +1722,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-      
+
       }
       else {
         parameters.QN = "1";
@@ -1726,7 +1731,7 @@ ap.intent('Answer', (conv, input, option) => {
           resolve('conv emit 끝!');
         });
         //1로
-     
+
       }
 
     }
@@ -1748,7 +1753,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, "That was great! You did a wonderful job! ");
           resolve('conv emit 끝!');
         });
-      
+
       }
       else {
         //실패
@@ -1758,7 +1763,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-       
+
       }
 
     }
@@ -1767,9 +1772,9 @@ ap.intent('Answer', (conv, input, option) => {
         //첫화면으로
         parameters.QN = "0";
         parameters.location = "first";
-     
+
         //Okay. Let's go back to the menu. 
-      
+
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Okay. Let's go back to the menu. ");
           resolve('conv emit 끝!');
@@ -1778,10 +1783,10 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else if (speak.indexOf('no') != -1) {
         //끝
-        conv.close(add_speak_tag('See you next time. Good bye.'+`${sound.s8}`));
+        conv.close('See you next time. Good bye.');
       }
       else {
-        conv.close(add_speak_tag('See you next time. Good bye.'+`${sound.s8}`));
+        conv.close('See you next time. Good bye.');
       }
 
     }
@@ -1826,10 +1831,10 @@ ap.intent('Answer', (conv, input, option) => {
       }
       else if (speak.indexOf('no') != -1) {
         //끝
-        conv.close(add_speak_tag('See you next time. Good bye.'+`${sound.s8}`));
+        conv.close('See you next time. Good bye.');
       }
       else {
-        conv.close(add_speak_tag('See you next time. Good bye.'+`${sound.s8}`));
+        conv.close('See you next time. Good bye.');
       }
     }
     else if (parameters.QN == "6") {
@@ -1857,7 +1862,7 @@ ap.intent('Answer', (conv, input, option) => {
           makeconv(conv, parameters, " ");
           resolve('conv emit 끝!');
         });
-      
+
       }
     }
     else if (parameters.QN == "7") {
@@ -1944,11 +1949,11 @@ ap.intent('Oauth', (conv, params, signin) => {
           'QN': 'not yet qn',
         };
 
-        
+
         parameters.location = 'first';
         parameters.QN = '1';
 
-       
+
 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Welcome to power reading. ");
