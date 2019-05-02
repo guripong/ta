@@ -52,11 +52,11 @@ const avail_answers = {
 };
 
 avail_answers.find_some = function (qn, str) {
-  qn = qn+"";
+  qn = qn + "";
   qn = qn.substring(0, qn.indexOf('.') > -1 ? qn.indexOf('.') : qn.length); // 16.1 형태일때 16으로 변환
   let spltd = str.split(' ');
   return avail_answers[qn].some((el) => {
-    return spltd.includes(el);
+    return str.includes(el);
   })
 };
 
@@ -1471,7 +1471,7 @@ ap.intent('Answer', (conv, input, option) => {
   
         conv.ask(new SimpleResponse({
           speech: `Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
-          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per hour in just three seconds,
+          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
            Cheetahs are the only big cat that can turn in mid air while sprinting.`
             + ` What do you think is the coolest feature of a cheetah?`,
           text: 'nothing.',
@@ -1600,7 +1600,7 @@ ap.intent('Answer', (conv, input, option) => {
         conv.contexts.set('mysession', 1, parameters);
   
         conv.ask(new SimpleResponse({
-          speech: `The giant panda is native China. It has a black and white coat that feature large black patches around its eyes. 
+          speech: `The giant panda is native to China. It has a black and white coat that feature large black patches around its eyes. 
           It spends 14 to 16 hours a day eating bamboo. 
           Pandas are an endangered species.`
             + ` What do you think is the coolest feature of a panda?`,
@@ -1609,7 +1609,7 @@ ap.intent('Answer', (conv, input, option) => {
         conv.ask(new BasicCard({
           title: 'Panda',
           subtitle: `Fun Facts`,
-          text: `The giant panda is native China. It has a black and white coat that feature large black patches around its eyes. 
+          text: `The giant panda is native to China. It has a black and white coat that feature large black patches around its eyes. 
           It spends 14 to 16 hours a day eating bamboo. 
           Pandas are an endangered species.`
             + ` What do you think is the coolest feature of a panda?`,
