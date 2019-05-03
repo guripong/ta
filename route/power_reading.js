@@ -1545,7 +1545,7 @@ ap.intent('Answer', (conv, input, option) => {
 
       } else if (parameters.QN == '15.1') { // todo 
         if (avail_answers.find_some(parameters.QN, speak)) {
-          let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
+          let phrase = 'Great job! \n You are done with pre-reading. \n Do you want to move onto Let`s Discuss?';
           conv.ask(new SimpleResponse({
             speech: add_speak_tag(`${sound.s2}` + phrase + `${sound.s5}`),
             text: phrase,
@@ -1612,7 +1612,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       } else if (parameters.QN == '16.1') { // todo 
         if (avail_answers.find_some(parameters.QN, speak)) {
-          let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
+          let phrase = 'Great job! \n You are done with pre-reading. \n Do you want to move onto Let`s Discuss?';
           conv.ask(new SimpleResponse({
             speech: add_speak_tag(`${sound.s2}` + phrase + `${sound.s5}`),
             text: phrase,
@@ -1677,7 +1677,7 @@ ap.intent('Answer', (conv, input, option) => {
         }));
       } else if (parameters.QN == '17.1') { // todo 
         if (avail_answers.find_some(parameters.QN, speak)) {
-          let phrase = 'Great job! \n You are done with Pre-Reading. \n Do you want to move onto Let`s Discuss?';
+          let phrase = 'Great job! \n You are done with pre-reading. \n Do you want to move onto Let`s Discuss?';
           conv.ask(new SimpleResponse({
             speech: add_speak_tag(`${sound.s2}` + phrase + `${sound.s5}`),
             text: phrase,
