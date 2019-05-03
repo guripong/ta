@@ -1229,13 +1229,14 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = "8.1";
         //
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
+          makeconv(conv, parameters, "Good! ");
           resolve('conv emit 끝!');
         });
 
 
       }
       else {
+        //!@#$
         parameters.QN = "11";
         return new Promise(function (resolve) {
           makeconv(conv, parameters, `${sound.s5} That’s okay. We can try again next time.Let’s move on.`);
