@@ -1966,7 +1966,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         parameters.QN = '1';
         */
        parameters.location = 'E1';
-       parameters.QN = '10';
+       parameters.QN = '8.1';
 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Welcome to power reading. ");
