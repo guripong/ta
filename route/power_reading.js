@@ -1260,7 +1260,7 @@ ap.intent('Answer', (conv, input, option) => {
         conv.contexts.set('mysession', 1, parameters);
         //Okay then let’s move on   피드백
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, "Okay then let’s move on ");
+          makeconv(conv, parameters, "Okay then let’s move on. ");
           resolve('conv emit 끝!');
         });
 
@@ -1300,7 +1300,7 @@ ap.intent('Answer', (conv, input, option) => {
       else if (speak.indexOf('no') != -1) {
         parameters.QN = "11";
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
+          makeconv(conv, parameters, "Okay then, let’s move on. ");
           resolve('conv emit 끝!');
         });
 
@@ -1966,7 +1966,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         parameters.QN = '1';
         */
        parameters.location = 'E1';
-       parameters.QN = '8';
+       parameters.QN = '9.1';
 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Welcome to power reading. ");
