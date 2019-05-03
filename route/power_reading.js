@@ -1225,7 +1225,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
     }
     else if (parameters.QN == '8') {
-      if (speak.indexOf('write poetry') != -1) {
+      if (speak.indexOf('i can') != -1) {
         parameters.QN = "8.1";
         //
         return new Promise(function (resolve) {
