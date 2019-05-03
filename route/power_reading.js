@@ -1448,7 +1448,7 @@ ap.intent('Answer', (conv, input, option) => {
         parameters.QN = '13.2';
         conv.contexts.set('mysession', 1, parameters);
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " I didn’t quite get that.The You are out of chances. Do you want to move on?");
+          makeconv(conv, parameters, " I didn’t quite get that.The You are out of chances.");
           resolve('conv emit 끝!');
         });
 
