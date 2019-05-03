@@ -1387,7 +1387,7 @@ ap.intent('Answer', (conv, input, option) => {
         //13으로
         parameters.QN = "13";
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
+          makeconv(conv, parameters,` ${sound.s2} Excellent!`);
           resolve('conv emit 끝!');
         });
 
