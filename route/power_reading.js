@@ -1574,11 +1574,10 @@ ap.intent('Answer', (conv, input, option) => {
         } else {
           parameters.QN = '1'
           parameters.location = 'E2';
-          conv.contexts.set('mysession', 1, parameters);
-          conv.followup('redirect_answer');
+          //conv.contexts.set('mysession', 1, parameters);
+          //conv.followup('redirect_answer');
           //!!@@
-          parameters.QN = "1";
-          parameters.location = 'E1';
+         
           return new Promise(function (resolve) {
             makeconv(conv, parameters, "");
             resolve('conv emit 끝!');
@@ -1642,8 +1641,12 @@ ap.intent('Answer', (conv, input, option) => {
         } else { //yes
           parameters.QN = '1'
           parameters.location = 'E2';
-          conv.contexts.set('mysession', 1, parameters);
-          conv.followup('redirect_answer'); //Oauth -> Answer
+          //conv.contexts.set('mysession', 1, parameters);
+          //conv.followup('redirect_answer'); //Oauth -> Answer
+          return new Promise(function (resolve) {
+            makeconv(conv, parameters, "");
+            resolve('conv emit 끝!');
+          });
         }
       }
     }
@@ -1702,8 +1705,12 @@ ap.intent('Answer', (conv, input, option) => {
         } else {
           parameters.QN = '1'
           parameters.location = 'E2';
-          conv.contexts.set('mysession', 1, parameters);
-          conv.followup('redirect_answer');
+          //conv.contexts.set('mysession', 1, parameters);
+          //c/onv.followup('redirect_answer');
+          return new Promise(function (resolve) {
+            makeconv(conv, parameters, "");
+            resolve('conv emit 끝!');
+          });
         }
       }
     }
