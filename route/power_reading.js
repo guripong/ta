@@ -174,7 +174,7 @@ function makeconv(conv, parameters, feedback) {
         text: `What is the genre of Inchworm’s Tale?`,
 
         image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/1.jpg',
+          url: 'https://s3.amazonaws.com/eduai/test_image/11.jpg',
           alt: 'Image alternate text',
           width: 500,
           heigh: 500,
