@@ -539,7 +539,7 @@ function makeconv(conv, parameters, feedback) {
     }
     else if (parameters.QN == '13') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s2}` + `Excellent! What makes a giraffe unique? Tell me one feature of the giraffe.` + `${sound.s5}`),
+        speech: add_speak_tag(feedback + ` What makes a giraffe unique? Tell me one feature of the giraffe.` + `${sound.s5}`),
         text: `nothing.`,
       }));
 
@@ -1367,7 +1367,7 @@ ap.intent('Answer', (conv, input, option) => {
         //13번으로
         parameters.QN = "13";
         return new Promise(function (resolve) {
-          makeconv(conv, parameters, " ");
+          makeconv(conv, parameters, `${sound.s2} Excellent!`);
           resolve('conv emit 끝!');
         });
       }
