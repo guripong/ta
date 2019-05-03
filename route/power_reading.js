@@ -330,7 +330,7 @@ function makeconv(conv, parameters, feedback) {
         text: `Name two animals that appear in the story.`,
 
         image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/5etc5.png',
+          url: 'https://s3.amazonaws.com/eduai/test_image/5etc6.png',
           alt: 'Image alternate text',
           width: 500,
           heigh: 500,
