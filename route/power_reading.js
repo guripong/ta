@@ -1523,7 +1523,7 @@ ap.intent('Answer', (conv, input, option) => {
         // parameters.location = 'E1';
         conv.ask(new SimpleResponse({
           speech: add_speak_tag(`Let's find out more about the cheetah. The cheetah is the fastest land animal in the world,
-          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 per miles hour in just three seconds,
+          reaching speeds of up to 70 miles per hour, They can accelerate from 0 to 68 miles per hour in just three seconds,
            Cheetahs are the only big cat that can turn in mid air while sprinting.`
             + ` What do you think is the coolest feature of a cheetah?` + `${sound.s5}`),
           text: 'nothing.',
