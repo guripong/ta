@@ -1972,7 +1972,7 @@ ap.intent('Oauth', (conv, params, signin) => {
         parameters.location = 'first';
         parameters.QN = '1';
         */
-       parameters.location = 'E1';
+       parameters.location = 'first';
        parameters.QN = '3';
 
         return new Promise(function (resolve) {
