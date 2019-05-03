@@ -1317,7 +1317,7 @@ ap.intent('Answer', (conv, input, option) => {
       }
     }
     else if (parameters.QN == '10') {
-      if (speak.indexOf('i can also') != -1 || speak.indexOf('my talent is') != -1 || speak.indexOf('i have another unique talent') != -1) {
+      if (speak.indexOf('i can') != -1 || speak.indexOf('my talent is') != -1 || speak.indexOf('i have another unique talent') != -1) {
         parameters.QN = "10.1";
         //Great! You are very unique! 
         return new Promise(function (resolve) {
