@@ -1276,6 +1276,7 @@ ap.intent('Answer', (conv, input, option) => {
     }
     else if (parameters.QN == '9') {
       //
+
       parameters.QN = "9.1";
       return new Promise(function (resolve) {
         makeconv(conv, parameters, " ");
@@ -1959,11 +1960,12 @@ ap.intent('Oauth', (conv, params, signin) => {
           'QN': 'not yet qn',
         };
 
-
+        /*
         parameters.location = 'first';
         parameters.QN = '1';
-
-
+        */
+       parameters.location = 'E1';
+       parameters.QN = '8';
 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Welcome to power reading. ");
