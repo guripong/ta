@@ -330,7 +330,7 @@ function makeconv(conv, parameters, feedback) {
         text: `Name two animals that appear in the story.`,
 
         image: new Image({
-          url: 'https://s3.amazonaws.com/eduai/test_image/5etc.png',
+          url: 'https://s3.amazonaws.com/eduai/test_image/5etc5.png',
           alt: 'Image alternate text',
           width: 500,
           heigh: 500,
@@ -1972,8 +1972,8 @@ ap.intent('Oauth', (conv, params, signin) => {
         parameters.location = 'first';
         parameters.QN = '1';
         */
-       parameters.location = 'first';
-       parameters.QN = '1';
+       parameters.location = 'E1';
+       parameters.QN = '5';
 
         return new Promise(function (resolve) {
           makeconv(conv, parameters, "Welcome to power reading. ");
