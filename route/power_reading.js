@@ -508,7 +508,7 @@ function makeconv(conv, parameters, feedback) {
     }
     else if (parameters.QN == '12') {
       conv.ask(new SimpleResponse({
-        speech: add_speak_tag(`${sound.s3}` + `Let me give you a hint.
+        speech: add_speak_tag(`${sound.s7}` + `Let me give you a hint.
         Read the clues to guess what the animal in the picture is.
         What is the animal?`+ `${sound.s5}`),
         text: `nothing.`,
